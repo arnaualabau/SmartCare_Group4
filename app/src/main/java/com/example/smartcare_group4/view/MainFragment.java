@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -23,7 +22,6 @@ public class MainFragment extends Fragment {
     private Button button1, button2;
 
     private MainViewModel viewModel;
-    private Observer<Integer> elapsedTimeObserver;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -35,6 +33,11 @@ public class MainFragment extends Fragment {
         bindViews(v);
         initViewModel();
         return v;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 
     private void bindViews(View v) {
@@ -60,27 +63,8 @@ public class MainFragment extends Fragment {
     }
 
     private void initViewModel() {
-        //viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getActivity().getApplication())).get(MainViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        viewModel.initRepositories(requireContext());
 
-        elapsedTimeObserver = new Observer<Integer>() {
-            @Override
-            public void onChanged(@Nullable Integer seconds) {
-                setElapsedTime(seconds);
-            }
-        };
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    private void setElapsedTime(int elapsedTime) {
-        if (elapsedTime == -1) {
-            textView.setText("-----");
-        } else {
-            textView.setText(elapsedTime + "s");
-        }
     }
 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
+import com.example.smartcare_group4.data.ResponseItem;
 import com.example.smartcare_group4.data.repository.DatabaseRepository;
 import com.example.smartcare_group4.data.repository.FirebaseRepository;
 import com.example.smartcare_group4.data.user.UserItem;
@@ -18,7 +19,11 @@ public class MainViewModel extends ViewModel {
     private FirebaseRepository firebaseRepository;
     private DatabaseRepository databaseRepository;
 
-    public MainViewModel(Context context) {
+    public MainViewModel() {
+        initFirebaseRepository();
+    }
+
+    public void initRepositories(Context context) {
         initFirebaseRepository();
         initDatabaseRepository(context);
     }
@@ -31,6 +36,30 @@ public class MainViewModel extends ViewModel {
         databaseRepository = new DatabaseRepository(context);
     }
 
+    public LiveData<ResponseItem> getResult()
+    {
+        MediatorLiveData<ResponseItem> observable = new MediatorLiveData<>();
+
+        LiveData<ResponseItem> resultat = firebaseRepository.calculateResult();
+        observable.addSource(resultat, new Observer<ResponseItem>() {
+            @Override
+            public void onChanged(ResponseItem responseItem) {
+                if(responseItem.status == ResponseItem.Status.SUCCESS){
+                    observable.setValue(responseItem);
+                }else if(responseItem.status == ResponseItem.Status.FAILURE){
+
+                }
+
+                //observable.removeSource(resultat);
+            }
+        });
+        return observable;
+    }
+
+    public int suma(int a, int b){
+        return a+b;
+    }
+
     //TODO change to LiveData<ResponseItem>
     public LiveData<String> checkInputsAndLogin(PreferenceUtil preferenceUtil, String name, String email, String password, String passwordRepeated) {
 
@@ -39,7 +68,7 @@ public class MainViewModel extends ViewModel {
         if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
             observable.setValue("error #1"); //TODO string resource
         } else {
-            if (password.equals(passwordRepeated)) {
+            if (!password.equals(passwordRepeated)) {
                 observable.setValue("error #2"); //TODO string resource
             } else {
                 LiveData<UserItem> registerUserObservable = firebaseRepository.registerUser(name, email, password);
