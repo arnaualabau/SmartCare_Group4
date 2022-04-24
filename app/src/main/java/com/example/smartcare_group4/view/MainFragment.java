@@ -60,7 +60,8 @@ public class MainFragment extends Fragment {
     }
 
     private void initViewModel() {
-        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        //viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getActivity().getApplication())).get(MainViewModel.class);
 
         elapsedTimeObserver = new Observer<Integer>() {
             @Override

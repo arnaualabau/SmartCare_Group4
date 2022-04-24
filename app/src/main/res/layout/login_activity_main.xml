@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
+    <!--
+
     <ImageView
         android:id="@+id/logoLogin"
 
@@ -117,5 +119,6 @@
         app:layout_constraintHeight_percent="0.1"
         app:layout_constraintWidth_percent="0.4"></Button>
 
-
+-->
 </androidx.constraintlayout.widget.ConstraintLayout>
+
