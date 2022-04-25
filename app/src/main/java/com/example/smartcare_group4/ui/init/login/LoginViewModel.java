@@ -1,16 +1,16 @@
-package com.example.smartcare_group4.ui.signup;
+package com.example.smartcare_group4.ui.init.login;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SignupViewModel extends ViewModel {
+public class LoginViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public SignupViewModel() {
+    public LoginViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+        mText.setValue("This is login fragment");
     }
 
     public LiveData<String> getText() {

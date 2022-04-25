@@ -1,4 +1,4 @@
-package com.example.smartcare_group4.ui.gallery;
+package com.example.smartcare_group4.ui.main.gallery;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

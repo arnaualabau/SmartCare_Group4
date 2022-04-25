@@ -1,4 +1,4 @@
-package com.example.smartcare_group4.ui;
+package com.example.smartcare_group4.ui.main;
 
 import android.os.Bundle;
 import android.view.Menu;
