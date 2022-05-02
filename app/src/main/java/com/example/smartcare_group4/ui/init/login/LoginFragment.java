@@ -99,16 +99,5 @@ public class LoginFragment extends Fragment {
                 getActivity().finish();
             }
         });
-
-        /*changeButton = findViewById(R.id.changeLogin);
-        changeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent loginToChange = new Intent(LoginActivity.this, ChangePasswordActivity.class);
-                startActivity(loginToChange);
-
-            }
-        });*/
     }
 }
