@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +13,11 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.smartcare_group4.R;
+import com.example.smartcare_group4.ui.init.InitActivity;
 import com.example.smartcare_group4.ui.main.MainActivity;
 import com.example.smartcare_group4.utils.PrintLog;
 
@@ -29,6 +32,7 @@ public class LoginFragment extends Fragment {
     private EditText passwdText;
     String password = "";
     //private Button changeButton;
+    private String result;
 
     PrintLog print;
 
@@ -92,11 +96,27 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                //cridar a firebase
+                loginViewModel.login(emailText.getText().toString(),
+                        passwdText.getText().toString()
+                ).observe(getViewLifecycleOwner(), new Observer<String>() {
+                    @Override
+                    public void onChanged(String s) {
+                        result = s;
+                        if (s.equals("success")) {
 
-                Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
-                //loginToProfile.putExtra("email", email);
-                startActivity(loginToProfile);
-                getActivity().finish();
+                            Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
+                            //loginToProfile.putExtra("email", email);
+                            startActivity(loginToProfile);
+                            getActivity().finish();
+
+                        } else if (s.equals("error")) {
+                            //gestionar que posem aqui
+                        }
+                    }
+                });
+
+
             }
         });
     }

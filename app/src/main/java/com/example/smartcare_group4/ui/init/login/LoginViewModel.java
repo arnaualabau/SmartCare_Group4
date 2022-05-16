@@ -5,7 +5,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class LoginViewModel extends ViewModel {
-
+    //es un controlador
+    //aixo ha de cridar el repository
     private final MutableLiveData<String> mText;
 
     public LoginViewModel() {
@@ -15,5 +16,10 @@ public class LoginViewModel extends ViewModel {
 
     public LiveData<String> getText() {
         return mText;
+    }
+
+    public LiveData<String> login(String username, String password) {
+        MutableLiveData<String> data = new MutableLiveData<>();
+        return data;
     }
 }
