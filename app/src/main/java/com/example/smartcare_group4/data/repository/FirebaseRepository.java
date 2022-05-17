@@ -1,13 +1,18 @@
 package com.example.smartcare_group4.data.repository;
 
 
+import static android.widget.Toast.LENGTH_SHORT;
+
+import android.app.Activity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.data.ResponseItem;
 import com.example.smartcare_group4.data.user.UserItem;
 import com.example.smartcare_group4.ui.init.InitActivity;
@@ -15,6 +20,7 @@ import com.example.smartcare_group4.ui.init.login.LoginFragment;
 import com.example.smartcare_group4.ui.main.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,6 +39,38 @@ public class FirebaseRepository {
         // Initialize Firebase Auth
 
     }
+
+    public LiveData<String> signUpFirebase(String email, String password, View view) {
+
+        MutableLiveData<String> observable = new MutableLiveData<>();
+        //Log.d("SignUp FB", email);//ok
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener((Activity) view.getContext(), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d("onComplete Sign Up FB", "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            //updateUI(user);
+                            observable.setValue("success");
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w("TAG", "signUpWithEmail:failure", task.getException());
+                            //Toast.makeText(getActivity(), "Authentication failed.",Toast.LENGTH_SHORT).show();
+                            //updateUI(null);
+                            Snackbar.make(getActivity().findViewById(R.id.navigation_signup), "ERROR",
+                                            Snackbar.LENGTH_SHORT)
+                                    .show();
+
+                            observable.setValue("error");
+
+                        }
+                    }
+                });
+        return observable;
+    } //loginFirebase
 
     public LiveData<String> loginFirebase(String email, String password) {
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,7 +92,7 @@ public class SignupFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
                 password = passwdText.getText().toString();
-                print.debug("Pass", password);
+                Log.d("Pass", password);
             }
         });
 
@@ -100,10 +101,10 @@ public class SignupFragment extends Fragment {
         SignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //Log.d("SIGNUP Button", emailText.getText().toString()); //ok
                 //cridar a firebase
                 signupViewModel.signUp(emailText.getText().toString(),
-                        passwdText.getText().toString()
+                        passwdText.getText().toString(), v
                 ).observe(getViewLifecycleOwner(), new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
