@@ -1,21 +1,39 @@
 package com.example.smartcare_group4.ui.init.signup;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.smartcare_group4.R;
+import com.example.smartcare_group4.ui.main.MainActivity;
+import com.example.smartcare_group4.utils.PrintLog;
 
 public class SignupFragment extends Fragment {
 
     private SignupViewModel signupViewModel;
     private TextView textView;
+
+    private Button SignUpButton;
+    private EditText emailText;
+    String email = "";
+    private EditText passwdText;
+    String password = "";
+    //private Button changeButton;
+    private String result;
+
+    PrintLog print;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,24 +56,73 @@ public class SignupFragment extends Fragment {
     }
 
     private void bindViews(View v) {
-        textView = v.findViewById(R.id.text_signup);
-        textView.setText("-----");
 
-        /*button1 = v.findViewById(R.id.button1);
-        button1.setText("LOGIN");
-        button1.setOnClickListener(new View.OnClickListener() {
+        emailText = v.findViewById(R.id.emailSignUp);
+        emailText.addTextChangedListener(new TextWatcher() {
+
             @Override
-            public void onClick(View v) {
-                viewModel.checkInputsAndLogin(PreferenceUtil.getInstance(requireContext()), "NAME", "EMAIL", "PASSWORD", "PASSWORD").observe(getViewLifecycleOwner(), new Observer<String>() {
-                    @Override
-                    public void onChanged(String s) {
-                        //TODO process errors or advance
-                    }
-                });
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                email = emailText.getText().toString();
             }
         });
 
-        button2 = v.findViewById(R.id.button2);
-        button2.setText("STOP");*/
+        passwdText = v.findViewById(R.id.passwordSignUp);
+        passwdText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                password = passwdText.getText().toString();
+                print.debug("Pass", password);
+            }
+        });
+
+
+        SignUpButton = v.findViewById(R.id.SignUp);
+        SignUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //cridar a firebase
+                signupViewModel.signUp(emailText.getText().toString(),
+                        passwdText.getText().toString()
+                ).observe(getViewLifecycleOwner(), new Observer<String>() {
+                    @Override
+                    public void onChanged(String s) {
+                        result = s;
+                        if (s.equals("success")) {
+
+                            Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
+                            //loginToProfile.putExtra("email", email);
+                            startActivity(loginToProfile);
+                            getActivity().finish();
+
+                        } else if (s.equals("error")) {
+                            //gestionar que posem aqui
+                        }
+                    }
+                });
+
+
+            }
+        });
     }
 }

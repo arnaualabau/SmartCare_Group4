@@ -16,4 +16,11 @@ public class SignupViewModel extends ViewModel {
     public LiveData<String> getText() {
         return mText;
     }
+
+    public LiveData<String> signUp(String email, String password) {
+
+        MutableLiveData<String> data = new MutableLiveData<>();
+        return data;
+
+    }
 }
