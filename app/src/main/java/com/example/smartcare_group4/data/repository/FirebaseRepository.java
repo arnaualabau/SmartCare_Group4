@@ -52,17 +52,12 @@ public class FirebaseRepository {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("onComplete Sign Up FB", "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            //FirebaseUser user = mAuth.getCurrentUser();
                             //updateUI(user);
                             observable.setValue("success");
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("TAG", "signUpWithEmail:failure", task.getException());
-                            //Toast.makeText(getActivity(), "Authentication failed.",Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
-                            Snackbar.make(getActivity().findViewById(R.id.navigation_signup), "ERROR",
-                                            Snackbar.LENGTH_SHORT)
-                                    .show();
 
                             observable.setValue("error");
 
@@ -70,7 +65,7 @@ public class FirebaseRepository {
                     }
                 });
         return observable;
-    } //loginFirebase
+    } //signUp Firebase
 
     public LiveData<String> loginFirebase(String email, String password) {
 
