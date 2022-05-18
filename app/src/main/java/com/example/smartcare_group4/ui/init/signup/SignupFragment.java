@@ -20,10 +20,13 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.ui.main.MainActivity;
 import com.example.smartcare_group4.utils.PrintLog;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignupFragment extends Fragment {
 
     private SignupViewModel signupViewModel;
+    private DatabaseReference mDatabase;
     private TextView textView;
 
     private Button SignUpButton;
@@ -101,7 +104,6 @@ public class SignupFragment extends Fragment {
         SignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Log.d("SIGNUP Button", emailText.getText().toString()); //ok
                 //cridar a firebase
                 signupViewModel.signUp(emailText.getText().toString(),
                         passwdText.getText().toString(), v
@@ -110,6 +112,8 @@ public class SignupFragment extends Fragment {
                     public void onChanged(String s) {
                         result = s;
                         if (s.equals("success")) {
+                            mDatabase = FirebaseDatabase.getInstance().getReference();
+
 
                             Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
                             //loginToProfile.putExtra("email", email);

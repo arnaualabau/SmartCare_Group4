@@ -4,10 +4,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.smartcare_group4.data.repository.FirebaseRepository;
+
 public class LoginViewModel extends ViewModel {
     //es un controlador
     //aixo ha de cridar el repository
     private final MutableLiveData<String> mText;
+    private FirebaseRepository firebase = new FirebaseRepository();
 
     public LoginViewModel() {
         mText = new MutableLiveData<>();
@@ -18,8 +21,8 @@ public class LoginViewModel extends ViewModel {
         return mText;
     }
 
-    public LiveData<String> login(String username, String password) {
-        MutableLiveData<String> data = new MutableLiveData<>();
+    public LiveData<String> login(String email, String password) {
+        MutableLiveData<String> data = (MutableLiveData<String>) firebase.loginFirebase(email, password);
         return data;
     }
 }

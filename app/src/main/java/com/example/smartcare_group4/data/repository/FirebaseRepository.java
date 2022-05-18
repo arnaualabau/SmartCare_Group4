@@ -43,22 +43,20 @@ public class FirebaseRepository {
     public LiveData<String> signUpFirebase(String email, String password, View view) {
 
         MutableLiveData<String> observable = new MutableLiveData<>();
-        //Log.d("SignUp FB", email);//ok
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener((Activity) view.getContext(), new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d("onComplete Sign Up FB", "signInWithEmail:success");
+                            Log.d("SIGNUP", "signInWithEmail:success");
                             //FirebaseUser user = mAuth.getCurrentUser();
                             //updateUI(user);
                             observable.setValue("success");
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w("TAG", "signUpWithEmail:failure", task.getException());
-
+                            Log.d("SIGNUP", "signUpWithEmail:failure", task.getException());
                             observable.setValue("error");
 
                         }
@@ -70,22 +68,20 @@ public class FirebaseRepository {
     public LiveData<String> loginFirebase(String email, String password) {
 
         MutableLiveData<String> observable = new MutableLiveData<>();
-
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            //Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            Log.d("LOGIN", "signInWithEmail:success");
+                            //FirebaseUser user = mAuth.getCurrentUser();
                             //updateUI(user);
                             observable.setValue("success");
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w("TAG", "signInWithEmail:failure", task.getException());
-                            //Toast.makeText(LoginFragment.this, "Authentication failed.",Toast.LENGTH_SHORT).show();
+                            Log.d("LOGIN", "signInWithEmail:failure", task.getException());
                             //updateUI(null);
                             observable.setValue("error");
 
@@ -113,10 +109,6 @@ public class FirebaseRepository {
             }
         };
 
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        database.child("devices").addValueEventListener(postListener);
-        
-        
         return observable;
         
     }
