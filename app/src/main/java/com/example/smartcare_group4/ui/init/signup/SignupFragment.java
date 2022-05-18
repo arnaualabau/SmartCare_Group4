@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.ui.main.MainActivity;
 import com.example.smartcare_group4.utils.PrintLog;
+import com.example.smartcare_group4.viewmodel.User;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -113,12 +114,20 @@ public class SignupFragment extends Fragment {
                         result = s;
                         if (s.equals("success")) {
                             mDatabase = FirebaseDatabase.getInstance().getReference();
-
+                            String name = "hola";
+                            User user = new User(name, email, password, false);
+                            Log.d("USER", "tot ok abans de create user");
+                            mDatabase.child("users").child(name).setValue(user);
+                            Log.d("USER", "tot ok despres de create user");
 
                             Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
                             //loginToProfile.putExtra("email", email);
+                            Log.d("USER", "tot ok despres de create user 1");
+
                             startActivity(loginToProfile);
-                            getActivity().finish();
+                            Log.d("USER", "tot ok despres de create user 2");
+
+                            //getActivity().finish();
 
                         } else if (s.equals("error")) {
                             //gestionar que posem aqui
