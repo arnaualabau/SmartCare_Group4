@@ -119,13 +119,13 @@ public class FirebaseRepository {
         return observable;
     }
 
-    public LiveData<String> registerUser(String name, String email, String password, String id, boolean patient){
+    public LiveData<String> registerUser(String name, String email, String password, String id, String hardwareId, boolean patient){
 
         MutableLiveData<String> observable = new MutableLiveData<>();
 
         //firebase method to register user with callback
         Log.d("SIGNUP", "register user FB");
-        User user = new User(name, email, password, patient);
+        User user = new User(name, email, password, hardwareId, patient);
         mDatabase.child("users").child(id).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

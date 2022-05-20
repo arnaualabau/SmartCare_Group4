@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,23 +22,33 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.ui.main.MainActivity;
 import com.example.smartcare_group4.utils.PrintLog;
+import com.example.smartcare_group4.viewmodel.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignupFragment extends Fragment {
 
     private SignupViewModel signupViewModel;
 
-    private TextView textView;
-
     private Button SignUpButton;
+    private RadioButton radioButton;
+    private RadioGroup radioGroup;
+
+    int selectedRadioButton;
+
     private EditText emailText;
     String email = "";
     private EditText passwdText;
     String password = "";
+    private EditText hardwareIdText;
+    String hardwareId = "";
+    private EditText nameText;
+    String name = "";
 
-    //private Button changeButton;
     private String result;
 
-    PrintLog print;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,6 +72,8 @@ public class SignupFragment extends Fragment {
 
     private void bindViews(View v) {
 
+        radioGroup = v.findViewById(R.id.userTypeSignup);
+
         emailText = v.findViewById(R.id.emailSignup);
         emailText.setText("a@a.com");
         emailText.addTextChangedListener(new TextWatcher() {
@@ -80,6 +94,25 @@ public class SignupFragment extends Fragment {
             }
         });
 
+        nameText = v.findViewById(R.id.nameSignup);
+        nameText.setText("María");
+        nameText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                name = nameText.getText().toString();
+            }
+        });
+
         passwdText = v.findViewById(R.id.passwordSignup);
         passwdText.setText("123456");
         passwdText.addTextChangedListener(new TextWatcher() {
@@ -96,16 +129,37 @@ public class SignupFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
                 password = passwdText.getText().toString();
-                Log.d("Pass", password);
             }
         });
 
+        hardwareIdText = v.findViewById(R.id.hardwareIDSignup);
+        hardwareIdText.setText("123456");
+        hardwareIdText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                hardwareId = hardwareIdText.getText().toString();
+            }
+        });
 
         SignUpButton = v.findViewById(R.id.buttonSignup);
         SignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //cridar a firebase
+
+                selectedRadioButton = radioGroup.getCheckedRadioButtonId();
+                radioButton = v.findViewById(selectedRadioButton);
+
                 signupViewModel.signUp(emailText.getText().toString(),
                         passwdText.getText().toString()
                 ).observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -114,11 +168,16 @@ public class SignupFragment extends Fragment {
                         result = s;
                         if (!s.equals("error")) {
                             Log.d("SIGNUP", "success");
-                            String name = "name";
                             boolean patient = false;
                             email = emailText.getText().toString();
                             password = passwdText.getText().toString();
-                            signupViewModel.registerUser(name, email, password, s, patient).observe(getViewLifecycleOwner(), new Observer<String>() {
+                            name = nameText.getText().toString();
+                            hardwareId = hardwareIdText.getText().toString();
+
+                            //Log.d("RADIO BUTTON", radioButton.toString());
+
+                            //Log.d("RADIO BUTTON", Integer.toString(selectedRadioButton));
+                            signupViewModel.registerUser(name, email, password, result, hardwareId, patient).observe(getViewLifecycleOwner(), new Observer<String>() {
                                 @Override
                                 public void onChanged(String s) {
                                     if (s.equals("success register")) {
