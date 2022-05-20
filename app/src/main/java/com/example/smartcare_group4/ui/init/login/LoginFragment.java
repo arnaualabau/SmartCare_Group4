@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.smartcare_group4.R;
-import com.example.smartcare_group4.ui.init.InitActivity;
 import com.example.smartcare_group4.ui.main.MainActivity;
 import com.example.smartcare_group4.utils.PrintLog;
 
@@ -53,7 +51,7 @@ public class LoginFragment extends Fragment {
 
     private void bindViews(View v) {
 
-        emailText = v.findViewById(R.id.email);
+        emailText = v.findViewById(R.id.emailLogin);
         emailText.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -72,7 +70,7 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        passwdText = v.findViewById(R.id.password);
+        passwdText = v.findViewById(R.id.passwordLogin);
         passwdText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -91,7 +89,7 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        loginButton = v.findViewById(R.id.login);
+        loginButton = v.findViewById(R.id.buttonLogin);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

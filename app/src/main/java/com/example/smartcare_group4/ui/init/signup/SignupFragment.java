@@ -20,11 +20,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.ui.main.MainActivity;
 import com.example.smartcare_group4.utils.PrintLog;
-import com.example.smartcare_group4.viewmodel.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class SignupFragment extends Fragment {
 
@@ -65,7 +60,7 @@ public class SignupFragment extends Fragment {
 
     private void bindViews(View v) {
 
-        emailText = v.findViewById(R.id.emailSignUp);
+        emailText = v.findViewById(R.id.emailSignup);
         emailText.setText("a@a.com");
         emailText.addTextChangedListener(new TextWatcher() {
 
@@ -85,7 +80,7 @@ public class SignupFragment extends Fragment {
             }
         });
 
-        passwdText = v.findViewById(R.id.passwordSignUp);
+        passwdText = v.findViewById(R.id.passwordSignup);
         passwdText.setText("123456");
         passwdText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -106,7 +101,7 @@ public class SignupFragment extends Fragment {
         });
 
 
-        SignUpButton = v.findViewById(R.id.SignUp);
+        SignUpButton = v.findViewById(R.id.buttonSignup);
         SignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
