@@ -37,6 +37,7 @@ public class SignupFragment extends Fragment {
     String email = "";
     private EditText passwdText;
     String password = "";
+
     //private Button changeButton;
     private String result;
 
@@ -120,6 +121,8 @@ public class SignupFragment extends Fragment {
                             Log.d("SIGNUP", "success");
                             String name = "name";
                             boolean patient = false;
+                            email = emailText.getText().toString();
+                            password = passwdText.getText().toString();
                             signupViewModel.registerUser(name, email, password, s, patient).observe(getViewLifecycleOwner(), new Observer<String>() {
                                 @Override
                                 public void onChanged(String s) {
