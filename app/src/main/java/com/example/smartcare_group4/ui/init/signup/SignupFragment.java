@@ -130,7 +130,7 @@ public class SignupFragment extends Fragment {
                                         //loginToProfile.putExtra("email", email);
                                         Log.d("USER", "tot ok despres de create user 1 " + email);
                                         startActivity(loginToProfile);
-                                        getActivity().finish();
+                                        //getActivity().finish();
 
                                     } else {
                                         Log.d("USER", "failure:"+task.getException().getLocalizedMessage());
