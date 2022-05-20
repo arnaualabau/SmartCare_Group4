@@ -1,26 +1,17 @@
 package com.example.smartcare_group4.data.repository;
-
-
-import static android.widget.Toast.LENGTH_SHORT;
-
-import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.data.ResponseItem;
 import com.example.smartcare_group4.data.user.UserItem;
-import com.example.smartcare_group4.ui.init.InitActivity;
-import com.example.smartcare_group4.ui.init.login.LoginFragment;
 import com.example.smartcare_group4.ui.main.MainActivity;
+import com.example.smartcare_group4.viewmodel.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,13 +21,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.concurrent.Executor;
-
 public class FirebaseRepository {
+    private DatabaseReference mDatabase;
 
     public FirebaseRepository(){
         //init firebase libraries
         // Initialize Firebase Auth
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
     }
 
@@ -51,9 +43,10 @@ public class FirebaseRepository {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("SIGNUP", "signUpWithEmail:success");
-                            //FirebaseUser user = mAuth.getCurrentUser();
-                            //updateUI(user);
-                            observable.setValue("success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Log.d("SIGNUP", user.getUid());
+                            //observable.setValue("success");
+                            observable.setValue(user.getUid());
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.d("SIGNUP", "signUpWithEmail:failure"+ task.getException().getLocalizedMessage());
@@ -76,13 +69,11 @@ public class FirebaseRepository {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("LOGIN", "signInWithEmail:success");
-                            //FirebaseUser user = mAuth.getCurrentUser();
-                            //updateUI(user);
-                            observable.setValue("success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            observable.setValue(user.getUid());
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.d("LOGIN", "signInWithEmail:failure", task.getException());
-                            //updateUI(null);
                             observable.setValue("error");
 
                         }
@@ -128,20 +119,27 @@ public class FirebaseRepository {
         return observable;
     }
 
-    public LiveData<UserItem> registerUser(String name, String email, String password){
+    public LiveData<String> registerUser(String name, String email, String password, String id, boolean patient){
 
-        MutableLiveData<UserItem> observable = new MutableLiveData<>();
-        UserItem userItem = new UserItem();
+        MutableLiveData<String> observable = new MutableLiveData<>();
 
-        //firebase method to regiter user with callback
-        if(true){
-            userItem.setName(name);
-            userItem.setEmail(email);
-            userItem.setPassword(password);
-        }else{
-            userItem.setError("error with firebase...");
-        }
-        observable.setValue(userItem);
+        //firebase method to register user with callback
+        Log.d("SIGNUP", "register user FB");
+        User user = new User(name, email, password, patient);
+        mDatabase.child("users").child(id).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    observable.setValue("success register");
+                    Log.d("USER", "success in register user DB");
+
+                } else {
+                    observable.setValue("error register");
+                    Log.d("USER", "failure in register user DB:"+task.getException().getLocalizedMessage());
+                }
+
+            }
+        });
 
         return observable;
     }

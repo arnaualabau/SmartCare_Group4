@@ -30,4 +30,13 @@ public class SignupViewModel extends ViewModel {
         return data;
 
     }
+
+    public LiveData<String> registerUser(String name, String email, String password, String id, boolean patient) {
+
+        MutableLiveData<String> data = (MutableLiveData<String>) firebase.registerUser(name, email, password, id, patient);
+
+        return data;
+
+    }
+
 }

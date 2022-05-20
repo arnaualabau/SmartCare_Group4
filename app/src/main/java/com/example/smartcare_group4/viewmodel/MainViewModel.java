@@ -61,6 +61,7 @@ public class MainViewModel extends ViewModel {
     }
 
     //TODO change to LiveData<ResponseItem>
+    /*
     public LiveData<String> checkInputsAndLogin(PreferenceUtil preferenceUtil, String name, String email, String password, String passwordRepeated) {
 
         MediatorLiveData<String> observable = new MediatorLiveData<>();
@@ -98,5 +99,5 @@ public class MainViewModel extends ViewModel {
             }
         }
         return observable;
-    }
+    }*/
 }
