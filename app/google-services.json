@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "941023064628",
+    "firebase_url": " https://smartcare-grup4-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "smartcare-grup4",
     "storage_bucket": "smartcare-grup4.appspot.com"
   },

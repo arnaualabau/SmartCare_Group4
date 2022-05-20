@@ -23,9 +23,9 @@ public class SignupViewModel extends ViewModel {
         return mText;
     }
 
-    public LiveData<String> signUp(String email, String password, View view) {
+    public LiveData<String> signUp(String email, String password) {
 
-        MutableLiveData<String> data = (MutableLiveData<String>) firebase.signUpFirebase(email, password, view);
+        MutableLiveData<String> data = (MutableLiveData<String>) firebase.signUpFirebase(email, password);
 
         return data;
 

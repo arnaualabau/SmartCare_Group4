@@ -41,7 +41,7 @@
 
         app:layout_constraintBottom_toTopOf="@+id/nameSignUp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="pictureSignUp"
+        app:layout_constraintStart_toEndOf="@id/pictureSignUp"
         app:layout_constraintTop_toTopOf="parent"
 
         app:layout_constraintWidth_percent="0.8"
@@ -76,7 +76,6 @@
 
     <EditText
         android:id="@+id/emailSignUp"
-        android:inputType="textPassword"
         android:layout_width="0dp"
         android:layout_height="00dp"
         android:layout_marginBottom="10dp"

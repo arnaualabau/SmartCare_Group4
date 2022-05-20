@@ -40,7 +40,7 @@ public class FirebaseRepository {
 
     }
 
-    public LiveData<String> signUpFirebase(String email, String password, View view) {
+    public LiveData<String> signUpFirebase(String email, String password) {
 
         MutableLiveData<String> observable = new MutableLiveData<>();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -50,13 +50,13 @@ public class FirebaseRepository {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d("SIGNUP", "signInWithEmail:success");
+                            Log.d("SIGNUP", "signUpWithEmail:success");
                             //FirebaseUser user = mAuth.getCurrentUser();
                             //updateUI(user);
                             observable.setValue("success");
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.d("SIGNUP", "signUpWithEmail:failure", task.getException());
+                            Log.d("SIGNUP", "signUpWithEmail:failure"+ task.getException().getLocalizedMessage());
                             observable.setValue("error");
 
                         }

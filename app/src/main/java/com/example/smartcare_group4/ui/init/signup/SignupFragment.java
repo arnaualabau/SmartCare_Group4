@@ -21,6 +21,8 @@ import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.ui.main.MainActivity;
 import com.example.smartcare_group4.utils.PrintLog;
 import com.example.smartcare_group4.viewmodel.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -63,6 +65,7 @@ public class SignupFragment extends Fragment {
     private void bindViews(View v) {
 
         emailText = v.findViewById(R.id.emailSignUp);
+        emailText.setText("a@a.com");
         emailText.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -82,6 +85,7 @@ public class SignupFragment extends Fragment {
         });
 
         passwdText = v.findViewById(R.id.passwordSignUp);
+        passwdText.setText("123456");
         passwdText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -107,7 +111,7 @@ public class SignupFragment extends Fragment {
             public void onClick(View v) {
                 //cridar a firebase
                 signupViewModel.signUp(emailText.getText().toString(),
-                        passwdText.getText().toString(), v
+                        passwdText.getText().toString()
                 ).observe(getViewLifecycleOwner(), new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
@@ -117,20 +121,28 @@ public class SignupFragment extends Fragment {
                             String name = "hola";
                             User user = new User(name, email, password, false);
                             Log.d("USER", "tot ok abans de create user");
-                            mDatabase.child("users").child(name).setValue(user);
-                            Log.d("USER", "tot ok despres de create user");
+                            mDatabase.child("users").child(name).setValue("PROVA").addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d("USER", "success");
+                                        Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
+                                        //loginToProfile.putExtra("email", email);
+                                        Log.d("USER", "tot ok despres de create user 1 " + email);
+                                        startActivity(loginToProfile);
+                                        getActivity().finish();
 
-                            Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
-                            //loginToProfile.putExtra("email", email);
-                            Log.d("USER", "tot ok despres de create user 1");
+                                    } else {
+                                        Log.d("USER", "failure:"+task.getException().getLocalizedMessage());
+                                    }
 
-                            startActivity(loginToProfile);
-                            Log.d("USER", "tot ok despres de create user 2");
+                                }
+                            });
 
-                            //getActivity().finish();
 
                         } else if (s.equals("error")) {
                             //gestionar que posem aqui
+                            Log.d("USER", "error");
                         }
                     }
                 });
