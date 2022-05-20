@@ -6,54 +6,44 @@
     android:layout_height="match_parent"
     tools:context=".ui.init.signup.SignupFragment">
 
-    <ImageView
-        android:id="@+id/pictureSignUp"
-
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/custom_input"
-        android:drawableStart="@mipmap/default_prof"
-        android:layout_marginStart="24dp"
-
-        app:layout_constraintBottom_toTopOf="@+id/nameSignUp"
-        app:layout_constraintEnd_toStartOf="@id/hardwareID"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHeight_percent="0.15"
-        app:layout_constraintWidth_percent="0.25" />
-
     <RelativeLayout
 
+        android:id="@+id/pictureLayout"
+
+        android:layout_marginStart="24dp"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/nameSignUp"
-        app:layout_constraintEnd_toStartOf="@id/hardwareID"
+        app:layout_constraintBottom_toTopOf="@+id/nameSignup"
+        app:layout_constraintEnd_toStartOf="@id/hardwareIDSignup"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHeight_percent="0.15"
         app:layout_constraintWidth_percent="0.25">
 
-
         <ImageView
-            android:id="@+id/img"
+            android:id="@+id/pictureSignup"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@mipmap/default_prof"
-            android:layout_margin="20dp" />
+            android:layout_margin="0dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@mipmap/default_prof" />
 
-
-        <Button
-            android:id="@+id/button2"
+        <ImageButton
+            android:id="@+id/editPictureSignup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:text="btn2" />
+            android:background="@color/transparent"
+            android:src="@drawable/ic_menu_camera" />
 
     </RelativeLayout>
 
     <EditText
-        android:id="@+id/hardwareID"
+        android:id="@+id/hardwareIDSignup"
 
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -71,7 +61,7 @@
 
         app:layout_constraintBottom_toTopOf="@+id/userTypeSignup"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/pictureSignUp"
+        app:layout_constraintStart_toEndOf="@+id/pictureLayout"
         app:layout_constraintTop_toTopOf="parent"
 
         app:layout_constraintHeight_percent="0.1"
@@ -84,10 +74,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/nameSignUp"
+        app:layout_constraintBottom_toTopOf="@+id/nameSignup"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/pictureSignUp"
-        app:layout_constraintTop_toBottomOf="@+id/hardwareID"
+        app:layout_constraintStart_toEndOf="@+id/pictureLayout"
+        app:layout_constraintTop_toBottomOf="@+id/hardwareIDSignup"
 
         android:layout_marginBottom="12dp"
         android:layout_marginEnd="24dp"
@@ -95,17 +85,20 @@
         app:layout_constraintHeight_percent="0.1">
 
         <RadioButton
+            android:id="@+id/patientSignup"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Patient"/>
+            android:text="Patient"
+            />
         <RadioButton
+            android:id="@+id/relativeSignup"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Relative"/>
     </RadioGroup>
 
     <EditText
-        android:id="@+id/nameSignUp"
+        android:id="@+id/nameSignup"
 
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -119,10 +112,10 @@
         android:paddingEnd="12dp"
         android:drawablePadding="12dp"
 
-        app:layout_constraintBottom_toTopOf="@+id/emailSignUp"
+        app:layout_constraintBottom_toTopOf="@+id/emailSignup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pictureSignUp"
+        app:layout_constraintTop_toBottomOf="@+id/pictureLayout"
 
         app:layout_constraintWidth_percent="0.8"
         app:layout_constraintHeight_percent="0.1"
@@ -130,7 +123,7 @@
         ></EditText>
 
     <EditText
-        android:id="@+id/emailSignUp"
+        android:id="@+id/emailSignup"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="10dp"
@@ -143,10 +136,10 @@
         android:paddingEnd="12dp"
         android:drawablePadding="12dp"
 
-        app:layout_constraintBottom_toTopOf="@+id/passwordSignUp"
+        app:layout_constraintBottom_toTopOf="@+id/passwordSignup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameSignUp"
+        app:layout_constraintTop_toBottomOf="@+id/nameSignup"
 
         app:layout_constraintWidth_percent="0.8"
         app:layout_constraintHeight_percent="0.1"
@@ -154,7 +147,7 @@
         ></EditText>
 
     <EditText
-        android:id="@+id/passwordSignUp"
+        android:id="@+id/passwordSignup"
         android:inputType="textPassword"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -170,8 +163,8 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailSignUp"
-        app:layout_constraintBottom_toTopOf="@id/passwordSignUp2"
+        app:layout_constraintTop_toBottomOf="@+id/emailSignup"
+        app:layout_constraintBottom_toTopOf="@id/passwordSignup2"
 
         app:layout_constraintWidth_percent="0.8"
         app:layout_constraintHeight_percent="0.1"
@@ -179,7 +172,7 @@
         ></EditText>
 
     <EditText
-        android:id="@+id/passwordSignUp2"
+        android:id="@+id/passwordSignup2"
         android:inputType="textPassword"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -195,36 +188,17 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordSignUp"
-        app:layout_constraintBottom_toTopOf="@id/checkSignUp"
+        app:layout_constraintTop_toBottomOf="@+id/passwordSignup"
+        app:layout_constraintBottom_toTopOf="@id/buttonSignup"
 
         app:layout_constraintWidth_percent="0.8"
         app:layout_constraintHeight_percent="0.1"
 
         ></EditText>
+    
 
     <Button
-        android:id="@+id/checkSignUp"
-
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="30dp"
-
-        android:text="Check Password"
-        android:textSize="15sp"
-
-        app:layout_constraintEnd_toStartOf="@id/SignUp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordSignUp2"
-        app:layout_constraintBottom_toBottomOf="parent"
-
-
-        app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintWidth_percent="0.4"></Button>
-
-    <Button
-        android:id="@+id/SignUp"
+        android:id="@+id/buttonSignup"
 
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -237,11 +211,11 @@
 
 
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/checkSignUp"
-        app:layout_constraintTop_toBottomOf="@+id/passwordSignUp2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordSignup2"
 
         app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintWidth_percent="0.4"></Button>
+        app:layout_constraintWidth_percent="0.8"></Button>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
