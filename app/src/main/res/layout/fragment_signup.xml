@@ -9,58 +9,28 @@
     <ImageView
         android:id="@+id/pictureSignUp"
 
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/custom_input"
-        android:drawableStart="@mipmap/default_prof"
-        android:layout_marginStart="24dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@mipmap/default_prof"
+        android:layout_marginStart="12dp"
 
         app:layout_constraintBottom_toTopOf="@+id/nameSignUp"
         app:layout_constraintEnd_toStartOf="@id/hardwareID"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHeight_percent="0.15"
-        app:layout_constraintWidth_percent="0.25" />
-
-    <RelativeLayout
-
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/nameSignUp"
-        app:layout_constraintEnd_toStartOf="@id/hardwareID"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHeight_percent="0.15"
-        app:layout_constraintWidth_percent="0.25">
-
-
-        <ImageView
-            android:id="@+id/img"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@mipmap/default_prof"
-            android:layout_margin="20dp" />
-
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:text="btn2" />
-
-    </RelativeLayout>
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintWidth_percent="0.2" />
 
     <EditText
         android:id="@+id/hardwareID"
 
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginEnd="12dp"
         android:layout_marginStart="12dp"
 
-        android:hint="Hardware ID"
+        android:hint="Name"
         android:textSize="25sp"
         android:selectAllOnFocus="true"
         android:background="@drawable/custom_input"
@@ -69,40 +39,15 @@
         android:paddingEnd="12dp"
         android:drawablePadding="12dp"
 
-        app:layout_constraintBottom_toTopOf="@+id/userTypeSignup"
+        app:layout_constraintBottom_toTopOf="@+id/nameSignUp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/pictureSignUp"
+        app:layout_constraintStart_toEndOf="@id/pictureSignUp"
         app:layout_constraintTop_toTopOf="parent"
 
+        app:layout_constraintWidth_percent="0.8"
         app:layout_constraintHeight_percent="0.1"
 
         ></EditText>
-
-    <RadioGroup
-
-        android:id="@+id/userTypeSignup"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/nameSignUp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/pictureSignUp"
-        app:layout_constraintTop_toBottomOf="@+id/hardwareID"
-
-        android:layout_marginBottom="12dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="12dp"
-        app:layout_constraintHeight_percent="0.1">
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Patient"/>
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Relative"/>
-    </RadioGroup>
 
     <EditText
         android:id="@+id/nameSignUp"
@@ -126,13 +71,13 @@
 
         app:layout_constraintWidth_percent="0.8"
         app:layout_constraintHeight_percent="0.1"
-
+        
         ></EditText>
 
     <EditText
         android:id="@+id/emailSignUp"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="00dp"
         android:layout_marginBottom="10dp"
         android:hint="Email"
         android:textSize="25sp"
@@ -244,4 +189,5 @@
         app:layout_constraintWidth_percent="0.4"></Button>
 
 
+    
 </androidx.constraintlayout.widget.ConstraintLayout>

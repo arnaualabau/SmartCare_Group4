@@ -29,7 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class SignupFragment extends Fragment {
 
     private SignupViewModel signupViewModel;
-    private DatabaseReference mDatabase;
+
     private TextView textView;
 
     private Button SignUpButton;
@@ -116,26 +116,22 @@ public class SignupFragment extends Fragment {
                     @Override
                     public void onChanged(String s) {
                         result = s;
-                        if (s.equals("success")) {
-                            mDatabase = FirebaseDatabase.getInstance().getReference();
-                            String name = "hola";
-                            User user = new User(name, email, password, false);
-                            Log.d("USER", "tot ok abans de create user");
-                            mDatabase.child("users").child(name).setValue("PROVA").addOnCompleteListener(new OnCompleteListener<Void>() {
+                        if (!s.equals("error")) {
+                            Log.d("SIGNUP", "success");
+                            String name = "name";
+                            boolean patient = false;
+                            signupViewModel.registerUser(name, email, password, s, patient).observe(getViewLifecycleOwner(), new Observer<String>() {
                                 @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Log.d("USER", "success");
+                                public void onChanged(String s) {
+                                    if (s.equals("success register")) {
+                                        Log.d("SIGNUP", "register DB success");
                                         Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
                                         //loginToProfile.putExtra("email", email);
-                                        Log.d("USER", "tot ok despres de create user 1 " + email);
                                         startActivity(loginToProfile);
-                                        //getActivity().finish();
-
-                                    } else {
-                                        Log.d("USER", "failure:"+task.getException().getLocalizedMessage());
+                                        getActivity().finish();
+                                    } else if (s.equals("error register")) {
+                                        Log.d("SIGNUP", "register DB error");
                                     }
-
                                 }
                             });
 
