@@ -145,4 +145,11 @@ public class FirebaseRepository {
     }
 
 
+    public LiveData<User> getUserInfo(String id) {
+
+        MutableLiveData<User> observable = new MutableLiveData<>();
+
+
+        return observable;
+    }
 }

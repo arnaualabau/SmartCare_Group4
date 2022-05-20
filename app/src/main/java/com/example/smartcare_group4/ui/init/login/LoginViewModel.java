@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.smartcare_group4.data.repository.FirebaseRepository;
+import com.example.smartcare_group4.viewmodel.User;
 
 public class LoginViewModel extends ViewModel {
     //es un controlador
@@ -23,6 +24,13 @@ public class LoginViewModel extends ViewModel {
 
     public LiveData<String> login(String email, String password) {
         MutableLiveData<String> data = (MutableLiveData<String>) firebase.loginFirebase(email, password);
+        return data;
+    }
+
+    public LiveData<User> getUserInfo(String id) {
+
+        MutableLiveData<User> data = (MutableLiveData<User>) firebase.getUserInfo(id);
+
         return data;
     }
 }

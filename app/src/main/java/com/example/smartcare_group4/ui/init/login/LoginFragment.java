@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.ui.main.MainActivity;
 import com.example.smartcare_group4.utils.PrintLog;
+import com.example.smartcare_group4.viewmodel.User;
 
 public class LoginFragment extends Fragment {
 
@@ -101,7 +103,15 @@ public class LoginFragment extends Fragment {
                     @Override
                     public void onChanged(String s) {
                         result = s;
-                        if (s.equals("success")) {
+                        if (!s.equals("error")) {
+                            Log.d("SIGN IN", "success");
+
+                            loginViewModel.getUserInfo(result).observe(getViewLifecycleOwner(), new Observer<User>() {
+                                @Override
+                                public void onChanged(User user) {
+
+                                }
+                            });
 
                             Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
                             //loginToProfile.putExtra("email", email);
