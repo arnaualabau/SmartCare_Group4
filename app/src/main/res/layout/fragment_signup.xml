@@ -24,19 +24,18 @@
             android:id="@+id/pictureSignup"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_margin="0dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
             android:background="@mipmap/default_prof" />
 
         <ImageButton
             android:id="@+id/editPictureSignup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
             android:background="@color/transparent"
             android:src="@drawable/ic_menu_camera" />
 

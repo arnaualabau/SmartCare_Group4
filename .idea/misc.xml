@@ -39,8 +39,11 @@
         <entry key="..\:/Users/sergi/OneDrive/Documents/GitHub/SmartCare_Group4/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
         <entry key="..\:/Users/sergi/OneDrive/Documents/GitHub/SmartCare_Group4/app/src/main/res/menu/main.xml" value="0.25729166666666664" />
         <entry key="..\:/Users/sergi/OneDrive/Documents/GitHub/SmartCare_Group4/app/src/test/java/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_init.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.20606884057971014" />
         <entry key="app/src/main/res/layout/changepassword_activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/content_main.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/fragment_signup.xml" value="0.25" />
         <entry key="app/src/main/res/layout/login_activity_main.xml" value="0.2558876811594203" />
       </map>
     </option>

@@ -1,7 +1,10 @@
 package com.example.smartcare_group4.ui.init.signup;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -10,11 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -27,6 +32,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.io.File;
+import java.io.IOException;
+import android.content.pm.PackageManager;
+
 
 public class SignupFragment extends Fragment {
 
@@ -48,6 +58,16 @@ public class SignupFragment extends Fragment {
     String name = "";
 
     private String result;
+
+    private Button setProfilePic;
+    String currentPhotoPath;
+    ImageView profilePic;
+    private static final int CAMERA_PERMISSIONS_REQUEST = 14;
+    private static final int READ_PERMISSIONS_REQUEST = 15;
+    private static final int WRITE_PERMISSIONS_REQUEST = 16;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+
+
 
 
     @Override
