@@ -111,8 +111,15 @@ public class LoginFragment extends Fragment {
                                 public void onChanged(User user) {
                                     if (!user.getEmail().equals("error")) {
 
-                                        String name = user.getUsername();
-                                        String email = user.getEmail();
+                                        Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
+
+                                        loginToProfile.putExtra("email", user.getEmail());
+                                        loginToProfile.putExtra("name", user.getUsername());
+                                        loginToProfile.putExtra("hardwareId", user.getHardwareId());
+                                        loginToProfile.putExtra("patient", user.isPatient());
+
+                                        startActivity(loginToProfile);
+                                        getActivity().finish();
 
                                     } else {
                                         Log.d("LOGIN", "error in reading info user");
@@ -121,10 +128,7 @@ public class LoginFragment extends Fragment {
                                 }
                             });
 
-                            Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
-                            //loginToProfile.putExtra("email", email);
-                            startActivity(loginToProfile);
-                            getActivity().finish();
+
 
                         } else if (s.equals("error")) {
                             //gestionar que posem aqui

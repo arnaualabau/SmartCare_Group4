@@ -1,8 +1,10 @@
 package com.example.smartcare_group4.ui.main;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -13,6 +15,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.databinding.ActivityMainBinding;
+import com.example.smartcare_group4.viewmodel.User;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -20,6 +23,12 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+
+    TextView navigationTitle;
+    TextView navigationSubTitle;
+
+    private User user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +53,23 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
                 .setOpenableLayout(drawer)
                 .build();
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        navigationTitle = (TextView) findViewById(R.id.NavigationTitle);
+
+        navigationSubTitle = (TextView) findViewById(R.id.NavigationSubTitle);
+
+        user.setUsername(getIntent().getStringExtra("name"));
+        user.setEmail(getIntent().getStringExtra("email"));
+        user.setPatient(getIntent().getBooleanExtra("patient", false));
+        user.setHardwareId(getIntent().getStringExtra("hardwareId"));
+
+
+        //no se com es fa per posar el text
+        //navigationTitle.setText(user.getUsername());
     }
 
     @Override
