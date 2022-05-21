@@ -109,7 +109,15 @@ public class LoginFragment extends Fragment {
                             loginViewModel.getUserInfo(result).observe(getViewLifecycleOwner(), new Observer<User>() {
                                 @Override
                                 public void onChanged(User user) {
+                                    if (!user.getEmail().equals("error")) {
 
+                                        String name = user.getUsername();
+                                        String email = user.getEmail();
+
+                                    } else {
+                                        Log.d("LOGIN", "error in reading info user");
+
+                                    }
                                 }
                             });
 

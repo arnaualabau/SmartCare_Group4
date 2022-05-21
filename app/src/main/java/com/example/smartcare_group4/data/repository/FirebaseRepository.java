@@ -149,7 +149,24 @@ public class FirebaseRepository {
 
         MutableLiveData<User> observable = new MutableLiveData<>();
 
+        User user = new User();
 
+        mDatabase.child("users").child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                    user.email = "error";
+                    observable.setValue(user);
+                }
+                else {
+                    Log.d("firebase", "Read info in Login");
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                    observable.setValue((User) task.getResult().getValue());
+                }
+            }
+        });
+        
         return observable;
     }
 }
