@@ -1,5 +1,6 @@
 package com.example.smartcare_group4.ui.init.login;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -20,6 +22,7 @@ import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.ui.main.MainActivity;
 import com.example.smartcare_group4.utils.PrintLog;
 import com.example.smartcare_group4.viewmodel.User;
+import com.example.smartcare_group4.data.constants.Generic;
 
 public class LoginFragment extends Fragment {
 
@@ -96,7 +99,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                //cridar a firebase
+                //CALL FIREBASE
                 loginViewModel.login(emailText.getText().toString(),
                         passwdText.getText().toString()
                 ).observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -128,16 +131,23 @@ public class LoginFragment extends Fragment {
                                         passwdText.setText("");
 
                                     } else {
+                                        //READ USER INFO FAILS
                                         Log.d("LOGIN", "error in reading info user");
 
                                     }
                                 }
                             });
 
-
-
                         } else if (s.equals("error")) {
-                            //gestionar que posem aqui
+                            //LOGIN FAILS
+                            //Toast errorToast = Toast.makeText(getActivity(), "Error, retry credentials", Toast.LENGTH_SHORT);
+                            //errorToast.show();
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setMessage(Generic.ERROR_CREDENTIALS)
+                                    .setTitle(Generic.ERROR);
+                            builder.show();
+
                         }
                     }
                 });

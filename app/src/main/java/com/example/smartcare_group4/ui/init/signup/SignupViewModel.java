@@ -39,4 +39,16 @@ public class SignupViewModel extends ViewModel {
 
     }
 
+    public boolean checkPSW(String psw1, String psw2) {
+
+        if(psw1.equals(psw2)) {
+            if (psw1.length() < 6) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
 }

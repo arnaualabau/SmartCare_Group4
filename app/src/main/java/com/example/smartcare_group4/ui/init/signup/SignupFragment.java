@@ -1,5 +1,6 @@
 package com.example.smartcare_group4.ui.init.signup;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.smartcare_group4.R;
+import com.example.smartcare_group4.data.constants.Generic;
 import com.example.smartcare_group4.ui.main.MainActivity;
 import com.example.smartcare_group4.utils.PrintLog;
 import com.example.smartcare_group4.viewmodel.User;
@@ -51,7 +53,9 @@ public class SignupFragment extends Fragment {
     private EditText emailText;
     String email = "";
     private EditText passwdText;
+    private EditText passwd2Text;
     String password = "";
+    String password2 = "";
     private EditText hardwareIdText;
     String hardwareId = "";
     private EditText nameText;
@@ -66,8 +70,6 @@ public class SignupFragment extends Fragment {
     private static final int READ_PERMISSIONS_REQUEST = 15;
     private static final int WRITE_PERMISSIONS_REQUEST = 16;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
-
-
 
 
     @Override
@@ -152,6 +154,25 @@ public class SignupFragment extends Fragment {
             }
         });
 
+        passwd2Text = v.findViewById(R.id.passwordSignup2);
+        passwd2Text.setText("123456");
+        passwd2Text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                password2 = passwd2Text.getText().toString();
+            }
+        });
+
         hardwareIdText = v.findViewById(R.id.hardwareIDSignup);
         hardwareIdText.setText("123456");
         hardwareIdText.addTextChangedListener(new TextWatcher() {
@@ -175,54 +196,66 @@ public class SignupFragment extends Fragment {
         SignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //cridar a firebase
+
+
 
                 selectedRadioButton = radioGroup.getCheckedRadioButtonId();
                 radioButton = v.findViewById(selectedRadioButton);
 
-                signupViewModel.signUp(emailText.getText().toString(),
-                        passwdText.getText().toString()
-                ).observe(getViewLifecycleOwner(), new Observer<String>() {
-                    @Override
-                    public void onChanged(String s) {
-                        result = s;
-                        if (!s.equals("error")) {
-                            Log.d("SIGNUP", "success");
-                            boolean patient = false;
-                            email = emailText.getText().toString();
-                            password = passwdText.getText().toString();
-                            name = nameText.getText().toString();
-                            hardwareId = hardwareIdText.getText().toString();
+                //CHECK PASSWORDS
+                if (!signupViewModel.checkPSW(passwdText.getText().toString(), passwd2Text.getText().toString())) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage(Generic.ERROR_PASSWORDS)
+                            .setTitle(Generic.ERROR);
+                    builder.show();
+                } else {
+                    //CALL FIREBASE
+                    signupViewModel.signUp(emailText.getText().toString(),
+                            passwdText.getText().toString()
+                    ).observe(getViewLifecycleOwner(), new Observer<String>() {
+                        @Override
+                        public void onChanged(String s) {
+                            result = s;
+                            if (!s.equals("error")) {
+                                Log.d("SIGNUP", "success");
+                                boolean patient = false;
+                                email = emailText.getText().toString();
+                                password = passwdText.getText().toString();
+                                name = nameText.getText().toString();
+                                hardwareId = hardwareIdText.getText().toString();
 
-                            //Log.d("RADIO BUTTON", radioButton.toString());
+                                //Log.d("RADIO BUTTON", radioButton.toString());
 
-                            //Log.d("RADIO BUTTON", Integer.toString(selectedRadioButton));
-                            signupViewModel.registerUser(name, email, password, result, hardwareId, patient).observe(getViewLifecycleOwner(), new Observer<String>() {
-                                @Override
-                                public void onChanged(String s) {
-                                    if (s.equals("success register")) {
-                                        Log.d("SIGNUP", "register DB success");
-                                        Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
-                                        loginToProfile.putExtra("email", email);
-                                        loginToProfile.putExtra("name", name);
-                                        loginToProfile.putExtra("hardwareId", hardwareId);
-                                        loginToProfile.putExtra("patient", patient);
-                                        //password no se si cal
-                                        startActivity(loginToProfile);
-                                        //getActivity().finish();
-                                    } else if (s.equals("error register")) {
-                                        Log.d("SIGNUP", "register DB error");
+                                //Log.d("RADIO BUTTON", Integer.toString(selectedRadioButton));
+                                signupViewModel.registerUser(name, email, password, result, hardwareId, patient).observe(getViewLifecycleOwner(), new Observer<String>() {
+                                    @Override
+                                    public void onChanged(String s) {
+                                        if (s.equals("success register")) {
+                                            Log.d("SIGNUP", "register DB success");
+                                            Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
+                                            loginToProfile.putExtra("email", email);
+                                            loginToProfile.putExtra("name", name);
+                                            loginToProfile.putExtra("hardwareId", hardwareId);
+                                            loginToProfile.putExtra("patient", patient);
+                                            //password no se si cal
+                                            startActivity(loginToProfile);
+                                            //getActivity().finish();
+                                        } else if (s.equals("error register")) {
+                                            Log.d("SIGNUP", "register DB error");
+                                        }
                                     }
-                                }
-                            });
+                                });
 
 
-                        } else if (s.equals("error")) {
-                            //gestionar que posem aqui
-                            Log.d("USER", "error");
+                            } else if (s.equals("error")) {
+                                //gestionar que posem aqui
+                                Log.d("USER", "error");
+                            }
                         }
-                    }
-                });
+                    });
+                }
+
+
 
 
             }
