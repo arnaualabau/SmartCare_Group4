@@ -1,4 +1,4 @@
-package com.example.smartcare_group4.ui.main.slideshow;
+package com.example.smartcare_group4.ui.main.planning;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,23 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.smartcare_group4.databinding.FragmentSlideshowBinding;
+import com.example.smartcare_group4.databinding.FragmentPlanningBinding;
 
-public class SlideshowFragment extends Fragment {
+public class PlanningFragment extends Fragment {
 
-    private FragmentSlideshowBinding binding;
-
+    private FragmentPlanningBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SlideshowViewModel slideshowViewModel =
-                new ViewModelProvider(this).get(SlideshowViewModel.class);
+        PlanningViewModel planningViewModel =
+                new ViewModelProvider(this).get(PlanningViewModel.class);
 
-        binding = FragmentSlideshowBinding.inflate(inflater, container, false);
+        binding = FragmentPlanningBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textSlideshow;
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView = binding.textPlanning;
+        planningViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

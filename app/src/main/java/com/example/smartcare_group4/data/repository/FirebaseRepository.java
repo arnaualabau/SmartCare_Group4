@@ -171,4 +171,17 @@ public class FirebaseRepository {
 
         return observable;
     }
+
+    public String signOut() {
+        String result = "";
+        try {
+            FirebaseAuth.getInstance().signOut();
+            result = "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = "error";
+        }
+
+        return result;
+    }
 }

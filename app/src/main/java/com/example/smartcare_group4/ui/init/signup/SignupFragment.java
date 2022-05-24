@@ -203,9 +203,13 @@ public class SignupFragment extends Fragment {
                                     if (s.equals("success register")) {
                                         Log.d("SIGNUP", "register DB success");
                                         Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
-                                        //loginToProfile.putExtra("email", email);
+                                        loginToProfile.putExtra("email", email);
+                                        loginToProfile.putExtra("name", name);
+                                        loginToProfile.putExtra("hardwareId", hardwareId);
+                                        loginToProfile.putExtra("patient", patient);
+                                        //password no se si cal
                                         startActivity(loginToProfile);
-                                        getActivity().finish();
+                                        //getActivity().finish();
                                     } else if (s.equals("error register")) {
                                         Log.d("SIGNUP", "register DB error");
                                     }

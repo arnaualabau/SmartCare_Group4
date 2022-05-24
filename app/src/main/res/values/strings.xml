@@ -10,7 +10,10 @@
 
     <string name="menu_home">Home</string>
     <string name="menu_profile">Profile</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_sensors">Sensors</string>
+    <string name="menu_planning">Planning</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_logout">Log out</string>
     <string name="title_activity_init">InitActivity</string>
     <string name="title_home">Home</string>
     <string name="title_login">Log In</string>
