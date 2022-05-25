@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.ui.main.MainActivity;
 import com.example.smartcare_group4.utils.PrintLog;
+import com.example.smartcare_group4.viewmodel.Device;
 import com.example.smartcare_group4.viewmodel.User;
 import com.example.smartcare_group4.data.constants.Generic;
 
@@ -114,21 +115,42 @@ public class LoginFragment extends Fragment {
                                 public void onChanged(User user) {
                                     if (!user.getEmail().equals("error")) {
 
-                                        //CHANGE ACTIVITY
+                                        //GET DEVICE INFO
 
-                                        Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
+                                        loginViewModel.getDeviceInfo(user.getHardwareId()).observe(getViewLifecycleOwner(), new Observer<Device>() {
+                                            @Override
+                                            public void onChanged(Device device) {
 
-                                        loginToProfile.putExtra("email", user.getEmail());
-                                        loginToProfile.putExtra("name", user.getUsername());
-                                        loginToProfile.putExtra("hardwareId", user.getHardwareId());
-                                        loginToProfile.putExtra("patient", user.isPatient());
+                                                if (!device.getHardwareId().equals("error")) {
+                                                    //CHANGE ACTIVITY
 
-                                        startActivity(loginToProfile);
-                                        //getActivity().finish();
+                                                    Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
 
-                                        //borrar els camps de text
-                                        emailText.setText("");
-                                        passwdText.setText("");
+                                                    loginToProfile.putExtra("email", user.getEmail());
+                                                    loginToProfile.putExtra("name", user.getUsername());
+                                                    loginToProfile.putExtra("hardwareId", user.getHardwareId());
+                                                    loginToProfile.putExtra("patient", user.isPatient());
+
+                                                    loginToProfile.putExtra("light", device.getLightSensor());
+                                                    loginToProfile.putExtra("tap", device.getTap());
+                                                    loginToProfile.putExtra("presence", device.getPresenceSensor());
+
+
+                                                    startActivity(loginToProfile);
+                                                    //getActivity().finish();
+
+                                                    //borrar els camps de text
+                                                    emailText.setText("");
+                                                    passwdText.setText("");
+
+                                                } else {
+                                                    //error en get device
+                                                }
+                                            }
+                                        });
+
+
+
 
                                     } else {
                                         //READ USER INFO FAILS

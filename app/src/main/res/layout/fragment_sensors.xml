@@ -6,17 +6,74 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.sensors.SensorsFragment">
 
+
     <TextView
         android:id="@+id/text_sensors"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:text="SENSORS"
+        app:layout_constraintBottom_toTopOf="@+id/text_light"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="20sp"
+        android:text="LIGHT"
+        app:layout_constraintBottom_toTopOf="@+id/text_lightValue"
+        app:layout_constraintTop_toBottomOf="@+id/text_sensors" />
+    <TextView
+        android:id="@+id/text_lightValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:text="LIGHT VALUE"
+        app:layout_constraintBottom_toTopOf="@+id/text_tap"
+        app:layout_constraintTop_toBottomOf="@+id/text_light" />
+
+    <TextView
+        android:id="@+id/text_tap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:text="TAP"
+        app:layout_constraintBottom_toTopOf="@+id/text_tapValue"
+        app:layout_constraintTop_toBottomOf="@+id/text_lightValue"
+        />
+    <TextView
+        android:id="@+id/text_tapValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:text="TAP VALUE"
+        app:layout_constraintBottom_toTopOf="@+id/text_presence"
+        app:layout_constraintTop_toBottomOf="@+id/text_tap"
+        />
+    <TextView
+        android:id="@+id/text_presence"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:text="PRESENCE"
+        app:layout_constraintBottom_toTopOf="@+id/text_presenceValue"
+        app:layout_constraintTop_toBottomOf="@+id/text_tapValue"
+        />
+    <TextView
+        android:id="@+id/text_presenceValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:text="PRESENCE VALUE"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/text_presence"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

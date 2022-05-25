@@ -15,6 +15,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.databinding.ActivityMainBinding;
+import com.example.smartcare_group4.viewmodel.Device;
 import com.example.smartcare_group4.viewmodel.User;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     TextView navigationSubTitle;
 
     private User user = new User();
+    private Device device = new Device();
 
 
     @Override
@@ -57,15 +59,19 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-        navigationTitle = (TextView) findViewById(R.id.NavigationTitle);
-
+        TextView navigationTitle = (TextView) binding.drawerLayout.findViewById(R.id.NavigationTitle);
+        //navigationTitle = (TextView) findViewById(R.id.NavigationTitle);
         navigationSubTitle = (TextView) findViewById(R.id.NavigationSubTitle);
 
         user.setUsername(getIntent().getStringExtra("name"));
         user.setEmail(getIntent().getStringExtra("email"));
         user.setPatient(getIntent().getBooleanExtra("patient", false));
         user.setHardwareId(getIntent().getStringExtra("hardwareId"));
+
+        device.setHardwareId(getIntent().getStringExtra("hardwareId"));
+        device.setLightSensor(getIntent().getIntExtra("light", 0));
+        device.setTap(getIntent().getIntExtra("tap", 0));
+        device.setPresenceSensor(getIntent().getIntExtra("presence", 0));
 
 
         //no se com es fa per posar el text

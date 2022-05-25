@@ -208,6 +208,7 @@ public class SignupFragment extends Fragment {
                     builder.show();
                 } else {
                     //CALL FIREBASE
+                    Log.d("SIGNUP", "entra a call firebase");
                     signupViewModel.signUp(emailText.getText().toString(),
                             passwdText.getText().toString()
                     ).observe(getViewLifecycleOwner(), new Observer<String>() {

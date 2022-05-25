@@ -27,8 +27,23 @@ public class SensorsFragment extends Fragment {
         binding = FragmentSensorsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textSensors;
-        sensorsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView title = binding.textSensors;
+        sensorsViewModel.getText().observe(getViewLifecycleOwner(), title::setText);
+
+        TextView lightValue = binding.textLightValue;
+        sensorsViewModel.setLight().observe(getViewLifecycleOwner(), lightValue::setText);
+
+
+        /*
+        final TextView lightValue = binding.textLightValue;
+        sensorsViewModel.getText().observe(getViewLifecycleOwner(), lightValue::setText);
+
+        final TextView tapValue = binding.textTapValue;
+        sensorsViewModel.getText().observe(getViewLifecycleOwner(), tapValue::setText);
+
+        final TextView presenceValue = binding.textPresenceValue;
+        sensorsViewModel.getText().observe(getViewLifecycleOwner(), presenceValue::setText);
+        */
         return root;
     }
 

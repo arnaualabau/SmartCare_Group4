@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.smartcare_group4.data.repository.FirebaseRepository;
+import com.example.smartcare_group4.viewmodel.Device;
 import com.example.smartcare_group4.viewmodel.User;
 
 public class LoginViewModel extends ViewModel {
@@ -18,6 +19,8 @@ public class LoginViewModel extends ViewModel {
         mText.setValue("This is login fragment");
     }
 
+
+
     public LiveData<String> getText() {
         return mText;
     }
@@ -30,6 +33,13 @@ public class LoginViewModel extends ViewModel {
     public LiveData<User> getUserInfo(String id) {
 
         MutableLiveData<User> data = (MutableLiveData<User>) firebase.getUserInfo(id);
+
+        return data;
+    }
+
+    public LiveData<Device> getDeviceInfo(String id) {
+
+        MutableLiveData<Device> data = (MutableLiveData<Device>) firebase.getDeviceInfo(id);
 
         return data;
     }

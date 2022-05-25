@@ -83,6 +83,20 @@ public class FirebaseRepository {
         return observable;
     } //loginFirebase
 
+
+    public String signOut() {
+        String result = "";
+        try {
+            FirebaseAuth.getInstance().signOut();
+            result = "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = "error";
+        }
+
+        return result;
+    }
+
     public LiveData<String> subscribeToValues() {
 
         MutableLiveData<String> observable = new MutableLiveData<>();
@@ -211,16 +225,30 @@ public class FirebaseRepository {
         return observable;
     }
 
-    public String signOut() {
-        String result = "";
-        try {
-            FirebaseAuth.getInstance().signOut();
-            result = "success";
-        } catch (Exception e) {
-            e.printStackTrace();
-            result = "error";
-        }
 
-        return result;
+
+    public LiveData<Device> getDeviceInfo(String id) {
+
+        MutableLiveData<Device> observable = new MutableLiveData<>();
+
+        mDatabase.child("devices").child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting DEVICE data", task.getException());
+                    Device device = new Device();
+                    device.setHardwareId("error");
+                    observable.setValue(device);
+                }
+                else {
+                    Log.d("firebase", "Read info in Login DEVICE");
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                    Device device = (Device) task.getResult().getValue(Device.class);
+                    observable.setValue(device);
+                }
+            }
+        });
+
+        return observable;
     }
 }

@@ -16,4 +16,12 @@ public class SensorsViewModel extends ViewModel {
     public LiveData<String> getText() {
         return mText;
     }
+
+    public LiveData<String> setLight() {
+        MutableLiveData<String> lightText = new MutableLiveData<>();
+        int value = 5;
+        lightText.setValue(Integer.toString(value));
+
+        return lightText;
+    }
 }
