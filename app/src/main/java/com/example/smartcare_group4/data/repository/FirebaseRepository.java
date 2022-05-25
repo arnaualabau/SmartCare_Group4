@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.smartcare_group4.data.ResponseItem;
 import com.example.smartcare_group4.data.user.UserItem;
 import com.example.smartcare_group4.ui.main.MainActivity;
+import com.example.smartcare_group4.viewmodel.Device;
 import com.example.smartcare_group4.viewmodel.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -130,8 +131,25 @@ public class FirebaseRepository {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    observable.setValue("success register");
-                    Log.d("USER", "success in register user DB");
+
+                    Device device = new Device(hardwareId);
+                    if (!isHadwareID(hardwareId)) {
+                        mDatabase.child("devices").child(hardwareId).setValue(device).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    observable.setValue("success register");
+                                    Log.d("USER", "success in register user DB");
+                                } else {
+                                    observable.setValue("error register");
+                                    Log.d("USER", "failure in register user DB:"+task.getException().getLocalizedMessage());
+                                }
+                            }
+                        });
+                    } else {
+                        observable.setValue("success register");
+                        Log.d("USER", "success in register user DB");
+                    }
 
                 } else {
                     observable.setValue("error register");
@@ -144,12 +162,33 @@ public class FirebaseRepository {
         return observable;
     }
 
+    private boolean isHadwareID(String hardwareId) {
+        final boolean[] found = {false};
+        Log.d("HW_ID", "before");
+        mDatabase.child("devices")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Device dev = snapshot.getValue(Device.class);
+                            System.out.println(dev.hardwareId);
+                            if (dev.hardwareId.equals(hardwareId)) {
+                                found[0] = true;
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+        Log.d("HW_ID", "after");
+        return found[0];
+    }
+
 
     public LiveData<User> getUserInfo(String id) {
 
         MutableLiveData<User> observable = new MutableLiveData<>();
-
-
 
         mDatabase.child("users").child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override

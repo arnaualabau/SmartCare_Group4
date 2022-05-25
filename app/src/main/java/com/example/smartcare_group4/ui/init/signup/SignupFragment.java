@@ -197,14 +197,12 @@ public class SignupFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-
-
                 selectedRadioButton = radioGroup.getCheckedRadioButtonId();
                 radioButton = v.findViewById(selectedRadioButton);
 
                 //CHECK PASSWORDS
                 if (!signupViewModel.checkPSW(passwdText.getText().toString(), passwd2Text.getText().toString())) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setMessage(Generic.ERROR_PASSWORDS)
                             .setTitle(Generic.ERROR);
                     builder.show();
@@ -231,25 +229,36 @@ public class SignupFragment extends Fragment {
                                     @Override
                                     public void onChanged(String s) {
                                         if (s.equals("success register")) {
-                                            Log.d("SIGNUP", "register DB success");
+                                            //Log.d("SIGNUP", "register DB success");
                                             Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
                                             loginToProfile.putExtra("email", email);
                                             loginToProfile.putExtra("name", name);
                                             loginToProfile.putExtra("hardwareId", hardwareId);
                                             loginToProfile.putExtra("patient", patient);
                                             //password no se si cal
+
                                             startActivity(loginToProfile);
-                                            //getActivity().finish();
+
                                         } else if (s.equals("error register")) {
-                                            Log.d("SIGNUP", "register DB error");
+                                            //ERROR IN REGISTERING IN FIREBASE
+                                            //Log.d("SIGNUP", "register DB error");
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                            builder.setMessage(Generic.ERROR_REGISTER)
+                                                    .setTitle(Generic.ERROR);
+                                            builder.show();
+                                            //TODO: quines son les consequencies d'aquest error?
                                         }
                                     }
                                 });
 
 
                             } else if (s.equals("error")) {
-                                //gestionar que posem aqui
-                                Log.d("USER", "error");
+                                //ERROR IN SIGN UP IN FIREBASE
+                                //Log.d("USER", "error");
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                builder.setMessage(Generic.ERROR_SIGNUP)
+                                        .setTitle(Generic.ERROR);
+                                builder.show();
                             }
                         }
                     });
