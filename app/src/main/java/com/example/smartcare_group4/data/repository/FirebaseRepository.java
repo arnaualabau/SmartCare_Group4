@@ -1,16 +1,13 @@
 package com.example.smartcare_group4.data.repository;
-import android.content.Intent;
+
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.smartcare_group4.data.ResponseItem;
-import com.example.smartcare_group4.data.user.UserItem;
-import com.example.smartcare_group4.ui.main.MainActivity;
-import com.example.smartcare_group4.viewmodel.Device;
-import com.example.smartcare_group4.viewmodel.User;
+import com.example.smartcare_group4.data.Device;
+import com.example.smartcare_group4.data.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -119,7 +116,7 @@ public class FirebaseRepository {
         
     }
 
-    public LiveData<ResponseItem> calculateResult(){
+    /*public LiveData<ResponseItem> calculateResult(){
 
         MutableLiveData<ResponseItem> observable = new MutableLiveData<>();
 
@@ -132,7 +129,7 @@ public class FirebaseRepository {
         }
 
         return observable;
-    }
+    }*/
 
     public LiveData<String> registerUser(String name, String email, String password, String id, String hardwareId, boolean patient){
 

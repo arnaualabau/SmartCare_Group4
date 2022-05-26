@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.smartcare_group4.data.repository.FirebaseRepository;
-import com.example.smartcare_group4.viewmodel.Device;
-import com.example.smartcare_group4.viewmodel.User;
+import com.example.smartcare_group4.data.Device;
+import com.example.smartcare_group4.data.User;
 
 public class LoginViewModel extends ViewModel {
     //es un controlador

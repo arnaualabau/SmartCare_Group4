@@ -1,7 +1,6 @@
 package com.example.smartcare_group4.ui.main;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
@@ -15,8 +14,8 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.databinding.ActivityMainBinding;
-import com.example.smartcare_group4.viewmodel.Device;
-import com.example.smartcare_group4.viewmodel.User;
+import com.example.smartcare_group4.data.Device;
+import com.example.smartcare_group4.data.User;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 

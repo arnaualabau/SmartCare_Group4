@@ -1,4 +1,4 @@
-package com.example.smartcare_group4.viewmodel;
+package com.example.smartcare_group4.data;
 
 public class User {
 

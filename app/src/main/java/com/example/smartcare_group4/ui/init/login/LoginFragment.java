@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -21,8 +20,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.ui.main.MainActivity;
 import com.example.smartcare_group4.utils.PrintLog;
-import com.example.smartcare_group4.viewmodel.Device;
-import com.example.smartcare_group4.viewmodel.User;
+import com.example.smartcare_group4.data.Device;
+import com.example.smartcare_group4.data.User;
 import com.example.smartcare_group4.data.constants.Generic;
 
 public class LoginFragment extends Fragment {
