@@ -1,6 +1,7 @@
 package com.example.smartcare_group4.ui.main.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,12 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            String myString = bundle.getString("amount", "defaultValue");
+            Log.d("PROVA!!!!", myString);
+        }
 
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);

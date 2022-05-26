@@ -55,7 +55,13 @@ public class MainActivity extends AppCompatActivity {
                 .setOpenableLayout(drawer)
                 .build();
 
+        Bundle bundle = new Bundle();
+        bundle.putString("amount", "PROVA");
+        //val bundle = bundleOf("mobile" to binding.etMobileNo.text.toString().trim())
+        //Navigation.findNavController(navigationView).navigate(R.id.nav_host_fragment_content_main, bundle);
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        //NavController navController = Navigation.findNavController(navigationView).navigate(R.id.nav_host_fragment_content_main, bundle);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         TextView navigationTitle = (TextView) binding.drawerLayout.findViewById(R.id.NavigationTitle);

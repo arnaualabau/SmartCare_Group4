@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.smartcare_group4.data.User;
 import com.example.smartcare_group4.databinding.FragmentProfileBinding;
 
 
@@ -24,6 +25,10 @@ public class ProfileFragment extends Fragment {
 
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+
+        //ask firebase for data
+        //profileViewModel.getUserInfo();
 
         final TextView textView = binding.textProfile;
         profileViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
