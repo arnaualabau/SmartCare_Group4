@@ -12,7 +12,7 @@ public class LoginViewModel extends ViewModel {
     //es un controlador
     //aixo ha de cridar el repository
     private final MutableLiveData<String> mText;
-    private FirebaseRepository firebase = new FirebaseRepository();
+    //private FirebaseRepository firebase = new FirebaseRepository();
 
     public LoginViewModel() {
         mText = new MutableLiveData<>();
@@ -26,20 +26,20 @@ public class LoginViewModel extends ViewModel {
     }
 
     public LiveData<String> login(String email, String password) {
-        MutableLiveData<String> data = (MutableLiveData<String>) firebase.loginFirebase(email, password);
+        MutableLiveData<String> data = (MutableLiveData<String>) FirebaseRepository.firebaseInstance.loginFirebase(email, password);
         return data;
     }
 
     public LiveData<User> getUserInfo(String id) {
 
-        MutableLiveData<User> data = (MutableLiveData<User>) firebase.getUserInfo(id);
+        MutableLiveData<User> data = (MutableLiveData<User>) FirebaseRepository.firebaseInstance.getUserInfo(id);
 
         return data;
     }
 
     public LiveData<Device> getDeviceInfo(String id) {
 
-        MutableLiveData<Device> data = (MutableLiveData<Device>) firebase.getDeviceInfo(id);
+        MutableLiveData<Device> data = (MutableLiveData<Device>) FirebaseRepository.firebaseInstance.getDeviceInfo(id);
 
         return data;
     }

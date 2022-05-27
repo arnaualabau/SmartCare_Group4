@@ -12,7 +12,7 @@ import com.example.smartcare_group4.data.repository.FirebaseRepository;
 public class SignupViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
-    private FirebaseRepository firebase = new FirebaseRepository();
+    //private FirebaseRepository firebase = new FirebaseRepository();
 
     public SignupViewModel() {
         mText = new MutableLiveData<>();
@@ -25,7 +25,7 @@ public class SignupViewModel extends ViewModel {
 
     public LiveData<String> signUp(String email, String password) {
 
-        MutableLiveData<String> data = (MutableLiveData<String>) firebase.signUpFirebase(email, password);
+        MutableLiveData<String> data = (MutableLiveData<String>) FirebaseRepository.firebaseInstance.signUpFirebase(email, password);
 
         return data;
 
@@ -33,7 +33,8 @@ public class SignupViewModel extends ViewModel {
 
     public LiveData<String> registerUser(String name, String email, String password, String id, String hardwareId, boolean patient) {
 
-        MutableLiveData<String> data = (MutableLiveData<String>) firebase.registerUser(name, email, password, id, hardwareId, patient);
+        //MutableLiveData<String> data = (MutableLiveData<String>) firebase.registerUser(name, email, password, id, hardwareId, patient);
+        MutableLiveData<String> data = (MutableLiveData<String>) FirebaseRepository.firebaseInstance.registerUser(name, email, password, id, hardwareId, patient);
 
         return data;
 

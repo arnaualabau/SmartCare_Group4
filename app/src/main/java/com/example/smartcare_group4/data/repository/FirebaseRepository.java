@@ -10,7 +10,9 @@ import com.example.smartcare_group4.data.Device;
 import com.example.smartcare_group4.data.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -20,20 +22,31 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class FirebaseRepository {
+    public static FirebaseRepository firebaseInstance = new FirebaseRepository();
     private DatabaseReference mDatabase;
+
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseUser user;
+    private String result;
+    private String idUser;
+
+
 
     public FirebaseRepository(){
         //init firebase libraries
         // Initialize Firebase Auth
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        idUser = "";
+
 
     }
 
     public LiveData<String> signUpFirebase(String email, String password) {
 
         MutableLiveData<String> observable = new MutableLiveData<>();
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        //FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
                     @Override
@@ -41,9 +54,11 @@ public class FirebaseRepository {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("SIGNUP", "signUpWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            //FirebaseUser user = mAuth.getCurrentUser();
+                            user = mAuth.getCurrentUser();
                             Log.d("SIGNUP", user.getUid());
                             //observable.setValue("success");
+                            idUser = user.getUid();
                             observable.setValue(user.getUid());
                         } else {
                             // If sign in fails, display a message to the user.
@@ -59,7 +74,9 @@ public class FirebaseRepository {
     public LiveData<String> loginFirebase(String email, String password) {
 
         MutableLiveData<String> observable = new MutableLiveData<>();
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        //FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
                     @Override
@@ -67,7 +84,9 @@ public class FirebaseRepository {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("LOGIN", "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            //FirebaseUser user = mAuth.getCurrentUser();
+                            user = mAuth.getCurrentUser();
+                            idUser = user.getUid();
                             observable.setValue(user.getUid());
                         } else {
                             // If sign in fails, display a message to the user.
@@ -83,6 +102,7 @@ public class FirebaseRepository {
 
     public String signOut() {
         String result = "";
+        Log.d("SIGNOUT", idUser);
         try {
             FirebaseAuth.getInstance().signOut();
             result = "success";
@@ -90,6 +110,39 @@ public class FirebaseRepository {
             e.printStackTrace();
             result = "error";
         }
+
+        return result;
+    }
+
+    public String changePSW(String email, String oldPass, String newPass) {
+        result = "error";
+        AuthCredential credential = EmailAuthProvider
+                .getCredential(email, oldPass);
+
+        // Prompt the user to re-provide their sign-in credentials
+        user.reauthenticate(credential)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            user.updatePassword(newPass).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d("changePSW", "Password updated");
+                                        result = "success";
+                                    } else {
+                                        Log.d("changePSW", "Error password not updated");
+                                        result = "error";
+                                    }
+                                }
+                            });
+                        } else {
+                            Log.d("changePSW", "Error auth failed");
+                            result = "error";
+                        }
+                    }
+                });
 
         return result;
     }
