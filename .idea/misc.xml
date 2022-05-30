@@ -50,9 +50,25 @@
         <entry key="..\:/Users/sergi/OneDrive/Documents/GitHub/SmartCare_Group4/app/src/main/res/menu/bottom_nav_menu.xml" value="0.22" />
         <entry key="..\:/Users/sergi/OneDrive/Documents/GitHub/SmartCare_Group4/app/src/main/res/menu/main.xml" value="0.25729166666666664" />
         <entry key="..\:/Users/sergi/OneDrive/Documents/GitHub/SmartCare_Group4/app/src/test/java/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/custom_email_icon.xml" value="0.154" />
+        <entry key="app/src/main/res/drawable/custom_input.xml" value="0.154" />
+        <entry key="app/src/main/res/drawable/custom_lock_icon.xml" value="0.154" />
+        <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.154" />
+        <entry key="app/src/main/res/drawable/ic_email.xml" value="0.154" />
+        <entry key="app/src/main/res/drawable/ic_email_focused.xml" value="0.154" />
+        <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.154" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.154" />
+        <entry key="app/src/main/res/drawable/ic_menu_camera.xml" value="0.154" />
+        <entry key="app/src/main/res/drawable/ic_menu_gallery.xml" value="0.154" />
+        <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.154" />
+        <entry key="app/src/main/res/drawable/side_nav_bar.xml" value="0.154" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.20606884057971014" />
         <entry key="app/src/main/res/layout/changepassword_activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_planning.xml" value="0.15070921985815602" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/login_activity_main.xml" value="0.2558876811594203" />
+        <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.30480072463768115" />
+        <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.3098958333333333" />
       </map>
     </option>
   </component>
