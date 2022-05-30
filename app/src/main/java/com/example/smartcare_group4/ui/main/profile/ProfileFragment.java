@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.smartcare_group4.data.User;
@@ -26,12 +27,33 @@ public class ProfileFragment extends Fragment {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        //declaration
+        final TextView textView = binding.textProfile;
+        final TextView nameValue = binding.textNameValue;
+        final TextView emailValue = binding.textEmailValue;
+        final TextView HWValue = binding.textHwValue;
+        final TextView roleValue = binding.textRoleValue;
 
         //ask firebase for data
-        //profileViewModel.getUserInfo();
+        profileViewModel.getUserInfo().observe(getViewLifecycleOwner(), new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                if (!user.getEmail().equals("error")) {
+                    profileViewModel.setNameValue(user.getUsername());
+                    profileViewModel.setEmailValue(user.getEmail());
+                    profileViewModel.setWDIdValue(user.getHardwareId());
+                    profileViewModel.setRoleValue(user.isPatient());
 
-        final TextView textView = binding.textProfile;
-        profileViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
+                }
+            }
+        });
+
+        profileViewModel.getText(0).observe(getViewLifecycleOwner(), textView::setText);
+        profileViewModel.getText(1).observe(getViewLifecycleOwner(), nameValue::setText);
+        profileViewModel.getText(2).observe(getViewLifecycleOwner(), emailValue::setText);
+        profileViewModel.getText(3).observe(getViewLifecycleOwner(), HWValue::setText);
+        profileViewModel.getText(4).observe(getViewLifecycleOwner(), roleValue::setText);
 
         return root;
     }

@@ -250,11 +250,11 @@ public class FirebaseRepository {
     }
 
 
-    public LiveData<User> getUserInfo(String id) {
+    public LiveData<User> getUserInfo() {
 
         MutableLiveData<User> observable = new MutableLiveData<>();
 
-        mDatabase.child("users").child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        mDatabase.child("users").child(idUser).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {

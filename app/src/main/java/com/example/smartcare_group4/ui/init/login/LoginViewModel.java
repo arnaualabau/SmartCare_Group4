@@ -32,7 +32,7 @@ public class LoginViewModel extends ViewModel {
 
     public LiveData<User> getUserInfo(String id) {
 
-        MutableLiveData<User> data = (MutableLiveData<User>) FirebaseRepository.firebaseInstance.getUserInfo(id);
+        MutableLiveData<User> data = (MutableLiveData<User>) FirebaseRepository.firebaseInstance.getUserInfo();
 
         return data;
     }
