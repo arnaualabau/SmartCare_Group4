@@ -277,11 +277,11 @@ public class FirebaseRepository {
 
 
 
-    public LiveData<Device> getDeviceInfo(String id) {
+    public LiveData<Device> getDeviceInfo() {
 
         MutableLiveData<Device> observable = new MutableLiveData<>();
 
-        mDatabase.child("devices").child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        mDatabase.child("devices").child(idUser).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {

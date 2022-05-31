@@ -1,6 +1,7 @@
 package com.example.smartcare_group4.ui.main.profile;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,8 @@ public class ProfileFragment extends Fragment {
                     profileViewModel.setRoleValue(user.isPatient());
 
 
+                } else {
+                    Log.d("PROFILE", "error");
                 }
             }
         });

@@ -37,9 +37,9 @@ public class LoginViewModel extends ViewModel {
         return data;
     }
 
-    public LiveData<Device> getDeviceInfo(String id) {
+    public LiveData<Device> getDeviceInfo() {
 
-        MutableLiveData<Device> data = (MutableLiveData<Device>) FirebaseRepository.firebaseInstance.getDeviceInfo(id);
+        MutableLiveData<Device> data = (MutableLiveData<Device>) FirebaseRepository.firebaseInstance.getDeviceInfo();
 
         return data;
     }
