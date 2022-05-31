@@ -116,7 +116,7 @@ public class LoginFragment extends Fragment {
 
                                         //GET DEVICE INFO
 
-                                        loginViewModel.getDeviceInfo(user.getHardwareId()).observe(getViewLifecycleOwner(), new Observer<Device>() {
+                                        loginViewModel.getDeviceInfo().observe(getViewLifecycleOwner(), new Observer<Device>() {
                                             @Override
                                             public void onChanged(Device device) {
 
