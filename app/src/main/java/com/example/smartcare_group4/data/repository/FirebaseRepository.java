@@ -29,6 +29,7 @@ public class FirebaseRepository {
     private FirebaseUser user;
     private String result;
     private String idUser;
+    private String idHardware;
 
 
 
@@ -59,6 +60,7 @@ public class FirebaseRepository {
                             Log.d("SIGNUP", user.getUid());
                             //observable.setValue("success");
                             idUser = user.getUid();
+                            idHardware = "123456";
                             observable.setValue(user.getUid());
                         } else {
                             // If sign in fails, display a message to the user.
@@ -87,6 +89,9 @@ public class FirebaseRepository {
                             //FirebaseUser user = mAuth.getCurrentUser();
                             user = mAuth.getCurrentUser();
                             idUser = user.getUid();
+                            MutableLiveData<String> data = new MutableLiveData<>();
+                            idHardware = getHWid().toString();
+
                             observable.setValue(user.getUid());
                         } else {
                             // If sign in fails, display a message to the user.
@@ -203,6 +208,7 @@ public class FirebaseRepository {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     observable.setValue("success register");
+                                    idHardware = hardwareId;
                                     Log.d("USER", "success in register user DB");
                                 } else {
                                     observable.setValue("error register");
@@ -249,6 +255,26 @@ public class FirebaseRepository {
         return found[0];
     }
 
+    public LiveData<String> getHWid () {
+        MutableLiveData<String> observable = new MutableLiveData<>();
+        mDatabase.child("users").child(idUser).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                    observable.setValue("error");
+                }
+                else {
+                    Log.d("firebase", "Read info in Login");
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                    User user = (User) task.getResult().getValue(User.class);
+                    observable.setValue(user.getHardwareId());
+                }
+            }
+        });
+
+        return observable;
+    }
 
     public LiveData<User> getUserInfo() {
 
@@ -280,8 +306,8 @@ public class FirebaseRepository {
     public LiveData<Device> getDeviceInfo() {
 
         MutableLiveData<Device> observable = new MutableLiveData<>();
-
-        mDatabase.child("devices").child(idUser).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        Log.d("hw id", idHardware.toString());
+        mDatabase.child("devices").child("123456").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
