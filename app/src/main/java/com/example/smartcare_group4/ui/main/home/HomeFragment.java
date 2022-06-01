@@ -25,12 +25,6 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            String myString = bundle.getString("amount", "defaultValue");
-            Log.d("PROVA!!!!", myString);
-        }
-
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
