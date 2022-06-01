@@ -31,6 +31,11 @@ public class FirebaseRepository {
     private String idUser;
     private String idHardware;
 
+    private User userInfo;
+    private Device device;
+
+    private boolean aux;
+
 
 
     public FirebaseRepository(){
@@ -90,7 +95,7 @@ public class FirebaseRepository {
                             user = mAuth.getCurrentUser();
                             idUser = user.getUid();
                             MutableLiveData<String> data = new MutableLiveData<>();
-                            idHardware = getHWid().toString();
+                            //idHardware = getHWid().toString();
 
                             observable.setValue(user.getUid());
                         } else {
@@ -103,7 +108,6 @@ public class FirebaseRepository {
                 });
         return observable;
     } //loginFirebase
-
 
     public String signOut() {
         String result = "";
@@ -119,10 +123,15 @@ public class FirebaseRepository {
         return result;
     }
 
-    public String changePSW(String email, String oldPass, String newPass) {
-        result = "error";
+    public MutableLiveData<String> checkCredentials(String oldPass) {
+        MutableLiveData<String> observable = new MutableLiveData<>();
+
+        observable.setValue("error");
+
         AuthCredential credential = EmailAuthProvider
-                .getCredential(email, oldPass);
+                .getCredential(userInfo.getEmail(), oldPass);
+
+        Log.d("check creds", oldPass + userInfo.getEmail());
 
         // Prompt the user to re-provide their sign-in credentials
         user.reauthenticate(credential)
@@ -130,24 +139,46 @@ public class FirebaseRepository {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            user.updatePassword(newPass).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Log.d("changePSW", "Password updated");
-                                        result = "success";
-                                    } else {
-                                        Log.d("changePSW", "Error password not updated");
-                                        result = "error";
-                                    }
-                                }
-                            });
-                        } else {
-                            Log.d("changePSW", "Error auth failed");
-                            result = "error";
+                            observable.setValue("success");
+                            Log.d("check cred", "success " + Boolean.toString(aux));
                         }
                     }
                 });
+        Log.d("check cred", Boolean.toString(aux));
+        return observable;
+    }
+
+    public String changePSW(String newPass) {
+        result = "error";
+
+        user.updatePassword(newPass).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+
+                    result = "success";
+                    Log.d("changePSW", "Password updated");
+
+                    /*mDatabase.child("users").child(idUser).child("password").setValue(newPass).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.d("changePSW", "Password updated");
+                                result = "success";
+                            } else {
+                                Log.d("changePSW", "Error password not updated in firebase");
+                                result = "error";
+                            }
+                        }
+                    });*/
+
+                } else {
+                    Log.d("changePSW", "Error password not updated");
+                    result = "error";
+                }
+            }
+        });
+
 
         return result;
     }
@@ -195,13 +226,13 @@ public class FirebaseRepository {
 
         //firebase method to register user with callback
         Log.d("SIGNUP", "register user FB");
-        User user = new User(name, email, password, hardwareId, patient);
-        mDatabase.child("users").child(id).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+        userInfo = new User(name, email, password, hardwareId, patient);
+        mDatabase.child("users").child(id).setValue(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
 
-                    Device device = new Device(hardwareId);
+                    device = new Device(hardwareId);
                     if (!isHadwareID(hardwareId)) {
                         mDatabase.child("devices").child(hardwareId).setValue(device).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -285,15 +316,15 @@ public class FirebaseRepository {
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
                     Log.e("firebase", "Error getting data", task.getException());
-                    User user = new User();
-                    user.setEmail("error");
-                    observable.setValue(user);
+                    userInfo = new User();
+                    userInfo.setEmail("error");
+                    observable.setValue(userInfo);
                 }
                 else {
                     Log.d("firebase", "Read info in Login");
                     Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                    User user = (User) task.getResult().getValue(User.class);
-                    observable.setValue(user);
+                    userInfo = (User) task.getResult().getValue(User.class);
+                    observable.setValue(userInfo);
                 }
             }
         });
@@ -301,30 +332,35 @@ public class FirebaseRepository {
         return observable;
     }
 
-
-
     public LiveData<Device> getDeviceInfo() {
 
         MutableLiveData<Device> observable = new MutableLiveData<>();
-        Log.d("hw id", idHardware.toString());
-        mDatabase.child("devices").child("123456").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        mDatabase.child("devices").child(idHardware).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
                     Log.e("firebase", "Error getting DEVICE data", task.getException());
-                    Device device = new Device();
+                    device = new Device();
                     device.setHardwareId("error");
                     observable.setValue(device);
                 }
                 else {
                     Log.d("firebase", "Read info in Login DEVICE");
                     Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                    Device device = (Device) task.getResult().getValue(Device.class);
+                    device = (Device) task.getResult().getValue(Device.class);
                     observable.setValue(device);
                 }
             }
         });
 
         return observable;
+    }
+
+    public void setHWId(String hardwareId) {
+        idHardware = hardwareId;
+    }
+
+    public String getPassword() {
+        return userInfo.getPassword();
     }
 }

@@ -12,7 +12,6 @@ import com.example.smartcare_group4.data.repository.FirebaseRepository;
 public class SignupViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
-    //private FirebaseRepository firebase = new FirebaseRepository();
 
     public SignupViewModel() {
         mText = new MutableLiveData<>();

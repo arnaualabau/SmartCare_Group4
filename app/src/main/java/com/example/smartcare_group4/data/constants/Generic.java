@@ -17,6 +17,10 @@ public class Generic {
     public static final String ERROR_PASSWORDS = "Passwords are not equal. Remember passwords should have at least 6 characters.";
     public static final String ERROR_SIGNUP = "Could not Sign Up in database. Try again.";
     public static final String ERROR_REGISTER = "Could not Register in database. Try again.";
+    public static final String ERROR_OLDPSW = "Incorrect old password. Try again.";
+    public static final String PSW_NOTCHANGED = "Password could not be changed. Try again.";
+    public static final String PSW_CHANGED = "Password changed successfully.";
+
 
 
 

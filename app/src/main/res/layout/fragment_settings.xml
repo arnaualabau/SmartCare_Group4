@@ -14,9 +14,109 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="35sp"
+        android:text="@string/menu_settings"
+        app:layout_constraintBottom_toTopOf="@+id/oldPasswordSettings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/oldPasswordSettings"
+        android:inputType="textPassword"
+
+        android:layout_width="0dp"
+        android:layout_height="00dp"
+        android:layout_marginBottom="10dp"
+        android:hint="Old Password"
+        android:textSize="25sp"
+        android:selectAllOnFocus="true"
+        android:background="@drawable/custom_input"
+        android:drawableStart="@drawable/custom_lock_icon"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:drawablePadding="12dp"
+
+        app:layout_constraintBottom_toTopOf="@+id/newPasswordSettings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_settings"
+
+        app:layout_constraintWidth_percent="0.8"
+        app:layout_constraintHeight_percent="0.1"
+
+
+
+        ></EditText>
+
+    <EditText
+        android:id="@+id/newPasswordSettings"
+        android:inputType="textPassword"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
+        android:hint="New Password"
+        android:textSize="25sp"
+        android:selectAllOnFocus="true"
+        android:background="@drawable/custom_input"
+        android:drawableStart="@drawable/custom_lock_icon"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:drawablePadding="12dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/oldPasswordSettings"
+        app:layout_constraintBottom_toTopOf="@id/newPasswordSettings2"
+
+        app:layout_constraintWidth_percent="0.8"
+        app:layout_constraintHeight_percent="0.1"
+
+        ></EditText>
+
+    <EditText
+        android:id="@+id/newPasswordSettings2"
+        android:inputType="textPassword"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
+        android:hint="Repeat New Password"
+        android:textSize="25sp"
+        android:selectAllOnFocus="true"
+        android:background="@drawable/custom_input"
+        android:drawableStart="@drawable/custom_lock_icon"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:drawablePadding="12dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newPasswordSettings"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonChangePassword"
+
+        app:layout_constraintWidth_percent="0.8"
+        app:layout_constraintHeight_percent="0.1"
+
+        ></EditText>
+
+    <Button
+        android:id="@+id/buttonChangePassword"
+
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="30dp"
+
+        android:text="Change Password"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newPasswordSettings2"
+        app:layout_constraintBaseline_toBottomOf="parent"
+
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintWidth_percent="0.8"></Button>
 </androidx.constraintlayout.widget.ConstraintLayout>
