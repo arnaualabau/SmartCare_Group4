@@ -90,7 +90,7 @@ public class FirebaseRepository {
                             user = mAuth.getCurrentUser();
                             idUser = user.getUid();
                             MutableLiveData<String> data = new MutableLiveData<>();
-                            idHardware = getHWid().toString();
+                            //idHardware = getHWid().toString();
 
                             observable.setValue(user.getUid());
                         } else {
@@ -306,8 +306,7 @@ public class FirebaseRepository {
     public LiveData<Device> getDeviceInfo() {
 
         MutableLiveData<Device> observable = new MutableLiveData<>();
-        Log.d("hw id", idHardware.toString());
-        mDatabase.child("devices").child("123456").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        mDatabase.child("devices").child(idHardware).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
@@ -326,5 +325,9 @@ public class FirebaseRepository {
         });
 
         return observable;
+    }
+
+    public void setHWId(String hardwareId) {
+        idHardware = hardwareId;
     }
 }

@@ -43,4 +43,8 @@ public class LoginViewModel extends ViewModel {
 
         return data;
     }
+
+    public void setHWId(String hardwareId) {
+        FirebaseRepository.firebaseInstance.setHWId(hardwareId);
+    }
 }
