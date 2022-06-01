@@ -4,6 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
     tools:context=".ui.main.sensors.SensorsFragment">
 
 
@@ -11,10 +15,20 @@
         android:id="@+id/text_sensors"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:textAlignment="center"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:text="SENSORS"
+        android:textStyle="bold"
+        android:padding="15dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:background="@color/grey"
         app:layout_constraintBottom_toTopOf="@+id/text_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -23,9 +37,16 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="20sp"
-        android:text="LIGHT"
+        android:text="LIGHT:"
+        android:padding="6dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:background="@drawable/textview_backgrounddesign"
         app:layout_constraintBottom_toTopOf="@+id/text_lightValue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_sensors" />
+
     <TextView
         android:id="@+id/text_lightValue"
         android:layout_width="match_parent"
@@ -34,16 +55,23 @@
         android:textSize="20sp"
         android:text="LIGHT VALUE"
         app:layout_constraintBottom_toTopOf="@+id/text_tap"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_light" />
-
     <TextView
         android:id="@+id/text_tap"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="20sp"
-        android:text="TAP"
+        android:text="TAP:"
+        android:padding="6dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:background="@drawable/textview_backgrounddesign"
         app:layout_constraintBottom_toTopOf="@+id/text_tapValue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_lightValue"
         />
     <TextView
@@ -54,6 +82,8 @@
         android:textSize="20sp"
         android:text="TAP VALUE"
         app:layout_constraintBottom_toTopOf="@+id/text_presence"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_tap"
         />
     <TextView
@@ -62,8 +92,14 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="20sp"
-        android:text="PRESENCE"
+        android:text="PRESENCE:"
+        android:padding="6dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:background="@drawable/textview_backgrounddesign"
         app:layout_constraintBottom_toTopOf="@+id/text_presenceValue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_tapValue"
         />
     <TextView
@@ -74,6 +110,8 @@
         android:textSize="20sp"
         android:text="PRESENCE VALUE"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_presence"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
