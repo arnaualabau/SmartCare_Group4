@@ -60,10 +60,8 @@ public class FirebaseRepository {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("SIGNUP", "signUpWithEmail:success");
-                            //FirebaseUser user = mAuth.getCurrentUser();
                             user = mAuth.getCurrentUser();
                             Log.d("SIGNUP", user.getUid());
-                            //observable.setValue("success");
                             idUser = user.getUid();
                             idHardware = "123456";
                             observable.setValue(user.getUid());
@@ -81,7 +79,6 @@ public class FirebaseRepository {
     public LiveData<String> loginFirebase(String email, String password) {
 
         MutableLiveData<String> observable = new MutableLiveData<>();
-        //FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
         mAuth.signInWithEmailAndPassword(email, password)
@@ -91,11 +88,9 @@ public class FirebaseRepository {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("LOGIN", "signInWithEmail:success");
-                            //FirebaseUser user = mAuth.getCurrentUser();
                             user = mAuth.getCurrentUser();
                             idUser = user.getUid();
                             MutableLiveData<String> data = new MutableLiveData<>();
-                            //idHardware = getHWid().toString();
 
                             observable.setValue(user.getUid());
                         } else {
@@ -126,8 +121,6 @@ public class FirebaseRepository {
     public MutableLiveData<String> checkCredentials(String oldPass) {
         MutableLiveData<String> observable = new MutableLiveData<>();
 
-        observable.setValue("error");
-
         AuthCredential credential = EmailAuthProvider
                 .getCredential(userInfo.getEmail(), oldPass);
 
@@ -141,6 +134,8 @@ public class FirebaseRepository {
                         if (task.isSuccessful()) {
                             observable.setValue("success");
                             Log.d("check cred", "success " + Boolean.toString(aux));
+                        } else {
+                            observable.setValue("error");
                         }
                     }
                 });
@@ -148,39 +143,26 @@ public class FirebaseRepository {
         return observable;
     }
 
-    public String changePSW(String newPass) {
-        result = "error";
+    public MutableLiveData<String> changePSW(String newPass) {
+        MutableLiveData<String> observable = new MutableLiveData<>();
 
         user.updatePassword(newPass).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-
-                    result = "success";
+                    observable.setValue("success");
                     Log.d("changePSW", "Password updated");
-
-                    /*mDatabase.child("users").child(idUser).child("password").setValue(newPass).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Log.d("changePSW", "Password updated");
-                                result = "success";
-                            } else {
-                                Log.d("changePSW", "Error password not updated in firebase");
-                                result = "error";
-                            }
-                        }
-                    });*/
 
                 } else {
                     Log.d("changePSW", "Error password not updated");
-                    result = "error";
+                    observable.setValue("error");
+
                 }
             }
         });
 
 
-        return result;
+        return observable;
     }
 
     public LiveData<String> subscribeToValues() {

@@ -14,6 +14,8 @@ public class Generic {
 
     public static final String ERROR_CREDENTIALS = "Error entering your credentials. Try again.";
     public static final String ERROR = "Error!";
+    public static final String SUCCESS = "Success!";
+
     public static final String ERROR_PASSWORDS = "Passwords are not equal. Remember passwords should have at least 6 characters.";
     public static final String ERROR_SIGNUP = "Could not Sign Up in database. Try again.";
     public static final String ERROR_REGISTER = "Could not Register in database. Try again.";

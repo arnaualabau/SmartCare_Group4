@@ -37,9 +37,9 @@ public class SettingsViewModel extends ViewModel {
         return false;
     }
 
-    public String  changePassword( String newPSWtext) {
-        String resultat = FirebaseRepository.firebaseInstance.changePSW(newPSWtext);
-        Log.d("setting change password, viewmodel", resultat);
+    public MutableLiveData<String> changePassword(String newPSWtext) {
+        MutableLiveData<String> resultat = FirebaseRepository.firebaseInstance.changePSW(newPSWtext);
+        //Log.d("setting change password, viewmodel", resultat);
 
         return resultat;
     }
