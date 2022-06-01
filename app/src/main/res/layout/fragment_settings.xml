@@ -23,6 +23,7 @@
 
     <EditText
         android:id="@+id/oldPasswordSettings"
+        android:inputType="textPassword"
 
         android:layout_width="0dp"
         android:layout_height="00dp"
