@@ -1,6 +1,7 @@
 package com.example.smartcare_group4.ui.init.signup;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -24,7 +25,6 @@ import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.data.constants.Generic;
 import com.example.smartcare_group4.ui.main.MainActivity;
 
-
 public class SignupFragment extends Fragment {
 
     private SignupViewModel signupViewModel;
@@ -32,6 +32,7 @@ public class SignupFragment extends Fragment {
     private Button SignUpButton;
     private RadioButton radioButton;
     private RadioGroup radioGroup;
+    private Button editPictureButton;
 
     int selectedRadioButton;
 
@@ -69,6 +70,7 @@ public class SignupFragment extends Fragment {
 
         //textView = binding.textSignup;
         //signupViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
         return v;
     }
 
@@ -249,11 +251,38 @@ public class SignupFragment extends Fragment {
                         }
                     });
                 }
+            }
+        });
+
+        editPictureButton = v.findViewById(R.id.editPictureSignup);
+        editPictureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                new androidx.appcompat.app.AlertDialog.Builder(getActivity())
+                        .setTitle("Edit picture")
+                        .setMessage("Camera will open in order to take a new picture.")
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                if (signupViewModel.checkPermissions()) {
+
+                                    signupViewModel.startCamera("","");
+                                }
 
 
-
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_menu_camera)
+                        .show();
 
             }
         });
+
     }
+
+
+
 }

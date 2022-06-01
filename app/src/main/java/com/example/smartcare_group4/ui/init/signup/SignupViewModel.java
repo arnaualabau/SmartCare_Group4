@@ -1,8 +1,5 @@
 package com.example.smartcare_group4.ui.init.signup;
 
-import android.util.Log;
-import android.view.View;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -39,6 +36,13 @@ public class SignupViewModel extends ViewModel {
 
     }
 
+    /*public LiveData<String> profilePicture(String name, String email, String password, String id, String hardwareId, boolean patient) {
+
+
+        return ;
+
+    }*/
+
     public boolean checkPSW(String psw1, String psw2) {
 
         if(psw1.equals(psw2)) {
@@ -51,4 +55,20 @@ public class SignupViewModel extends ViewModel {
             return false;
         }
     }
+
+    public boolean checkPermissions() {
+
+
+
+        return true;
+    }
+
+    public LiveData<String> startCamera(String email, String password) {
+
+        MutableLiveData<String> data = (MutableLiveData<String>) FirebaseRepository.firebaseInstance.signUpFirebase(email, password);
+
+        return data;
+
+    }
+
 }
