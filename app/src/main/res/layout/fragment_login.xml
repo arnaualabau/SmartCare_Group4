@@ -79,7 +79,7 @@
         ></EditText>
 
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonLogin"
 
         android:layout_width="0dp"
@@ -89,6 +89,7 @@
 
         android:text="Log IN"
         android:textSize="25sp"
+        android:background="@drawable/textview_backgrounddesign"
         app:layout_constraintBottom_toBottomOf="parent"
 
 
@@ -98,6 +99,6 @@
         app:layout_constraintBaseline_toBottomOf="parent"
 
         app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintWidth_percent="0.8"></Button>
+        app:layout_constraintWidth_percent="0.8"></androidx.appcompat.widget.AppCompatButton>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

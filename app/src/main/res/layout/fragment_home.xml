@@ -9,7 +9,7 @@
 
 
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonSensors"
 
         android:layout_width="0dp"
@@ -20,16 +20,15 @@
         android:text="Sensors"
         android:textSize="25sp"
         android:background="@drawable/textview_backgrounddesign"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/buttonPlanning"
 
         app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintWidth_percent="0.8"></Button>
+        app:layout_constraintWidth_percent="0.8"></androidx.appcompat.widget.AppCompatButton>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonPlanning"
 
         android:layout_width="0dp"
@@ -47,10 +46,10 @@
         app:layout_constraintBottom_toTopOf="@+id/buttonEmergency"
 
         app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintWidth_percent="0.8"></Button>
+        app:layout_constraintWidth_percent="0.8"></androidx.appcompat.widget.AppCompatButton>
 
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonEmergency"
 
         android:layout_width="0dp"
@@ -69,5 +68,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
 
         app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintWidth_percent="0.8"></Button>
+        app:layout_constraintWidth_percent="0.8"></androidx.appcompat.widget.AppCompatButton>
 </androidx.constraintlayout.widget.ConstraintLayout>

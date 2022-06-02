@@ -196,7 +196,7 @@
         ></EditText>
     
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonSignup"
 
         android:layout_width="0dp"
@@ -206,6 +206,7 @@
 
         android:text="Sign Up"
         android:textSize="15sp"
+        android:background="@drawable/textview_backgrounddesign"
         app:layout_constraintBottom_toBottomOf="parent"
 
 
@@ -214,7 +215,7 @@
         app:layout_constraintTop_toBottomOf="@+id/passwordSignup2"
 
         app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintWidth_percent="0.8"></Button>
+        app:layout_constraintWidth_percent="0.8"></androidx.appcompat.widget.AppCompatButton>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,7 +9,6 @@
         <entry key="..\:/Users/maria/OneDrive/Documentos/GitHub/SmartCare_Group4/app/src/main/res/drawable/ic_menu_gallery.xml" value="0.1315" />
         <entry key="..\:/Users/maria/OneDrive/Documentos/GitHub/SmartCare_Group4/app/src/main/res/drawable/ic_menu_slideshow.xml" value="0.1315" />
         <entry key="..\:/Users/maria/OneDrive/Documentos/GitHub/SmartCare_Group4/app/src/main/res/drawable/side_nav_bar.xml" value="0.1315" />
-        <entry key="..\:/Users/maria/OneDrive/Documentos/GitHub/SmartCare_Group4/app/src/main/res/layout/activity_init.xml" value="0.1" />
         <entry key="..\:/Users/maria/OneDrive/Documentos/GitHub/SmartCare_Group4/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/maria/OneDrive/Documentos/GitHub/SmartCare_Group4/app/src/main/res/layout/app_bar_main.xml" value="0.19655797101449277" />
         <entry key="..\:/Users/maria/OneDrive/Documentos/GitHub/SmartCare_Group4/app/src/main/res/layout/fragment_gallery.xml" value="0.19655797101449277" />
@@ -64,6 +63,7 @@
         <entry key="app/src/main/res/drawable/ic_menu_gallery.xml" value="0.154" />
         <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.154" />
         <entry key="app/src/main/res/drawable/side_nav_bar.xml" value="0.154" />
+        <entry key="app/src/main/res/drawable/text_backgrounddesign_square.xml" value="0.1705" />
         <entry key="app/src/main/res/drawable/textview_backgrounddesign.xml" value="0.2355" />
         <entry key="app/src/main/res/layout/activity_init.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.20606884057971014" />
@@ -71,6 +71,7 @@
         <entry key="app/src/main/res/layout/changepassword_activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.20572916666666666" />
         <entry key="app/src/main/res/layout/fragment_logout.xml" value="0.125" />
         <entry key="app/src/main/res/layout/fragment_planning.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.2761410435886248" />

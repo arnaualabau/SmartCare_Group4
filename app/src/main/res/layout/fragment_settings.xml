@@ -99,7 +99,7 @@
 
         ></EditText>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonChangePassword"
 
         android:layout_width="0dp"
@@ -119,5 +119,5 @@
         app:layout_constraintBaseline_toBottomOf="parent"
 
         app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintWidth_percent="0.8"></Button>
+        app:layout_constraintWidth_percent="0.8"></androidx.appcompat.widget.AppCompatButton>
 </androidx.constraintlayout.widget.ConstraintLayout>
