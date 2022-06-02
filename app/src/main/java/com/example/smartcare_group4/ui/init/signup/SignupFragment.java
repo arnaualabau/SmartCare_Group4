@@ -187,6 +187,10 @@ public class SignupFragment extends Fragment {
                 selectedRadioButton = radioGroup.getCheckedRadioButtonId();
                 radioButton = v.findViewById(selectedRadioButton);
 
+                /*if () {
+
+                }*/
+
                 //CHECK PASSWORDS
                 if (!signupViewModel.checkPSW(passwdText.getText().toString(), passwd2Text.getText().toString())) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -254,7 +258,9 @@ public class SignupFragment extends Fragment {
             }
         });
 
-        editPictureButton = v.findViewById(R.id.editPictureSignup);
+
+        /*editPictureButton = v.findViewById(R.id.editPictureSignup);
+
         editPictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -279,7 +285,9 @@ public class SignupFragment extends Fragment {
                         .show();
 
             }
-        });
+        });*/
+
+
 
     }
 
