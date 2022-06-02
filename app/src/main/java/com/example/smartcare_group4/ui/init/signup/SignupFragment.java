@@ -217,7 +217,7 @@ public class SignupFragment extends Fragment {
                                 //Log.d("RADIO BUTTON", radioButton.toString());
 
                                 //Log.d("RADIO BUTTON", Integer.toString(selectedRadioButton));
-                                signupViewModel.registerUser(name, email, password, result, hardwareId, patient).observe(getViewLifecycleOwner(), new Observer<String>() {
+                                signupViewModel.registerUser(name, email, result, hardwareId, patient).observe(getViewLifecycleOwner(), new Observer<String>() {
                                     @Override
                                     public void onChanged(String s) {
                                         if (s.equals("success register")) {

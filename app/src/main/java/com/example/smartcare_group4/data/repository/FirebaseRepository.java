@@ -27,31 +27,22 @@ public class FirebaseRepository {
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser user;
-    private String result;
     private String idUser;
     private String idHardware;
 
     private User userInfo;
     private Device device;
 
-    private boolean aux;
-
-
-
     public FirebaseRepository(){
-        //init firebase libraries
         // Initialize Firebase Auth
-
         mDatabase = FirebaseDatabase.getInstance().getReference();
         idUser = "";
-
 
     }
 
     public LiveData<String> signUpFirebase(String email, String password) {
 
         MutableLiveData<String> observable = new MutableLiveData<>();
-        //FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth = FirebaseAuth.getInstance();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
@@ -133,13 +124,11 @@ public class FirebaseRepository {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             observable.setValue("success");
-                            Log.d("check cred", "success " + Boolean.toString(aux));
                         } else {
                             observable.setValue("error");
                         }
                     }
                 });
-        Log.d("check cred", Boolean.toString(aux));
         return observable;
     }
 
@@ -202,13 +191,13 @@ public class FirebaseRepository {
         return observable;
     }*/
 
-    public LiveData<String> registerUser(String name, String email, String password, String id, String hardwareId, boolean patient){
+    public LiveData<String> registerUser(String name, String email, String id, String hardwareId, boolean patient){
 
         MutableLiveData<String> observable = new MutableLiveData<>();
 
         //firebase method to register user with callback
         Log.d("SIGNUP", "register user FB");
-        userInfo = new User(name, email, password, hardwareId, patient);
+        userInfo = new User(name, email, hardwareId, patient);
         mDatabase.child("users").child(id).setValue(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -264,7 +253,6 @@ public class FirebaseRepository {
                     public void onCancelled(DatabaseError databaseError) {
                     }
                 });
-        Log.d("HW_ID", "after");
         return found[0];
     }
 
@@ -342,7 +330,4 @@ public class FirebaseRepository {
         idHardware = hardwareId;
     }
 
-    public String getPassword() {
-        return userInfo.getPassword();
-    }
 }
