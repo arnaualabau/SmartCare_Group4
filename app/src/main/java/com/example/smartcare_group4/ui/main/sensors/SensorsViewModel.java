@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.smartcare_group4.data.Device;
-import com.example.smartcare_group4.data.User;
 import com.example.smartcare_group4.data.repository.FirebaseRepository;
 
 public class SensorsViewModel extends ViewModel {
@@ -26,12 +25,17 @@ public class SensorsViewModel extends ViewModel {
         presenceText = new MutableLiveData<>();
 
         mText.setValue("Sensors Information");
+        //cridar a subscribe to values
+        //FirebaseRepository.firebaseInstance.subscribeToValues().observe();
     }
 
-    public LiveData<String> getText() {
+    public MutableLiveData<Device> subscribeValues() {
+        MutableLiveData<Device> observable = new MutableLiveData<>();
 
-        return mText;
+        observable = (MutableLiveData<Device>) FirebaseRepository.firebaseInstance.subscribeToValues();
+        return observable;
     }
+    //aquestes tres funcions no han d'existir, es fara automatic
 
     public void setLight(int value) {
         lightText.setValue(Integer.toString(value));
@@ -68,4 +72,20 @@ public class SensorsViewModel extends ViewModel {
 
         return data;
     }
+
+    public boolean isPatient() {
+        return false;
     }
+
+    public boolean checkValue(int value) {
+        if (value >= 0 && value <= 255) {
+            return true;
+        }
+        return false;
+    }
+
+    public MutableLiveData<String> changeLightValue(int value) {
+        MutableLiveData<String> data = FirebaseRepository.firebaseInstance.changeLightValue(value);
+        return data;
+    }
+}

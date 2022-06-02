@@ -17,6 +17,13 @@ public class Device {
         this.presenceSensor = 0;
     }
 
+    public Device(String hardwareId, int l, int t, int p) {
+        this.hardwareId = hardwareId;
+        this.lightSensor = l;
+        this.tap = t;
+        this.presenceSensor = p;
+    }
+
     public String getHardwareId() {
         return hardwareId;
     }

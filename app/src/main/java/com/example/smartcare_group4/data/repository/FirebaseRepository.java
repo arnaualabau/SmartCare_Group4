@@ -154,16 +154,21 @@ public class FirebaseRepository {
         return observable;
     }
 
-    public LiveData<String> subscribeToValues() {
+    public LiveData<Device> subscribeToValues() {
 
-        MutableLiveData<String> observable = new MutableLiveData<>();
+        MutableLiveData<Device> observable = new MutableLiveData<>();
 
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get Post object and use the values to update the UI
                 //Post post = dataSnapshot.getValue(Post.class);
-                observable.setValue("new value");
+
+                //Log.d("SUBSCRIBE TO VALUES", dataSnapshot.getValue(Device.class).toString());
+                Device device = new Device();
+                device = dataSnapshot.getValue(Device.class);
+                Log.d("SUBSCRIBE TO VALUES", device.getHardwareId());
+                observable.setValue(device);
             }
 
             @Override
@@ -171,6 +176,8 @@ public class FirebaseRepository {
                 // Getting Post failed, log a message
             }
         };
+
+        mDatabase.child("devices").child(idHardware).addValueEventListener(postListener);
 
         return observable;
         
@@ -330,4 +337,19 @@ public class FirebaseRepository {
         idHardware = hardwareId;
     }
 
+    public MutableLiveData<String> changeLightValue(int value) {
+        MutableLiveData<String> observable = new MutableLiveData<>();
+
+        mDatabase.child("devices").child(idHardware).child("lightSensor").setValue(value).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                   observable.setValue("success");
+                } else {
+                   observable.setValue("error");
+                }
+            }
+        });
+        return observable;
+    }
 }

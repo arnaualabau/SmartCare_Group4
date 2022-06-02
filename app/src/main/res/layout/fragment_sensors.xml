@@ -49,15 +49,38 @@
 
     <TextView
         android:id="@+id/text_lightValue"
-        android:layout_width="match_parent"
+        android:layout_width="300sp"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="20sp"
         android:text="LIGHT VALUE"
         app:layout_constraintBottom_toTopOf="@+id/text_tap"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonLight"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_light" />
+
+
+    <Button
+        android:id="@+id/buttonLight"
+
+        android:layout_width="100sp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="30dp"
+
+        android:text="Change"
+        android:textSize="15sp"
+        android:background="@drawable/textview_backgrounddesign"
+
+        app:layout_constraintStart_toEndOf="@id/text_lightValue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_light"
+        app:layout_constraintBottom_toTopOf="@+id/text_tap"
+
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintWidth_percent="0.8"></Button>
+
+
     <TextView
         android:id="@+id/text_tap"
         android:layout_width="match_parent"
