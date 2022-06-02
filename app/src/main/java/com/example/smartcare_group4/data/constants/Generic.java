@@ -23,7 +23,11 @@ public class Generic {
     public static final String PSW_NOTCHANGED = "Password could not be changed. Try again.";
     public static final String PSW_CHANGED = "Password changed successfully.";
     public static final String ERROR_EMPTYTEXT = "You need to fill in all fields.";
-
+    public static final String CAMERA_MSG = "Camera will open in order to take a new picture.";
+    public static final String CAMERA_TITLE = "Camera";
+    public static final String CAMERA_DENIED = "If the access to the camera is not granted, the app will present some limitations.\n\nYou can allow us to access the camera in your phone's settings whenever you feel comfortable with it.";
+    public static final String STORAGE_TITLE = "Storage";
+    public static final String STORAGE_DENIED = "If the access to the storage is not granted, the app will present some limitations.\n\nYou can allow us to access the storage in your phone's settings whenever you feel comfortable with it.";
 
 
 
