@@ -56,12 +56,6 @@ public class SignupViewModel extends ViewModel {
         }
     }
 
-    public boolean checkPermissions() {
-
-
-
-        return true;
-    }
 
     public LiveData<String> startCamera(String email, String password) {
 

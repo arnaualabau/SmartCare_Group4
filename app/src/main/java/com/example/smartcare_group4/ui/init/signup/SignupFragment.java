@@ -1,8 +1,10 @@
 package com.example.smartcare_group4.ui.init.signup;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,11 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -32,7 +37,7 @@ public class SignupFragment extends Fragment {
     private Button SignUpButton;
     private RadioButton radioButton;
     private RadioGroup radioGroup;
-    private Button editPictureButton;
+    private ImageButton editPictureButton;
 
     int selectedRadioButton;
 
@@ -79,7 +84,7 @@ public class SignupFragment extends Fragment {
         super.onDestroyView();
     }
 
-    private void bindViews(View v) {
+    public void bindViews(View v) {
 
         radioGroup = v.findViewById(R.id.userTypeSignup);
 
@@ -264,38 +269,135 @@ public class SignupFragment extends Fragment {
         });
 
 
-        /*editPictureButton = v.findViewById(R.id.editPictureSignup);
-
+        editPictureButton = v.findViewById(R.id.editPictureSignup);
         editPictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                new androidx.appcompat.app.AlertDialog.Builder(getActivity())
-                        .setTitle("Edit picture")
-                        .setMessage("Camera will open in order to take a new picture.")
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage(Generic.CAMERA_MSG)
+                        .setTitle(Generic.CAMERA_TITLE)
+                        .setIcon(android.R.drawable.ic_menu_camera)
+                        .setCancelable(true)
+                        .setNegativeButton(android.R.string.no, null)
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
-                                if (signupViewModel.checkPermissions()) {
+                                PackageManager packageManager = getActivity().getPackageManager();
+                                if(packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY) == false) {
 
-                                    signupViewModel.startCamera("","");
+                                    Toast.makeText(getActivity(), "This device does not have a camera.", Toast.LENGTH_SHORT)
+                                            .show();
+                                } else {
+
+                                    if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
+                                            == PackageManager.PERMISSION_DENIED) {
+
+                                        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSIONS_REQUEST);
+                                    } else {
+
+                                        //el permiso de la camara ya ha sido aceptado
+                                        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                                == PackageManager.PERMISSION_DENIED) {
+
+                                            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSIONS_REQUEST);
+                                        } else {
+                                            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                                                    == PackageManager.PERMISSION_DENIED) {
+
+                                                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_PERMISSIONS_REQUEST);
+                                            } else {
+
+                                                dispatchTakePictureIntent();
+                                            }
+
+                                        }
+
+
+                                    }
+
                                 }
-
-
                             }
-                        })
-                        .setNegativeButton(android.R.string.no, null)
-                        .setIcon(android.R.drawable.ic_menu_camera)
-                        .show();
+                        });
+                builder.show();
 
             }
-        });*/
-
-
+        });
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
+        switch (requestCode) {
+
+            case CAMERA_PERMISSIONS_REQUEST:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 &&
+                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission is granted. Continue the action or workflow
+                    // in your app.
+                } else {
+
+                    new androidx.appcompat.app.AlertDialog.Builder(getActivity())
+                            .setTitle(Generic.CAMERA_TITLE)
+                            .setMessage(Generic.CAMERA_DENIED)
+                            .setNegativeButton(android.R.string.ok, null)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }
+                return;
+            case READ_PERMISSIONS_REQUEST:
+            case WRITE_PERMISSIONS_REQUEST:
+                if (grantResults.length > 0 &&
+                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission is granted. Continue the action or workflow
+                    // in your app.
+                } else {
+
+                    new androidx.appcompat.app.AlertDialog.Builder(getActivity())
+                            .setTitle(Generic.STORAGE_TITLE)
+                            .setMessage(Generic.STORAGE_DENIED)
+                            .setNegativeButton(android.R.string.ok, null)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }
+                return;
+
+        }
+    }
+
+    private void dispatchTakePictureIntent() {
+
+        /*Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+
+        // Ensure that there's a camera activity to handle the intent
+        CameraActivity activity = (CameraActivity)getActivity();
+        if (takePictureIntent.resolveActivity(activity.getPackageManager()) != null) {
+            // Create the File where the photo should go.
+            // If you don't do this, you may get a crash in some devices.
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                Toast toast = Toast.makeText(activity, "There was a problem saving the photo...", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri fileUri = Uri.fromFile(photoFile);
+                activity.setCapturedImageURI(fileUri);
+                activity.setCurrentPhotoPath(fileUri.getPath());
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                        activity.getCapturedImageURI());
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
+        }*/
+    }
 
 }
