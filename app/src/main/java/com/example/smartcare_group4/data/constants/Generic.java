@@ -22,6 +22,8 @@ public class Generic {
     public static final String ERROR_OLDPSW = "Incorrect old password. Try again.";
     public static final String PSW_NOTCHANGED = "Password could not be changed. Try again.";
     public static final String PSW_CHANGED = "Password changed successfully.";
+    public static final String ERROR_EMPTYTEXT = "You need to fill in all fields.";
+
 
 
 

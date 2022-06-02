@@ -99,81 +99,90 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                //CALL FIREBASE
-                loginViewModel.login(emailText.getText().toString(),
-                        passwdText.getText().toString()
-                ).observe(getViewLifecycleOwner(), new Observer<String>() {
-                    @Override
-                    public void onChanged(String s) {
-                        result = s;
-                        if (!s.equals("error")) {
-                            Log.d("SIGN IN", "success");
+                if (! (loginViewModel.emptyTexts(passwdText.getText().toString()) || loginViewModel.emptyTexts(emailText.getText().toString()) ) ) {
+                    //CALL FIREBASE
+                    loginViewModel.login(emailText.getText().toString(),
+                            passwdText.getText().toString()
+                    ).observe(getViewLifecycleOwner(), new Observer<String>() {
+                        @Override
+                        public void onChanged(String s) {
+                            result = s;
+                            if (!s.equals("error")) {
+                                Log.d("SIGN IN", "success");
 
-                            loginViewModel.getUserInfo(result).observe(getViewLifecycleOwner(), new Observer<User>() {
-                                @Override
-                                public void onChanged(User user) {
-                                    if (!user.getEmail().equals("error")) {
+                                loginViewModel.getUserInfo(result).observe(getViewLifecycleOwner(), new Observer<User>() {
+                                    @Override
+                                    public void onChanged(User user) {
+                                        if (!user.getEmail().equals("error")) {
 
-                                        //GET DEVICE INFO
+                                            //GET DEVICE INFO
 
-                                        loginViewModel.setHWId(user.getHardwareId());
+                                            loginViewModel.setHWId(user.getHardwareId());
 
-                                        loginViewModel.getDeviceInfo().observe(getViewLifecycleOwner(), new Observer<Device>() {
-                                            @Override
-                                            public void onChanged(Device device) {
+                                            loginViewModel.getDeviceInfo().observe(getViewLifecycleOwner(), new Observer<Device>() {
+                                                @Override
+                                                public void onChanged(Device device) {
 
-                                                if (!device.getHardwareId().equals("error")) {
-                                                    //CHANGE ACTIVITY
+                                                    if (!device.getHardwareId().equals("error")) {
+                                                        //CHANGE ACTIVITY
 
-                                                    Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
+                                                        Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
 
-                                                    loginToProfile.putExtra("email", user.getEmail());
-                                                    loginToProfile.putExtra("name", user.getUsername());
-                                                    loginToProfile.putExtra("hardwareId", user.getHardwareId());
-                                                    loginToProfile.putExtra("patient", user.isPatient());
+                                                        loginToProfile.putExtra("email", user.getEmail());
+                                                        loginToProfile.putExtra("name", user.getUsername());
+                                                        loginToProfile.putExtra("hardwareId", user.getHardwareId());
+                                                        loginToProfile.putExtra("patient", user.isPatient());
 
-                                                    loginToProfile.putExtra("light", device.getLightSensor());
-                                                    loginToProfile.putExtra("tap", device.getTap());
-                                                    loginToProfile.putExtra("presence", device.getPresenceSensor());
+                                                        loginToProfile.putExtra("light", device.getLightSensor());
+                                                        loginToProfile.putExtra("tap", device.getTap());
+                                                        loginToProfile.putExtra("presence", device.getPresenceSensor());
 
 
-                                                    startActivity(loginToProfile);
-                                                    //getActivity().finish();
+                                                        startActivity(loginToProfile);
+                                                        //getActivity().finish();
 
-                                                    //borrar els camps de text
-                                                    emailText.setText("");
-                                                    passwdText.setText("");
+                                                        //borrar els camps de text
+                                                        emailText.setText("");
+                                                        passwdText.setText("");
 
-                                                } else {
-                                                    //error en get device
+                                                    } else {
+                                                        //error en get device
+                                                    }
                                                 }
-                                            }
-                                        });
+                                            });
 
 
 
 
-                                    } else {
-                                        //READ USER INFO FAILS
-                                        Log.d("LOGIN", "error in reading info user");
+                                        } else {
+                                            //READ USER INFO FAILS
+                                            Log.d("LOGIN", "error in reading info user");
 
+                                        }
                                     }
-                                }
-                            });
+                                });
 
-                        } else if (s.equals("error")) {
-                            //LOGIN FAILS
-                            //Toast errorToast = Toast.makeText(getActivity(), "Error, retry credentials", Toast.LENGTH_SHORT);
-                            //errorToast.show();
+                            } else if (s.equals("error")) {
+                                //LOGIN FAILS
+                                //Toast errorToast = Toast.makeText(getActivity(), "Error, retry credentials", Toast.LENGTH_SHORT);
+                                //errorToast.show();
 
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                            builder.setMessage(Generic.ERROR_CREDENTIALS)
-                                    .setTitle(Generic.ERROR);
-                            builder.show();
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                builder.setMessage(Generic.ERROR_CREDENTIALS)
+                                        .setTitle(Generic.ERROR);
+                                builder.show();
 
+                            }
                         }
-                    }
-                });
+                    });
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage(Generic.ERROR_EMPTYTEXT)
+                            .setTitle(Generic.ERROR);
+                    builder.show();
+                }
+
+
 
 
             }

@@ -187,74 +187,79 @@ public class SignupFragment extends Fragment {
                 selectedRadioButton = radioGroup.getCheckedRadioButtonId();
                 radioButton = v.findViewById(selectedRadioButton);
 
-                /*if () {
+                if (! (signupViewModel.emptyTexts(passwdText.getText().toString()) || signupViewModel.emptyTexts(passwd2Text.getText().toString()) || signupViewModel.emptyTexts(emailText.getText().toString()) || signupViewModel.emptyTexts(nameText.getText().toString()) ||  signupViewModel.emptyTexts(hardwareIdText.getText().toString())) ) {
+                    //CHECK PASSWORDS
+                    if (!signupViewModel.checkPSW(passwdText.getText().toString(), passwd2Text.getText().toString())) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setMessage(Generic.ERROR_PASSWORDS)
+                                .setTitle(Generic.ERROR);
+                        builder.show();
+                    } else {
+                        //CALL FIREBASE
+                        Log.d("SIGNUP", "entra a call firebase");
+                        signupViewModel.signUp(emailText.getText().toString(),
+                                passwdText.getText().toString()
+                        ).observe(getViewLifecycleOwner(), new Observer<String>() {
+                            @Override
+                            public void onChanged(String s) {
+                                result = s;
+                                if (!s.equals("error")) {
+                                    Log.d("SIGNUP", "success");
+                                    boolean patient = false;
+                                    email = emailText.getText().toString();
+                                    password = passwdText.getText().toString();
+                                    name = nameText.getText().toString();
+                                    hardwareId = hardwareIdText.getText().toString();
 
-                }*/
+                                    //Log.d("RADIO BUTTON", radioButton.toString());
 
-                //CHECK PASSWORDS
-                if (!signupViewModel.checkPSW(passwdText.getText().toString(), passwd2Text.getText().toString())) {
+                                    //Log.d("RADIO BUTTON", Integer.toString(selectedRadioButton));
+                                    signupViewModel.registerUser(name, email, result, hardwareId, patient).observe(getViewLifecycleOwner(), new Observer<String>() {
+                                        @Override
+                                        public void onChanged(String s) {
+                                            if (s.equals("success register")) {
+                                                //Log.d("SIGNUP", "register DB success");
+                                                Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
+                                                loginToProfile.putExtra("email", email);
+                                                loginToProfile.putExtra("name", name);
+                                                loginToProfile.putExtra("hardwareId", hardwareId);
+                                                loginToProfile.putExtra("patient", patient);
+                                                //password no se si cal
+
+                                                startActivity(loginToProfile);
+
+                                            } else if (s.equals("error register")) {
+                                                //ERROR IN REGISTERING IN FIREBASE
+                                                //Log.d("SIGNUP", "register DB error");
+                                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                                builder.setMessage(Generic.ERROR_REGISTER)
+                                                        .setTitle(Generic.ERROR);
+                                                builder.show();
+                                                //TODO: quines son les consequencies d'aquest error?
+                                            }
+                                        }
+                                    });
+
+
+                                } else if (s.equals("error")) {
+                                    //ERROR IN SIGN UP IN FIREBASE
+                                    //Log.d("USER", "error");
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                    builder.setMessage(Generic.ERROR_SIGNUP)
+                                            .setTitle(Generic.ERROR);
+                                    builder.show();
+                                }
+                            }
+                        });
+                    }
+                } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setMessage(Generic.ERROR_PASSWORDS)
+                    builder.setMessage(Generic.ERROR_EMPTYTEXT)
                             .setTitle(Generic.ERROR);
                     builder.show();
-                } else {
-                    //CALL FIREBASE
-                    Log.d("SIGNUP", "entra a call firebase");
-                    signupViewModel.signUp(emailText.getText().toString(),
-                            passwdText.getText().toString()
-                    ).observe(getViewLifecycleOwner(), new Observer<String>() {
-                        @Override
-                        public void onChanged(String s) {
-                            result = s;
-                            if (!s.equals("error")) {
-                                Log.d("SIGNUP", "success");
-                                boolean patient = false;
-                                email = emailText.getText().toString();
-                                password = passwdText.getText().toString();
-                                name = nameText.getText().toString();
-                                hardwareId = hardwareIdText.getText().toString();
-
-                                //Log.d("RADIO BUTTON", radioButton.toString());
-
-                                //Log.d("RADIO BUTTON", Integer.toString(selectedRadioButton));
-                                signupViewModel.registerUser(name, email, result, hardwareId, patient).observe(getViewLifecycleOwner(), new Observer<String>() {
-                                    @Override
-                                    public void onChanged(String s) {
-                                        if (s.equals("success register")) {
-                                            //Log.d("SIGNUP", "register DB success");
-                                            Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
-                                            loginToProfile.putExtra("email", email);
-                                            loginToProfile.putExtra("name", name);
-                                            loginToProfile.putExtra("hardwareId", hardwareId);
-                                            loginToProfile.putExtra("patient", patient);
-                                            //password no se si cal
-
-                                            startActivity(loginToProfile);
-
-                                        } else if (s.equals("error register")) {
-                                            //ERROR IN REGISTERING IN FIREBASE
-                                            //Log.d("SIGNUP", "register DB error");
-                                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                            builder.setMessage(Generic.ERROR_REGISTER)
-                                                    .setTitle(Generic.ERROR);
-                                            builder.show();
-                                            //TODO: quines son les consequencies d'aquest error?
-                                        }
-                                    }
-                                });
-
-
-                            } else if (s.equals("error")) {
-                                //ERROR IN SIGN UP IN FIREBASE
-                                //Log.d("USER", "error");
-                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                builder.setMessage(Generic.ERROR_SIGNUP)
-                                        .setTitle(Generic.ERROR);
-                                builder.show();
-                            }
-                        }
-                    });
                 }
+
+
             }
         });
 

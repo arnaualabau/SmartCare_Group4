@@ -71,4 +71,11 @@ public class SignupViewModel extends ViewModel {
 
     }
 
+    public boolean emptyTexts(String s1) {
+        if (s1.equals("")) {
+            return true;
+        }
+
+        return false;
+    }
 }
