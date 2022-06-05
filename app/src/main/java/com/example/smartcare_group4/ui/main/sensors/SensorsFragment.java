@@ -29,9 +29,12 @@ public class SensorsFragment extends Fragment {
 
     private FragmentSensorsBinding binding;
     private Button lightButton;
+    private Button tapButton;
+
     private SensorsViewModel sensorsViewModel;
 
     TextView lightValue;
+    TextView tapValue;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -57,7 +60,7 @@ public class SensorsFragment extends Fragment {
         lightValue = new TextView(getActivity());
         lightValue = binding.textLightValue;
         final TextView presenceValue = binding.textPresenceValue;
-        final TextView tapValue = binding.textTapValue;
+        tapValue = binding.textTapValue;
 
         sensorsViewModel.getDeviceInfo().observe(getViewLifecycleOwner(), new Observer<Device>() {
             @Override
@@ -96,7 +99,7 @@ public class SensorsFragment extends Fragment {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             //Put actions for OK button here
                             int value = Integer.parseInt(input.getText().toString());
-                            if (sensorsViewModel.checkValue(value)){
+                            if (sensorsViewModel.checkValue(value, 255)){
 
                                 //canviar valor del sensor
                                 sensorsViewModel.changeLightValue(value).observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -133,7 +136,66 @@ public class SensorsFragment extends Fragment {
                 } else {
                     //change message to you cannot modify
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setMessage(Generic.ERROR_OLDPSW)
+                    builder.setMessage("Not able to modify value.")
+                            .setTitle(Generic.ERROR);
+                    builder.show();
+                }
+            }
+        });
+
+        tapButton = v.findViewById(R.id.buttonTap);
+        tapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!sensorsViewModel.isPatient()) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                    alert.setTitle("Insert value between 0 - 5");
+                    final EditText input = new EditText(getActivity());
+                    input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    input.setRawInputType(Configuration.KEYBOARD_12KEY);
+                    alert.setView(input);
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            //Put actions for OK button here
+                            int value = Integer.parseInt(input.getText().toString());
+                            if (sensorsViewModel.checkValue(value, 5)){
+
+                                //canviar valor del sensor
+                                sensorsViewModel.changeTapValue(value).observe(getViewLifecycleOwner(), new Observer<String>() {
+                                    @Override
+                                    public void onChanged(String s) {
+                                        if (s.equals("success")) {
+                                            //canviar text
+                                            //sensorsViewModel.setLight(value);
+                                        } else {
+                                            //controlar error
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                            builder.setMessage("Could not save value.")
+                                                    .setTitle(Generic.ERROR);
+                                            builder.show();
+                                        }
+                                    }
+                                });
+
+                            } else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                builder.setMessage(R.string.action_settings)
+                                        .setTitle(Generic.ERROR);
+                                builder.show();
+                            }
+                        }
+                    });
+                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            //Put actions for CANCEL button here, or leave in blank
+                        }
+                    });
+                    alert.show();
+
+                } else {
+                    //change message to you cannot modify
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("Not able to modify value.")
                             .setTitle(Generic.ERROR);
                     builder.show();
                 }

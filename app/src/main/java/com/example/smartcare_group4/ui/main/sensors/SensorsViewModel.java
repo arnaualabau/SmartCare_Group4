@@ -77,8 +77,8 @@ public class SensorsViewModel extends ViewModel {
         return false;
     }
 
-    public boolean checkValue(int value) {
-        if (value >= 0 && value <= 255) {
+    public boolean checkValue(int value, int max) {
+        if (value >= 0 && value <= max) {
             return true;
         }
         return false;
@@ -86,6 +86,11 @@ public class SensorsViewModel extends ViewModel {
 
     public MutableLiveData<String> changeLightValue(int value) {
         MutableLiveData<String> data = FirebaseRepository.firebaseInstance.changeLightValue(value);
+        return data;
+    }
+
+    public LiveData<String> changeTapValue(int value) {
+        MutableLiveData<String> data = FirebaseRepository.firebaseInstance.changeTapValue(value);
         return data;
     }
 }

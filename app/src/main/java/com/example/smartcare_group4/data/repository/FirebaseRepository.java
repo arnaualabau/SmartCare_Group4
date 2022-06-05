@@ -352,4 +352,20 @@ public class FirebaseRepository {
         });
         return observable;
     }
+
+    public MutableLiveData<String> changeTapValue(int value) {
+        MutableLiveData<String> observable = new MutableLiveData<>();
+
+        mDatabase.child("devices").child(idHardware).child("tap").setValue(value).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    observable.setValue("success");
+                } else {
+                    observable.setValue("error");
+                }
+            }
+        });
+        return observable;
+    }
 }
