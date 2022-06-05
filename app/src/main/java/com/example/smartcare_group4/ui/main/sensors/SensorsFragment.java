@@ -166,7 +166,6 @@ public class SensorsFragment extends Fragment {
                                     public void onChanged(String s) {
                                         if (s.equals("success")) {
                                             //canviar text
-                                            //sensorsViewModel.setLight(value);
                                         } else {
                                             //controlar error
                                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

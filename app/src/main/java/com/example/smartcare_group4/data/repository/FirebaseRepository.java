@@ -368,4 +368,32 @@ public class FirebaseRepository {
         });
         return observable;
     }
+
+    public MutableLiveData<String> setValuesEmergency() {
+        MutableLiveData<String> observable = new MutableLiveData<>();
+
+        mDatabase.child("devices").child(idHardware).child("tap").setValue(0).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    mDatabase.child("devices").child(idHardware).child("lightSensor").setValue(0).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                observable.setValue("success");
+
+                            } else {
+                                observable.setValue("error");
+                            }
+                        }
+                    });
+
+
+                } else {
+                    observable.setValue("error");
+                }
+            }
+        });
+        return observable;
+    }
 }

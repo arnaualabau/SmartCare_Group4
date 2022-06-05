@@ -1,10 +1,10 @@
 package com.example.smartcare_group4.ui.main.home;
 
-import android.os.Bundle;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.example.smartcare_group4.data.repository.FirebaseRepository;
 
 public class HomeViewModel extends ViewModel {
 
@@ -19,5 +19,11 @@ public class HomeViewModel extends ViewModel {
 
     public LiveData<String> getText() {
         return mText;
+    }
+
+    public MutableLiveData<String> setValuesEmergency() {
+        MutableLiveData<String> data = new MutableLiveData<String>();
+        data = FirebaseRepository.firebaseInstance.setValuesEmergency();
+        return data;
     }
 }

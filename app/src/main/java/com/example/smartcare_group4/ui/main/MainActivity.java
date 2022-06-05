@@ -55,19 +55,17 @@ public class MainActivity extends AppCompatActivity {
                 .setOpenableLayout(drawer)
                 .build();
 
-        Bundle bundle = new Bundle();
-        bundle.putString("amount", "PROVA");
-        //val bundle = bundleOf("mobile" to binding.etMobileNo.text.toString().trim())
-        //Navigation.findNavController(navigationView).navigate(R.id.nav_host_fragment_content_main, bundle);
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         //NavController navController = Navigation.findNavController(navigationView).navigate(R.id.nav_host_fragment_content_main, bundle);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
         TextView navigationTitle = (TextView) binding.drawerLayout.findViewById(R.id.NavigationTitle);
         //navigationTitle = (TextView) findViewById(R.id.NavigationTitle);
         navigationSubTitle = (TextView) findViewById(R.id.NavigationSubTitle);
 
+        /*
         user.setUsername(getIntent().getStringExtra("name"));
         user.setEmail(getIntent().getStringExtra("email"));
         user.setPatient(getIntent().getBooleanExtra("patient", false));
@@ -77,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         device.setLightSensor(getIntent().getIntExtra("light", 0));
         device.setTap(getIntent().getIntExtra("tap", 0));
         device.setPresenceSensor(getIntent().getIntExtra("presence", 0));
-
+        */
 
         //no se com es fa per posar el text
         //navigationTitle.setText(user.getUsername());
