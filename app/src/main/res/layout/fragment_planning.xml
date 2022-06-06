@@ -1,466 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.main.planning.PlanningFragment">
 
-    <TextView
-        android:id="@+id/textMonday"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:text="Monday"
-        app:layout_constraintBottom_toTopOf="@id/mondayMed1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <RelativeLayout
-        android:id="@+id/mondayMed1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/mondayMed2"
-        app:layout_constraintTop_toBottomOf="@id/textMonday"
-        app:layout_constraintVertical_bias="0.12"
-        tools:layout_editor_absoluteX="16dp">
-
-        <TextView
-            android:id="@+id/text_med1Monday"
-            android:layout_width="100sp"
-            android:layout_height="wrap_content"
-            android:text="Med1"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/value_med1Monday"
-            android:layout_width="100sp"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="value1"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp">
 
         <Button
-            android:id="@+id/removeBtn_med1_Monday"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_toLeftOf="@id/addBtn_med1_Monday"
-            android:background="@drawable/arrow_down"
-            android:backgroundTint="#C5BCBC" />
+            android:id="@+id/lastWeek"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/arrow_left"
+            android:textStyle="bold"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/monthYearTV"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:text="Ago 1999"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:textColor="@color/black"/>
 
         <Button
-            android:id="@+id/addBtn_med1_Monday"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
+            android:id="@+id/nextWeek"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/arrow_right"
-            android:backgroundTint="#C5BCBC" />
-    </RelativeLayout>
+            android:textStyle="bold"
+            android:textSize="20sp"/>
 
-    <RelativeLayout
-        android:id="@+id/mondayMed2"
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/textTuesday"
-        app:layout_constraintTop_toBottomOf="@id/mondayMed1"
-        app:layout_constraintVertical_bias="0.12"
-        tools:layout_editor_absoluteX="16dp">
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/text_med2Monday"
-            android:layout_width="100sp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Med2"
+            android:layout_weight="1"
+            android:text="SUN"
             android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textSize="16sp"/>
 
         <TextView
-            android:id="@+id/value_med2Monday"
-            android:layout_width="100sp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="value2"
+            android:layout_weight="1"
+            android:text="MON"
             android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textSize="16sp"/>
 
-        <Button
-            android:id="@+id/removeBtn_med2_Monday"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_toLeftOf="@id/addBtn_med2_Monday"
-            android:background="@drawable/arrow_down"
-            android:backgroundTint="#C5BCBC" />
-        <Button
-            android:id="@+id/addBtn_med2_Monday"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/arrow_right"
-            android:backgroundTint="#C5BCBC" />
-    </RelativeLayout>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TUE"
+            android:textAlignment="center"
+            android:textSize="16sp"/>
 
-    <TextView
-        android:id="@+id/textTuesday"
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="WED"
+            android:textAlignment="center"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="THUR"
+            android:textAlignment="center"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="FRI"
+            android:textAlignment="center"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SAT"
+            android:textAlignment="center"
+            android:textSize="16sp"/>
+
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/calendarRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:text="Tuesday"
-        app:layout_constraintBottom_toTopOf="@id/tuesdayMed1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mondayMed2" />
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp">
 
-    <RelativeLayout
-        android:id="@+id/tuesdayMed1"
+        <Spinner
+            android:id="@+id/medSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_marginRight="12dp"
+
+            ></Spinner>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Medication"
+            android:background="@null"
+            android:textStyle="bold"
+            android:onClick="newEventAction"
+            android:layout_weight="0.5"
+            android:layout_marginLeft="12dp"/>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/eventListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/tuesdayMed2"
-        app:layout_constraintTop_toBottomOf="@id/textTuesday"
-        app:layout_constraintVertical_bias="0.12"
-        tools:layout_editor_absoluteX="16dp">
-
-        <TextView
-            android:id="@+id/text_med1Tuesday"
-            android:layout_width="100sp"
-            android:layout_height="wrap_content"
-            android:text="Med1"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/value_med1Tuesday"
-            android:layout_width="100sp"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Med1 Value"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/removeBtn_med1_Tuesday"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_toLeftOf="@id/addBtn_med1_Tuesday"
-            android:background="@drawable/arrow_down"
-            android:backgroundTint="#C5BCBC" />
-
-        <Button
-            android:id="@+id/addBtn_med1_Tuesday"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/arrow_right"
-            android:backgroundTint="#C5BCBC" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/tuesdayMed2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/textWednesday"
-        app:layout_constraintTop_toBottomOf="@id/tuesdayMed1"
-        app:layout_constraintVertical_bias="0.12"
-        tools:layout_editor_absoluteX="16dp">
-
-        <TextView
-            android:id="@+id/text_med2Tuesday"
-            android:layout_width="100sp"
-            android:layout_height="wrap_content"
-            android:text="Med2"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/value_med2Tuesday"
-            android:layout_width="100sp"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Med2 Value"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/removeBtn_med2_Tuesday"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_toLeftOf="@id/addBtn_med2_Tuesday"
-            android:background="@drawable/arrow_down"
-            android:backgroundTint="#C5BCBC" />
-        <Button
-            android:id="@+id/addBtn_med2_Tuesday"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/arrow_right"
-            android:backgroundTint="#C5BCBC" />
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/textWednesday"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:text="Wednesday"
-        app:layout_constraintBottom_toTopOf="@id/wedMed1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tuesdayMed2" />
-
-    <RelativeLayout
-        android:id="@+id/wedMed1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/wedMed2"
-        app:layout_constraintTop_toBottomOf="@id/textWednesday"
-        app:layout_constraintVertical_bias="0.12"
-        tools:layout_editor_absoluteX="16dp">
-
-        <TextView
-            android:id="@+id/text_med1Wed"
-            android:layout_width="100sp"
-            android:layout_height="wrap_content"
-            android:text="Med1"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/value_med1Wed"
-            android:layout_width="100sp"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Med1 Value"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/removeBtn_med1_Wed"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_toLeftOf="@id/addBtn_med1_Wed"
-            android:background="@drawable/arrow_down"
-            android:backgroundTint="#C5BCBC" />
-
-        <Button
-            android:id="@+id/addBtn_med1_Wed"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/arrow_right"
-            android:backgroundTint="#C5BCBC" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/wedMed2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/textThursday"
-        app:layout_constraintTop_toBottomOf="@id/wedMed1"
-        app:layout_constraintVertical_bias="0.12"
-        tools:layout_editor_absoluteX="16dp">
-
-        <TextView
-            android:id="@+id/text_med2Wed"
-            android:layout_width="100sp"
-            android:layout_height="wrap_content"
-            android:text="Med2"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/value_med2Wed"
-            android:layout_width="100sp"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Med2 Value"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/removeBtn_med2_Wed"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_toLeftOf="@id/addBtn_med2_Wed"
-            android:background="@drawable/arrow_down"
-            android:backgroundTint="#C5BCBC" />
-        <Button
-            android:id="@+id/addBtn_med2_Wed"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/arrow_right"
-            android:backgroundTint="#C5BCBC" />
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/textThursday"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:text="Thursday"
-        app:layout_constraintBottom_toTopOf="@id/thursdayMed1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/wedMed2" />
-
-    <RelativeLayout
-        android:id="@+id/thursdayMed1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/thursdayMed2"
-        app:layout_constraintTop_toBottomOf="@id/textThursday"
-        app:layout_constraintVertical_bias="0.12"
-        tools:layout_editor_absoluteX="16dp">
-
-        <TextView
-            android:id="@+id/text_med1Thursday"
-            android:layout_width="100sp"
-            android:layout_height="wrap_content"
-            android:text="Med1 4"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/value_med1Thursday"
-            android:layout_width="100sp"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Med1 Value 4"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/removeBtn_med1_Thursday"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_toLeftOf="@id/addBtn_med1_Thursday"
-            android:background="@drawable/arrow_down"
-            android:backgroundTint="#C5BCBC" />
-
-        <Button
-            android:id="@+id/addBtn_med1_Thursday"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/arrow_right"
-            android:backgroundTint="#C5BCBC" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/thursdayMed2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/textFriday"
-        app:layout_constraintTop_toBottomOf="@id/thursdayMed1"
-        app:layout_constraintVertical_bias="0.12"
-        tools:layout_editor_absoluteX="16dp">
-
-        <TextView
-            android:id="@+id/text_med2Thursday"
-            android:layout_width="100sp"
-            android:layout_height="wrap_content"
-            android:text="Med2 4"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/value_med2Thursday"
-            android:layout_width="100sp"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Med2 Value 4"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/removeBtn_med2_Thursday"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_toLeftOf="@id/addBtn_med2_Thursday"
-            android:background="@drawable/arrow_down"
-            android:backgroundTint="#C5BCBC" />
-        <Button
-            android:id="@+id/addBtn_med2_Thursday"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/arrow_right"
-            android:backgroundTint="#C5BCBC" />
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/textFriday"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:text="Friday"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/thursdayMed2" />
+        android:layout_height="0dp"
+        android:layout_weight="5" />
 
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

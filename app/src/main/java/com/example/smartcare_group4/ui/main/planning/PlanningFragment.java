@@ -4,17 +4,39 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.smartcare_group4.R;
+import com.example.smartcare_group4.data.calendar.Event;
 import com.example.smartcare_group4.databinding.FragmentPlanningBinding;
 
-public class PlanningFragment extends Fragment {
+import java.time.LocalDate;
+import java.util.ArrayList;
+
+public class PlanningFragment extends Fragment implements CalendarAdapter.OnItemListener, AdapterView.OnItemSelectedListener {
 
     private FragmentPlanningBinding binding;
+
+    private Spinner spinner;
+
+    private TextView monthYearText;
+    private RecyclerView calendarRecyclerView;
+    private ListView eventListView;
+
+    private Button nextWeek;
+    private Button lastWeek;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -24,14 +46,87 @@ public class PlanningFragment extends Fragment {
         binding = FragmentPlanningBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textMonday;
-        planningViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        CalendarUtils.selectedDate = LocalDate.now();
+
+        bindViews(root);
+        setWeekView();
+
         return root;
+    }
+
+    private void bindViews(View v) {
+
+        spinner = (Spinner) v.findViewById(R.id.medSpinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.meds_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+        // Specify Listener
+        spinner.setOnItemSelectedListener(this);
+
+        calendarRecyclerView = v.findViewById(R.id.calendarRecyclerView);
+        monthYearText = v.findViewById(R.id.monthYearTV);
+        eventListView = v.findViewById(R.id.eventListView);
+
+        lastWeek = v.findViewById(R.id.lastWeek);
+        lastWeek.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusWeeks(1);
+                setWeekView();
+            }
+        });
+
+        nextWeek = v.findViewById(R.id.nextWeek);
+        nextWeek.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusWeeks(1);
+                setWeekView();
+            }
+        });
+    }
+
+    private void setWeekView()
+    {
+        monthYearText.setText(CalendarUtils.monthYearFromDate(CalendarUtils.selectedDate));
+        ArrayList<LocalDate> days = CalendarUtils.daysInWeekArray(CalendarUtils.selectedDate);
+
+        CalendarAdapter calendarAdapter = new CalendarAdapter(days, this);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 7);
+        calendarRecyclerView.setLayoutManager(layoutManager);
+        calendarRecyclerView.setAdapter(calendarAdapter);
+        setEventAdpater();
+    }
+
+    private void setEventAdpater()
+    {
+        ArrayList<Event> dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate);
+        EventAdapter eventAdapter = new EventAdapter(getActivity(), dailyEvents);
+        eventListView.setAdapter(eventAdapter);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    // Spinner
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        String med = adapterView.getItemAtPosition(i).toString();
+        Toast.makeText(getActivity(), med, Toast.LENGTH_SHORT).show();
+    }
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+    }
+
+    // Calendar
+    @Override
+    public void onItemClick(int position, LocalDate date) {
+        CalendarUtils.selectedDate = date;
+        setWeekView();
     }
 }
