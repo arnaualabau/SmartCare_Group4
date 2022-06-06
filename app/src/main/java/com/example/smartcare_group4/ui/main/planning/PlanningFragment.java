@@ -24,7 +24,7 @@ public class PlanningFragment extends Fragment {
         binding = FragmentPlanningBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textPlanning;
+        final TextView textView = binding.textMonday;
         planningViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
