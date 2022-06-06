@@ -396,4 +396,9 @@ public class FirebaseRepository {
         });
         return observable;
     }
+
+    public boolean isPatient() {
+
+        return userInfo.isPatient();
+    }
 }

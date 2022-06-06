@@ -92,45 +92,53 @@
         android:gravity="center"
         android:textColor="@color/black"
         android:background="@drawable/textview_backgrounddesign"
-        app:layout_constraintBottom_toTopOf="@+id/text_tapValue"
+        app:layout_constraintBottom_toTopOf="@+id/tapLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_lightValue"
         />
 
-    <TextView
-        android:id="@+id/text_tapValue"
-        android:layout_width="300sp"
+
+   <RelativeLayout
+       android:id="@+id/tapLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TAP VALUE"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/text_presence"
-        app:layout_constraintEnd_toStartOf="@+id/buttonTap"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_tap" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonTap"
-
-        android:layout_width="100sp"
-        android:layout_height="0dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
-
-        android:background="@drawable/textview_backgrounddesign"
-        android:text="Change"
-        android:textSize="15sp"
-
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         app:layout_constraintBottom_toTopOf="@id/text_presence"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintStart_toEndOf="@id/text_tapValue"
-
         app:layout_constraintTop_toBottomOf="@id/text_tap"
-        app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintWidth_percent="0.8"></androidx.appcompat.widget.AppCompatButton>
+        app:layout_constraintVertical_bias="0.12"
+        tools:layout_editor_absoluteX="16dp">
 
+        <Button
+            android:id="@+id/removeBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/arrow_down"
+            android:backgroundTint="#C5BCBC" />
+
+       <TextView
+           android:id="@+id/text_tapValue"
+           android:layout_width="300sp"
+           android:layout_height="wrap_content"
+           android:layout_centerInParent="true"
+           android:text="TAP VALUE"
+           android:textAlignment="center"
+           android:textColor="@android:color/black"
+           android:textSize="20sp" />
+
+
+       <Button
+           android:id="@+id/addBtn"
+           android:layout_width="40dp"
+           android:layout_height="40dp"
+           android:layout_alignParentEnd="true"
+           android:layout_centerVertical="true"
+           android:background="@drawable/arrow_right"
+           android:backgroundTint="#C5BCBC" />
+    </RelativeLayout>
     <TextView
         android:id="@+id/text_presence"
         android:layout_width="match_parent"
@@ -145,7 +153,7 @@
         app:layout_constraintBottom_toTopOf="@+id/text_presenceValue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_tapValue"
+        app:layout_constraintTop_toBottomOf="@+id/tapLayout"
         />
     <TextView
         android:id="@+id/text_presenceValue"

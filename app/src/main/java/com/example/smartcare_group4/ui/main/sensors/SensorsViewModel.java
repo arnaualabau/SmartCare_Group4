@@ -74,7 +74,7 @@ public class SensorsViewModel extends ViewModel {
     }
 
     public boolean isPatient() {
-        return false;
+        return FirebaseRepository.firebaseInstance.isPatient();
     }
 
     public boolean checkValue(int value, int max) {
@@ -92,5 +92,14 @@ public class SensorsViewModel extends ViewModel {
     public LiveData<String> changeTapValue(int value) {
         MutableLiveData<String> data = FirebaseRepository.firebaseInstance.changeTapValue(value);
         return data;
+    }
+
+    public boolean checkStep(int step, int min, int max) {
+        if (step >= min && step <= max) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 }
