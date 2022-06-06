@@ -45,8 +45,8 @@
             android:id="@+id/value_med1Monday"
             android:layout_width="100sp"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Med1 Value"
+            android:layout_centerHorizontal="true"
+            android:text="value1"
             android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
@@ -94,7 +94,7 @@
             android:layout_width="100sp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Med2 Value"
+            android:text="value2"
             android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
