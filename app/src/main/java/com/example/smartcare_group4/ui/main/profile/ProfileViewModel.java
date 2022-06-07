@@ -11,25 +11,20 @@ import com.example.smartcare_group4.data.repository.FirebaseRepository;
 
 public class ProfileViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
     private final MutableLiveData<String> nameText;
     private final MutableLiveData<String> emailText;
     private final MutableLiveData<String> hardwareText;
     private final MutableLiveData<String> roleText;
-
-
     //private FirebaseRepository firebase = new FirebaseRepository();
 
 
     public ProfileViewModel() {
         //initialize
-        mText = new MutableLiveData<>();
         nameText = new MutableLiveData<>();
         emailText = new MutableLiveData<>();
         hardwareText = new MutableLiveData<>();
         roleText = new MutableLiveData<>();
-        //setter
-        mText.setValue("Your Profile");
+
     }
 
     public LiveData<String> getText(int value) {
@@ -37,7 +32,6 @@ public class ProfileViewModel extends ViewModel {
         defaultString.setValue("ERROR");
 
         switch (value) {
-            case 0: return mText;
             case 1: return nameText;
             case 2: return emailText;
             case 3: return hardwareText;

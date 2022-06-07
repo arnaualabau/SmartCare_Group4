@@ -22,7 +22,6 @@ import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.data.Device;
 import com.example.smartcare_group4.data.constants.Generic;
 import com.example.smartcare_group4.databinding.FragmentSensorsBinding;
-import com.example.smartcare_group4.ui.main.sensors.SensorsViewModel;
 
 
 public class SensorsFragment extends Fragment {
@@ -58,7 +57,6 @@ public class SensorsFragment extends Fragment {
         bindViews(root);
 
         //declaration
-        final TextView title = binding.textSensors;
         lightValue = binding.textLightValue;
         final TextView presenceValue = binding.textPresenceValue;
         tapValue = binding.textTapValue;
@@ -76,7 +74,6 @@ public class SensorsFragment extends Fragment {
             }
         });
 
-        sensorsViewModel.getText(0).observe(getViewLifecycleOwner(), title::setText);
         sensorsViewModel.getText(1).observe(getViewLifecycleOwner(), lightValue::setText);
         sensorsViewModel.getText(2).observe(getViewLifecycleOwner(), tapValue::setText);
         sensorsViewModel.getText(3).observe(getViewLifecycleOwner(), presenceValue::setText);

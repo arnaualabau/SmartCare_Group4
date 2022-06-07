@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.drawerNavView;
         // Passing each menu ID as a set of Ids because each
@@ -55,15 +56,22 @@ public class MainActivity extends AppCompatActivity {
                 .setOpenableLayout(drawer)
                 .build();
 
-
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         //NavController navController = Navigation.findNavController(navigationView).navigate(R.id.nav_host_fragment_content_main, bundle);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        TextView navigationTitle = (TextView) binding.drawerLayout.findViewById(R.id.NavigationTitle);
+        View headerView = navigationView.getHeaderView(0);
+        navigationTitle = (TextView) headerView.findViewById(R.id.NavigationTitle);
+        navigationTitle.setText("user.getUsername()");
+        navigationSubTitle = (TextView) headerView.findViewById(R.id.NavigationSubTitle);
+        navigationSubTitle.setText("user.getEmail()");
+
+
+        //navigationTitle = (TextView) binding.drawerLayout.findViewById(R.id.NavigationTitle);
         //navigationTitle = (TextView) findViewById(R.id.NavigationTitle);
-        navigationSubTitle = (TextView) findViewById(R.id.NavigationSubTitle);
+        //navigationSubTitle = (TextView) findViewById(R.id.NavigationSubTitle);
+        //navigationTitle.setText("AAAAA");
 
         /*
         user.setUsername(getIntent().getStringExtra("name"));

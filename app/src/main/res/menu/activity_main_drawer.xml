@@ -24,6 +24,10 @@
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings"
             android:title="@string/menu_settings" />
+    </group>
+
+    <group
+        android:id="@+id/group_divider">
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_logout"

@@ -11,7 +11,6 @@ import com.example.smartcare_group4.data.repository.FirebaseRepository;
 
 public class SensorsViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
     private final MutableLiveData<String> lightText;
     private final MutableLiveData<String> tapText;
     private final MutableLiveData<String> presenceText;
@@ -19,12 +18,10 @@ public class SensorsViewModel extends ViewModel {
 
 
     public SensorsViewModel() {
-        mText = new MutableLiveData<>();
         lightText = new MutableLiveData<>();
         tapText = new MutableLiveData<>();
         presenceText = new MutableLiveData<>();
 
-        mText.setValue("Sensors Information");
         //cridar a subscribe to values
         //FirebaseRepository.firebaseInstance.subscribeToValues().observe();
     }
@@ -54,7 +51,6 @@ public class SensorsViewModel extends ViewModel {
         defaultString.setValue("ERROR");
 
         switch (value) {
-            case 0: return mText;
             case 1: return lightText;
             case 2: return tapText;
             case 3: return presenceText;

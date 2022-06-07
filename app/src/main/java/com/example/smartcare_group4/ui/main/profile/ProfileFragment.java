@@ -29,7 +29,6 @@ public class ProfileFragment extends Fragment {
         View root = binding.getRoot();
 
         //declaration
-        final TextView textView = binding.textProfile;
         final TextView nameValue = binding.textNameValue;
         final TextView emailValue = binding.textEmailValue;
         final TextView HWValue = binding.textHwValue;
@@ -52,7 +51,6 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        profileViewModel.getText(0).observe(getViewLifecycleOwner(), textView::setText);
         profileViewModel.getText(1).observe(getViewLifecycleOwner(), nameValue::setText);
         profileViewModel.getText(2).observe(getViewLifecycleOwner(), emailValue::setText);
         profileViewModel.getText(3).observe(getViewLifecycleOwner(), HWValue::setText);
