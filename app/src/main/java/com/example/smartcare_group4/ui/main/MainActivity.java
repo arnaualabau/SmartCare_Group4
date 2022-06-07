@@ -61,11 +61,13 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        user.setUsername(getIntent().getStringExtra("name"));
+        user.setEmail(getIntent().getStringExtra("email"));
         View headerView = navigationView.getHeaderView(0);
         navigationTitle = (TextView) headerView.findViewById(R.id.NavigationTitle);
-        navigationTitle.setText("user.getUsername()");
+        navigationTitle.setText(user.getUsername());
         navigationSubTitle = (TextView) headerView.findViewById(R.id.NavigationSubTitle);
-        navigationSubTitle.setText("user.getEmail()");
+        navigationSubTitle.setText(user.getEmail());
 
 
         //navigationTitle = (TextView) binding.drawerLayout.findViewById(R.id.NavigationTitle);
@@ -73,10 +75,7 @@ public class MainActivity extends AppCompatActivity {
         //navigationSubTitle = (TextView) findViewById(R.id.NavigationSubTitle);
         //navigationTitle.setText("AAAAA");
 
-        /*
-        user.setUsername(getIntent().getStringExtra("name"));
-        user.setEmail(getIntent().getStringExtra("email"));
-        user.setPatient(getIntent().getBooleanExtra("patient", false));
+        /*user.setPatient(getIntent().getBooleanExtra("patient", false));
         user.setHardwareId(getIntent().getStringExtra("hardwareId"));
 
         device.setHardwareId(getIntent().getStringExtra("hardwareId"));
