@@ -89,18 +89,18 @@
         app:layout_constraintVertical_bias="0.12"
         tools:layout_editor_absoluteX="16dp">
 
-        <Button
-            android:id="@+id/removeBtn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/arrow_down"
-            android:backgroundTint="#C5BCBC" />
+       <Button
+           android:id="@+id/removeBtn"
+           android:layout_width="40dp"
+           android:layout_height="40dp"
+           android:layout_alignParentStart="true"
+           android:layout_marginStart="35dp"
+           android:background="@drawable/remove"
+           android:backgroundTint="#C5BCBC" />
 
        <TextView
            android:id="@+id/text_tapValue"
-           android:layout_width="300sp"
+           android:layout_width="200sp"
            android:layout_height="wrap_content"
            android:layout_centerInParent="true"
            android:text="TAP VALUE"
@@ -114,10 +114,10 @@
            android:layout_width="40dp"
            android:layout_height="40dp"
            android:layout_alignParentEnd="true"
-           android:layout_centerVertical="true"
-           android:background="@drawable/arrow_right"
+           android:layout_marginEnd="35dp"
+           android:background="@drawable/add"
            android:backgroundTint="#C5BCBC" />
-    </RelativeLayout>
+   </RelativeLayout>
     <TextView
         android:id="@+id/text_presence"
         android:layout_width="match_parent"
