@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartcare_group4.R;
-import com.example.smartcare_group4.data.calendar.Event;
+import com.example.smartcare_group4.data.Event;
 import com.example.smartcare_group4.databinding.FragmentPlanningBinding;
 
 import java.time.LocalDate;
@@ -36,7 +36,9 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
     private RecyclerView calendarRecyclerView;
     private ListView eventListView;
     private LinearLayout addMedLayout;
+    private Button addMedButton;
     private Button takeMedButton;
+    private String medSelected;
 
     private Button nextWeek;
     private Button lastWeek;
@@ -62,6 +64,14 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
     private void bindViews(View v) {
 
         addMedLayout = v.findViewById(R.id.addMedLayout);
+        addMedButton = v.findViewById(R.id.addMedButton);
+        addMedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), medSelected, Toast.LENGTH_SHORT).show();
+            }
+        });
+
         takeMedButton = v.findViewById(R.id.takeMedButton);
 
         spinner = (Spinner) v.findViewById(R.id.medSpinner);
@@ -118,8 +128,6 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
 
     private void setEventAdpater() {
 
-
-
         ArrayList<Event> dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate);
         EventAdapter eventAdapter = new EventAdapter(getActivity(), dailyEvents);
         eventListView.setAdapter(eventAdapter);
@@ -134,8 +142,7 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
     // Spinner
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        String med = adapterView.getItemAtPosition(i).toString();
-        Toast.makeText(getActivity(), med, Toast.LENGTH_SHORT).show();
+        medSelected = adapterView.getItemAtPosition(i).toString();
     }
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {

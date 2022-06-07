@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.smartcare_group4.R;
-import com.example.smartcare_group4.data.calendar.Event;
+import com.example.smartcare_group4.data.Event;
 
 import java.util.List;
 

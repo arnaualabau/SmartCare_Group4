@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class FirebaseRepository {
+
     public static FirebaseRepository firebaseInstance = new FirebaseRepository();
     private DatabaseReference mDatabase;
 

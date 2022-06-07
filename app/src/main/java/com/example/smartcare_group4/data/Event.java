@@ -1,4 +1,4 @@
-package com.example.smartcare_group4.data.calendar;
+package com.example.smartcare_group4.data;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
