@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,11 +34,10 @@ public class SignupFragment extends Fragment {
     private SignupViewModel signupViewModel;
 
     private Button SignUpButton;
-    private RadioButton radioButton;
-    private RadioGroup radioGroup;
-    private ImageButton editPictureButton;
+    private RadioButton patientButton;
+    private RadioButton relativeButton;
 
-    int selectedRadioButton;
+    private ImageButton editPictureButton;
 
     private EditText emailText;
     String email = "";
@@ -86,7 +84,8 @@ public class SignupFragment extends Fragment {
 
     public void bindViews(View v) {
 
-        radioGroup = v.findViewById(R.id.userTypeSignup);
+        patientButton = v.findViewById(R.id.patientSignup);
+        relativeButton = v.findViewById(R.id.relativeSignup);
 
         emailText = v.findViewById(R.id.emailSignup);
         emailText.setText("a@a.com");
@@ -189,10 +188,7 @@ public class SignupFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                selectedRadioButton = radioGroup.getCheckedRadioButtonId();
-                radioButton = v.findViewById(selectedRadioButton);
-
-                if (! (signupViewModel.emptyTexts(passwdText.getText().toString()) || signupViewModel.emptyTexts(passwd2Text.getText().toString()) || signupViewModel.emptyTexts(emailText.getText().toString()) || signupViewModel.emptyTexts(nameText.getText().toString()) ||  signupViewModel.emptyTexts(hardwareIdText.getText().toString())) ) {
+                if (! (!(relativeButton.isChecked() ^ patientButton.isChecked()) || signupViewModel.emptyTexts(passwdText.getText().toString()) || signupViewModel.emptyTexts(passwd2Text.getText().toString()) || signupViewModel.emptyTexts(emailText.getText().toString()) || signupViewModel.emptyTexts(nameText.getText().toString()) ||  signupViewModel.emptyTexts(hardwareIdText.getText().toString())) ) {
                     //CHECK PASSWORDS
                     if (!signupViewModel.checkPSW(passwdText.getText().toString(), passwd2Text.getText().toString())) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -210,7 +206,7 @@ public class SignupFragment extends Fragment {
                                 result = s;
                                 if (!s.equals("error")) {
                                     Log.d("SIGNUP", "success");
-                                    boolean patient = false;
+                                    boolean patient = patientButton.isChecked();
                                     email = emailText.getText().toString();
                                     password = passwdText.getText().toString();
                                     name = nameText.getText().toString();

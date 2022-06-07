@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -34,13 +35,17 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private ListView eventListView;
+    private LinearLayout addMedLayout;
+    private Button takeMedButton;
 
     private Button nextWeek;
     private Button lastWeek;
 
+    private PlanningViewModel planningViewModel;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        PlanningViewModel planningViewModel =
+        planningViewModel =
                 new ViewModelProvider(this).get(PlanningViewModel.class);
 
         binding = FragmentPlanningBinding.inflate(inflater, container, false);
@@ -55,6 +60,9 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
     }
 
     private void bindViews(View v) {
+
+        addMedLayout = v.findViewById(R.id.addMedLayout);
+        takeMedButton = v.findViewById(R.id.takeMedButton);
 
         spinner = (Spinner) v.findViewById(R.id.medSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.meds_array, android.R.layout.simple_spinner_item);
@@ -88,8 +96,16 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
         });
     }
 
-    private void setWeekView()
-    {
+    private void setWeekView() {
+
+        if (planningViewModel.isPatient()) {
+            takeMedButton.setVisibility(View.VISIBLE);
+            addMedLayout.setVisibility(View.GONE);
+        } else {
+            takeMedButton.setVisibility(View.GONE);
+            addMedLayout.setVisibility(View.VISIBLE);
+        }
+
         monthYearText.setText(CalendarUtils.monthYearFromDate(CalendarUtils.selectedDate));
         ArrayList<LocalDate> days = CalendarUtils.daysInWeekArray(CalendarUtils.selectedDate);
 
@@ -100,8 +116,10 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
         setEventAdpater();
     }
 
-    private void setEventAdpater()
-    {
+    private void setEventAdpater() {
+
+
+
         ArrayList<Event> dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate);
         EventAdapter eventAdapter = new EventAdapter(getActivity(), dailyEvents);
         eventListView.setAdapter(eventAdapter);

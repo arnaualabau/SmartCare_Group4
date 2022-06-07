@@ -117,13 +117,15 @@
         android:layout_weight="1"/>
 
     <LinearLayout
+        android:id="@+id/addMedLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp">
+        android:layout_marginRight="24dp"
+        android:visibility="visible">
 
         <Spinner
             android:id="@+id/medSpinner"
@@ -135,12 +137,12 @@
             ></Spinner>
 
         <Button
+            android:id="@+id/addMedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Medication"
             android:background="@null"
             android:textStyle="bold"
-            android:onClick="newEventAction"
             android:layout_weight="0.5"
             android:layout_marginLeft="12dp"/>
     </LinearLayout>
@@ -150,6 +152,19 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5" />
+
+    <Button
+        android:id="@+id/takeMedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="Take Medication"
+        android:background="@null"
+        android:textStyle="bold"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_marginBottom="24dp"/>
+
 
 
 </LinearLayout>
