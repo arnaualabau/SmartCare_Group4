@@ -32,7 +32,6 @@ public class SensorsViewModel extends ViewModel {
         observable = (MutableLiveData<Device>) FirebaseRepository.firebaseInstance.subscribeToValues();
         return observable;
     }
-    //aquestes tres funcions no han d'existir, es fara automatic
 
     public void setLight(int value) {
         lightText.setValue(Integer.toString(value));

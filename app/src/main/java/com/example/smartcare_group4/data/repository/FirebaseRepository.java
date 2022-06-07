@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.smartcare_group4.data.Device;
+import com.example.smartcare_group4.data.EventDAO;
 import com.example.smartcare_group4.data.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -20,6 +21,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class FirebaseRepository {
 
@@ -151,6 +155,34 @@ public class FirebaseRepository {
             }
         });
 
+
+        return observable;
+    }
+
+    public LiveData<EventDAO> subscribeToPlanning() {
+
+        MutableLiveData<EventDAO> observable = new MutableLiveData<>();
+
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get Post object and use the values to update the UI
+                //Post post = dataSnapshot.getValue(Post.class);
+
+                //Log.d("SUBSCRIBE TO VALUES", dataSnapshot.getValue(Device.class).toString());
+                EventDAO medicine;
+                medicine = dataSnapshot.getValue(EventDAO.class);
+                Log.d("SUBSCRIBE TO PLANNING", medicine.toString());
+                observable.setValue(medicine);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+            }
+        };
+
+        mDatabase.child("planning").child(idHardware).addValueEventListener(postListener);
 
         return observable;
     }
@@ -401,5 +433,25 @@ public class FirebaseRepository {
     public boolean isPatient() {
 
         return userInfo.isPatient();
+    }
+
+    public MutableLiveData<String> saveEvent(String medSelected, LocalDate selectedDate) {
+        MutableLiveData<String> observable = new MutableLiveData<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
+        String formattedDate = selectedDate.format(formatter);
+        EventDAO eventDAO = new EventDAO(medSelected, formattedDate);
+        mDatabase.child("planning").child(idHardware).child(formattedDate).setValue(eventDAO).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    observable.setValue("success");
+                } else {
+                    observable.setValue("error");
+                }
+
+            }
+        });
+
+        return observable;
     }
 }

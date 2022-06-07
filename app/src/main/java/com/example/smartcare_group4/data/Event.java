@@ -3,16 +3,13 @@ package com.example.smartcare_group4.data;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Event
-{
+public class Event {
     public static ArrayList<Event> eventsList = new ArrayList<>();
 
-    public static ArrayList<Event> eventsForDate(LocalDate date)
-    {
+    public static ArrayList<Event> eventsForDate(LocalDate date) {
         ArrayList<Event> events = new ArrayList<>();
 
-        for(Event event : eventsList)
-        {
+        for (Event event : eventsList) {
             if(event.getDate().equals(date))
                 events.add(event);
         }
@@ -24,8 +21,8 @@ public class Event
     private String name;
     private LocalDate date;
 
-    public Event(String name, LocalDate date)
-    {
+    public Event(String name, LocalDate date) {
+
         this.name = name;
         this.date = date;
     }
@@ -45,8 +42,7 @@ public class Event
         return date;
     }
 
-    public void setDate(LocalDate date)
-    {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

@@ -1,6 +1,8 @@
 package com.example.smartcare_group4.ui.main.planning;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +17,19 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.data.Event;
+import com.example.smartcare_group4.data.EventDAO;
+import com.example.smartcare_group4.data.constants.Generic;
 import com.example.smartcare_group4.databinding.FragmentPlanningBinding;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class PlanningFragment extends Fragment implements CalendarAdapter.OnItemListener, AdapterView.OnItemSelectedListener {
@@ -50,6 +56,19 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
         planningViewModel =
                 new ViewModelProvider(this).get(PlanningViewModel.class);
 
+        planningViewModel.subscribePlanning().observe(getViewLifecycleOwner(), new Observer<EventDAO>() {
+            @Override
+            public void onChanged(EventDAO eventDAO) {
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
+                LocalDate date = LocalDate.parse(eventDAO.getDate(), formatter);
+
+                Event newMed = new Event(eventDAO.getName(),date);
+                Log.d("PLANNING", newMed.getName() +" "+ newMed.getDate().toString());
+
+            }
+        });
+
         binding = FragmentPlanningBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -68,7 +87,20 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
         addMedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), medSelected, Toast.LENGTH_SHORT).show();
+
+                planningViewModel.saveEvent(medSelected, CalendarUtils.selectedDate).observe(getViewLifecycleOwner(), new Observer<String>() {
+                    @Override
+                    public void onChanged(String s) {
+                        if (s.equals("success")) {
+                            Toast.makeText(getActivity(), medSelected, Toast.LENGTH_SHORT).show();
+                        } else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setMessage("value not saved")
+                                    .setTitle(Generic.ERROR);
+                            builder.show();
+                        }
+                    }
+                });
             }
         });
 
