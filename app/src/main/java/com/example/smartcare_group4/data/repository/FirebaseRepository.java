@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class FirebaseRepository {
 
@@ -37,6 +38,7 @@ public class FirebaseRepository {
 
     private User userInfo;
     private Device device;
+    private ArrayList<EventDAO> planning = new ArrayList<EventDAO>();;
 
     public FirebaseRepository(){
         // Initialize Firebase Auth
@@ -155,13 +157,15 @@ public class FirebaseRepository {
             }
         });
 
-
         return observable;
     }
 
     public LiveData<EventDAO> subscribeToPlanning() {
 
+        Log.d("SUBSCRIBETOPLANNING", "fb1");
+
         MutableLiveData<EventDAO> observable = new MutableLiveData<>();
+
 
         ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -172,7 +176,7 @@ public class FirebaseRepository {
                 //Log.d("SUBSCRIBE TO VALUES", dataSnapshot.getValue(Device.class).toString());
                 EventDAO medicine;
                 medicine = dataSnapshot.getValue(EventDAO.class);
-                Log.d("SUBSCRIBE TO PLANNING", medicine.toString());
+                Log.d("SUBSCRIBETOPLANNING", medicine.toString());
                 observable.setValue(medicine);
             }
 
@@ -182,7 +186,12 @@ public class FirebaseRepository {
             }
         };
 
+        Log.d("SUBSCRIBETOPLANNING", "fb3");
+
+
         mDatabase.child("planning").child(idHardware).addValueEventListener(postListener);
+
+        Log.d("SUBSCRIBETOPLANNING", "fb4");
 
         return observable;
     }
@@ -200,7 +209,6 @@ public class FirebaseRepository {
                 //Log.d("SUBSCRIBE TO VALUES", dataSnapshot.getValue(Device.class).toString());
                 Device device = new Device();
                 device = dataSnapshot.getValue(Device.class);
-                Log.d("SUBSCRIBE TO VALUES", device.getHardwareId());
                 observable.setValue(device);
             }
 
@@ -276,14 +284,12 @@ public class FirebaseRepository {
 
     private boolean isHadwareID(String hardwareId) {
         final boolean[] found = {false};
-        Log.d("HW_ID", "before");
         mDatabase.child("devices")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             Device dev = snapshot.getValue(Device.class);
-                            System.out.println(dev.hardwareId);
                             if (dev.hardwareId.equals(hardwareId)) {
                                 found[0] = true;
                             }
@@ -363,6 +369,27 @@ public class FirebaseRepository {
             }
         });
 
+        return observable;
+    }
+
+    public LiveData<ArrayList<EventDAO>> getPlanningInfo() {
+
+        MutableLiveData<ArrayList<EventDAO>> observable = new MutableLiveData<>();
+
+        mDatabase.child("planning").child(idHardware).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    planning.add(dataSnapshot.getValue(EventDAO.class));
+                }
+                observable.setValue(planning);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         return observable;
     }
 

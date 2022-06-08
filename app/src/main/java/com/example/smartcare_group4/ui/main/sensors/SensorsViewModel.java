@@ -1,7 +1,5 @@
 package com.example.smartcare_group4.ui.main.sensors;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -61,7 +59,6 @@ public class SensorsViewModel extends ViewModel {
 
 
     public LiveData<Device> getDeviceInfo() {
-        Log.d("SENSORS", "GET DEVICE INFO");
 
         MutableLiveData<Device> data = (MutableLiveData<Device>) FirebaseRepository.firebaseInstance.getDeviceInfo();
 

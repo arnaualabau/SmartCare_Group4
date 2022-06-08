@@ -13,7 +13,6 @@ public class Event {
             if(event.getDate().equals(date))
                 events.add(event);
         }
-
         return events;
     }
 

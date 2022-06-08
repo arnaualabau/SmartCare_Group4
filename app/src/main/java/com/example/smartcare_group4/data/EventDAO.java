@@ -5,6 +5,9 @@ public class EventDAO {
     private String name;
     private String date;
 
+    public EventDAO(){
+    }
+
     public EventDAO(String name, String date) {
 
         this.name = name;

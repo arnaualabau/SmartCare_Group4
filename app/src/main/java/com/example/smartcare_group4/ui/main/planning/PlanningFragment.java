@@ -2,7 +2,6 @@ package com.example.smartcare_group4.ui.main.planning;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +28,6 @@ import com.example.smartcare_group4.data.constants.Generic;
 import com.example.smartcare_group4.databinding.FragmentPlanningBinding;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class PlanningFragment extends Fragment implements CalendarAdapter.OnItemListener, AdapterView.OnItemSelectedListener {
@@ -56,9 +54,11 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
         planningViewModel =
                 new ViewModelProvider(this).get(PlanningViewModel.class);
 
-        planningViewModel.subscribePlanning().observe(getViewLifecycleOwner(), new Observer<EventDAO>() {
+        /*planningViewModel.subscribePlanning().observe(getViewLifecycleOwner(), new Observer<EventDAO>() {
             @Override
             public void onChanged(EventDAO eventDAO) {
+
+                Log.d("SUBSCRIBETOPLANNING", "fragment");
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
                 LocalDate date = LocalDate.parse(eventDAO.getDate(), formatter);
@@ -67,7 +67,18 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
                 Log.d("PLANNING", newMed.getName() +" "+ newMed.getDate().toString());
 
             }
+        });*/
+
+        //ask firebase for data
+        planningViewModel.getPlanningInfo().observe(getViewLifecycleOwner(), new Observer<ArrayList<EventDAO>>() {
+            @Override
+            public void onChanged(ArrayList<EventDAO> planning) {
+
+                planningViewModel.setPlanning(planning);
+            }
         });
+
+
 
         binding = FragmentPlanningBinding.inflate(inflater, container, false);
         View root = binding.getRoot();

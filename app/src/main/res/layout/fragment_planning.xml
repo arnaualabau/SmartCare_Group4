@@ -54,14 +54,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="SUN"
-            android:textAlignment="center"
-            android:textSize="16sp"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="MON"
             android:textAlignment="center"
             android:textSize="16sp"/>
@@ -86,7 +78,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="THUR"
+            android:text="THU"
             android:textAlignment="center"
             android:textSize="16sp"/>
 
@@ -103,6 +95,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="SAT"
+            android:textAlignment="center"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SUN"
             android:textAlignment="center"
             android:textSize="16sp"/>
 
@@ -140,11 +140,11 @@
             android:id="@+id/addMedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Medication"
+            android:text="@string/action_addmed"
             android:background="@null"
             android:textStyle="bold"
             android:layout_weight="0.5"
-            android:layout_marginLeft="12dp"/>
+            android:layout_marginLeft="6dp"/>
     </LinearLayout>
 
     <ListView
@@ -157,7 +157,7 @@
         android:id="@+id/takeMedButton"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:text="Take Medication"
+        android:text="@string/action_takemed"
         android:background="@null"
         android:textStyle="bold"
         android:layout_weight="1"

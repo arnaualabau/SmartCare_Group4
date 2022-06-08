@@ -45,7 +45,7 @@ public class CalendarUtils
     public static ArrayList<LocalDate> daysInWeekArray(LocalDate selectedDate)
     {
         ArrayList<LocalDate> days = new ArrayList<>();
-        LocalDate current = sundayForDate(selectedDate);
+        LocalDate current = mondayForDate(selectedDate);
         LocalDate endDate = current.plusWeeks(1);
 
         while (current.isBefore(endDate))
@@ -56,13 +56,13 @@ public class CalendarUtils
         return days;
     }
 
-    private static LocalDate sundayForDate(LocalDate current)
+    private static LocalDate mondayForDate(LocalDate current)
     {
         LocalDate oneWeekAgo = current.minusWeeks(1);
 
         while (current.isAfter(oneWeekAgo))
         {
-            if(current.getDayOfWeek() == DayOfWeek.SUNDAY)
+            if(current.getDayOfWeek() == DayOfWeek.MONDAY)
                 return current;
 
             current = current.minusDays(1);
