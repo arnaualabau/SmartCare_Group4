@@ -6,7 +6,11 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="action_takemed">Take Medication</string>
-    <string name="action_addmed">Apply to Daily Medication</string>
+    <string name="action_addmed">Add Medication</string>
+    <string name="action_delmed">Delete Medication</string>
+
+    <string name="delete_med_msg">Successfully deleted</string>
+
 
     <string name="menu_home">Home</string>
     <string name="menu_profile">Profile</string>

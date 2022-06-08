@@ -6,8 +6,7 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class CalendarUtils
-{
+public class CalendarUtils {
     public static LocalDate selectedDate;
 
     public static String formattedDate(LocalDate date)

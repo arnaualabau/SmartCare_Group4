@@ -74,6 +74,7 @@ public class SensorsFragment extends Fragment {
             }
         });
 
+
         sensorsViewModel.getText(1).observe(getViewLifecycleOwner(), lightValue::setText);
         sensorsViewModel.getText(2).observe(getViewLifecycleOwner(), tapValue::setText);
         sensorsViewModel.getText(3).observe(getViewLifecycleOwner(), presenceValue::setText);

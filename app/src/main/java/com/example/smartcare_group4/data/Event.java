@@ -1,20 +1,8 @@
 package com.example.smartcare_group4.data;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class Event {
-    public static ArrayList<Event> eventsList = new ArrayList<>();
-
-    public static ArrayList<Event> eventsForDate(LocalDate date) {
-        ArrayList<Event> events = new ArrayList<>();
-
-        for (Event event : eventsList) {
-            if(event.getDate().equals(date))
-                events.add(event);
-        }
-        return events;
-    }
 
 
     private String name;

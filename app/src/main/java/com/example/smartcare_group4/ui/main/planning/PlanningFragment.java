@@ -41,11 +41,15 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
     private ListView eventListView;
     private LinearLayout addMedLayout;
     private Button addMedButton;
+    private Button delMedButton;
     private Button takeMedButton;
     private String medSelected;
 
     private Button nextWeek;
     private Button lastWeek;
+
+    private EventAdapter eventAdapter;
+    private CalendarAdapter calendarAdapter;
 
     private PlanningViewModel planningViewModel;
 
@@ -54,39 +58,23 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
         planningViewModel =
                 new ViewModelProvider(this).get(PlanningViewModel.class);
 
-        /*planningViewModel.subscribePlanning().observe(getViewLifecycleOwner(), new Observer<EventDAO>() {
-            @Override
-            public void onChanged(EventDAO eventDAO) {
+        CalendarUtils.selectedDate = LocalDate.now();
 
-                Log.d("SUBSCRIBETOPLANNING", "fragment");
-
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
-                LocalDate date = LocalDate.parse(eventDAO.getDate(), formatter);
-
-                Event newMed = new Event(eventDAO.getName(),date);
-                Log.d("PLANNING", newMed.getName() +" "+ newMed.getDate().toString());
-
-            }
-        });*/
-
-        //ask firebase for data
-        planningViewModel.getPlanningInfo().observe(getViewLifecycleOwner(), new Observer<ArrayList<EventDAO>>() {
+        planningViewModel.subscribePlanning().observe(getViewLifecycleOwner(), new Observer<ArrayList<EventDAO>>() {
             @Override
             public void onChanged(ArrayList<EventDAO> planning) {
 
                 planningViewModel.setPlanning(planning);
+                setWeekView();
             }
         });
-
-
 
         binding = FragmentPlanningBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        CalendarUtils.selectedDate = LocalDate.now();
-
         bindViews(root);
         setWeekView();
+
 
         return root;
     }
@@ -116,6 +104,27 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
         });
 
         takeMedButton = v.findViewById(R.id.takeMedButton);
+
+        delMedButton = v.findViewById(R.id.delMedButton);
+        delMedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                planningViewModel.deleteEvent(CalendarUtils.selectedDate).observe(getViewLifecycleOwner(), new Observer<String>() {
+                    @Override
+                    public void onChanged(String s) {
+                        if (s.equals("success")) {
+                            Toast.makeText(getActivity(), R.string.delete_med_msg, Toast.LENGTH_SHORT).show();
+                        } else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setMessage("value not saved")
+                                    .setTitle(Generic.ERROR);
+                            builder.show();
+                        }
+                    }
+                });
+            }
+        });
+
 
         spinner = (Spinner) v.findViewById(R.id.medSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.meds_array, android.R.layout.simple_spinner_item);
@@ -154,15 +163,19 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
         if (planningViewModel.isPatient()) {
             takeMedButton.setVisibility(View.VISIBLE);
             addMedLayout.setVisibility(View.GONE);
+            delMedButton.setVisibility(View.GONE);
+
         } else {
             takeMedButton.setVisibility(View.GONE);
             addMedLayout.setVisibility(View.VISIBLE);
+            delMedButton.setVisibility(View.VISIBLE);
+
         }
 
         monthYearText.setText(CalendarUtils.monthYearFromDate(CalendarUtils.selectedDate));
         ArrayList<LocalDate> days = CalendarUtils.daysInWeekArray(CalendarUtils.selectedDate);
 
-        CalendarAdapter calendarAdapter = new CalendarAdapter(days, this);
+        calendarAdapter = new CalendarAdapter(days, this);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
@@ -171,8 +184,8 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
 
     private void setEventAdpater() {
 
-        ArrayList<Event> dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate);
-        EventAdapter eventAdapter = new EventAdapter(getActivity(), dailyEvents);
+        ArrayList<Event> dailyEvents = planningViewModel.eventsForDate(CalendarUtils.selectedDate);
+        eventAdapter = new EventAdapter(getActivity(), dailyEvents);
         eventListView.setAdapter(eventAdapter);
     }
 

@@ -1,7 +1,5 @@
 package com.example.smartcare_group4.ui.main.profile;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -43,7 +41,6 @@ public class ProfileViewModel extends ViewModel {
     }
 
     public LiveData<User> getUserInfo() {
-        Log.d("PROFILE", "GET USER INFO");
 
         MutableLiveData<User> data = (MutableLiveData<User>) FirebaseRepository.firebaseInstance.getUserInfo();
 

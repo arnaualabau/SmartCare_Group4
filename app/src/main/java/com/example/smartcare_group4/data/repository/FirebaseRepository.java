@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.smartcare_group4.data.Device;
 import com.example.smartcare_group4.data.EventDAO;
 import com.example.smartcare_group4.data.User;
+import com.example.smartcare_group4.ui.main.planning.CalendarUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -23,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class FirebaseRepository {
@@ -38,7 +38,7 @@ public class FirebaseRepository {
 
     private User userInfo;
     private Device device;
-    private ArrayList<EventDAO> planning = new ArrayList<EventDAO>();;
+    private ArrayList<EventDAO> planning;
 
     public FirebaseRepository(){
         // Initialize Firebase Auth
@@ -160,42 +160,6 @@ public class FirebaseRepository {
         return observable;
     }
 
-    public LiveData<EventDAO> subscribeToPlanning() {
-
-        Log.d("SUBSCRIBETOPLANNING", "fb1");
-
-        MutableLiveData<EventDAO> observable = new MutableLiveData<>();
-
-
-        ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // Get Post object and use the values to update the UI
-                //Post post = dataSnapshot.getValue(Post.class);
-
-                //Log.d("SUBSCRIBE TO VALUES", dataSnapshot.getValue(Device.class).toString());
-                EventDAO medicine;
-                medicine = dataSnapshot.getValue(EventDAO.class);
-                Log.d("SUBSCRIBETOPLANNING", medicine.toString());
-                observable.setValue(medicine);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-            }
-        };
-
-        Log.d("SUBSCRIBETOPLANNING", "fb3");
-
-
-        mDatabase.child("planning").child(idHardware).addValueEventListener(postListener);
-
-        Log.d("SUBSCRIBETOPLANNING", "fb4");
-
-        return observable;
-    }
-
     public LiveData<Device> subscribeToValues() {
 
         MutableLiveData<Device> observable = new MutableLiveData<>();
@@ -221,23 +185,8 @@ public class FirebaseRepository {
         mDatabase.child("devices").child(idHardware).addValueEventListener(postListener);
 
         return observable;
-        
+
     }
-
-    /*public LiveData<ResponseItem> calculateResult(){
-
-        MutableLiveData<ResponseItem> observable = new MutableLiveData<>();
-
-        //crida a firebase o on sigui per obtenir el resultat de forma asincrona
-
-        if(false) { //si error
-            observable.setValue(ResponseItem.error("Missatge de error"));
-        }else { //si no error
-            observable.setValue(ResponseItem.success(new UserItem())); //s'utilitza objecte genéric per retornar la resposta
-        }
-
-        return observable;
-    }*/
 
     public LiveData<String> registerUser(String name, String email, String id, String hardwareId, boolean patient){
 
@@ -375,21 +324,56 @@ public class FirebaseRepository {
     public LiveData<ArrayList<EventDAO>> getPlanningInfo() {
 
         MutableLiveData<ArrayList<EventDAO>> observable = new MutableLiveData<>();
-
+        planning = new ArrayList<EventDAO>();
         mDatabase.child("planning").child(idHardware).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     planning.add(dataSnapshot.getValue(EventDAO.class));
                 }
+                if (planning.size()<1) {
+                    planning.add(new EventDAO("empty", "empty"));
+                }
+
                 observable.setValue(planning);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
+
+        return observable;
+    }
+
+    public LiveData<ArrayList<EventDAO>> subscribeToPlanning() {
+
+        MutableLiveData<ArrayList<EventDAO>> observable = new MutableLiveData<>();
+
+        mDatabase.child("planning").child(idHardware).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                planning = new ArrayList<EventDAO>();
+
+                Log.d("PLANNING", "onDataChange: "+ snapshot.toString());
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    planning.add(dataSnapshot.getValue(EventDAO.class));
+                }
+                if (planning.size()<1) {
+                    planning.add(new EventDAO("empty", "empty"));
+                }
+
+                observable.setValue(planning);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+
+
         return observable;
     }
 
@@ -463,11 +447,34 @@ public class FirebaseRepository {
     }
 
     public MutableLiveData<String> saveEvent(String medSelected, LocalDate selectedDate) {
+
         MutableLiveData<String> observable = new MutableLiveData<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
-        String formattedDate = selectedDate.format(formatter);
+
+        String formattedDate = CalendarUtils.formattedDate(selectedDate);
         EventDAO eventDAO = new EventDAO(medSelected, formattedDate);
+
         mDatabase.child("planning").child(idHardware).child(formattedDate).setValue(eventDAO).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    observable.setValue("success");
+                } else {
+                    observable.setValue("error");
+                }
+
+            }
+        });
+
+        return observable;
+    }
+
+    public MutableLiveData<String> deleteEvent(LocalDate selectedDate) {
+
+        MutableLiveData<String> observable = new MutableLiveData<>();
+
+        String formattedDate = CalendarUtils.formattedDate(selectedDate);
+
+        mDatabase.child("planning").child(idHardware).child(formattedDate).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {

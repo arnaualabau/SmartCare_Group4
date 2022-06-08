@@ -13,8 +13,6 @@ public class SensorsViewModel extends ViewModel {
     private final MutableLiveData<String> tapText;
     private final MutableLiveData<String> presenceText;
 
-
-
     public SensorsViewModel() {
         lightText = new MutableLiveData<>();
         tapText = new MutableLiveData<>();
