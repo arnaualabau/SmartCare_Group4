@@ -15,6 +15,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.databinding.FragmentHomeBinding;
@@ -80,13 +82,17 @@ public class HomeFragment extends Fragment {
         sensorsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+                navController.navigate(R.id.nav_sensors);
+                /*
                 Fragment fragment = new SensorsFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.nav_sensors, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+
+                 */
 
 
             }
@@ -96,12 +102,17 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+                navController.navigate(R.id.nav_sensors);
+                /*
                 Fragment fragment = new SensorsFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.nav_planning, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+
+                 */
 
 
             }
