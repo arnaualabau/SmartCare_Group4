@@ -50,29 +50,20 @@ public class PlanningViewModel extends ViewModel {
 
         ArrayList<Event> events = new ArrayList<>();
 
-        Log.d("PLANNING", "size Events: "+ events.size());
-        Log.d("PLANNING", "size Planning: "+ planning.size());
-
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
 
         for (EventDAO eventDAO: planning) {
-
-            Log.d("PLANNING", eventDAO.getName());
 
             if (!eventDAO.getName().equals("empty")) {
                 LocalDate date = LocalDate.parse(eventDAO.getDate(), formatter);
                 events.add(new Event(eventDAO.getName(), date));
             }
         }
-        Log.d("PLANNING", "size Events 2: "+ events.size());
-        Log.d("PLANNING", "size EventsList: "+ eventsList.getValue().size());
 
         eventsList.getValue().clear();
-        Log.d("PLANNING", "size EventsList 2: "+ eventsList.getValue().size());
 
         eventsList.setValue(events);
-        Log.d("PLANNING", "size EventsList 3: "+ eventsList.getValue().size());
 
     }
     public boolean isPatient() {
