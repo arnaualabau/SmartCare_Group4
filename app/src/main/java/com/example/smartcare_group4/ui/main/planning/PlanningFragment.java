@@ -24,7 +24,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.data.Event;
 import com.example.smartcare_group4.data.EventDAO;
-import com.example.smartcare_group4.data.constants.Generic;
 import com.example.smartcare_group4.databinding.FragmentPlanningBinding;
 
 import java.time.LocalDate;
@@ -90,12 +89,12 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
                 planningViewModel.saveEvent(medSelected, CalendarUtils.selectedDate).observe(getViewLifecycleOwner(), new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
-                        if (s.equals("success")) {
+                        if (s.equals(R.string.SUCCESS)) {
                             Toast.makeText(getActivity(), medSelected, Toast.LENGTH_SHORT).show();
                         } else {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                            builder.setMessage("value not saved")
-                                    .setTitle(Generic.ERROR);
+                            builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
+                                    .setTitle(R.string.ERROR_MSG);
                             builder.show();
                         }
                     }
@@ -112,12 +111,12 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
                 planningViewModel.deleteEvent(CalendarUtils.selectedDate).observe(getViewLifecycleOwner(), new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
-                        if (s.equals("success")) {
+                        if (s.equals(R.string.SUCCESS)) {
                             Toast.makeText(getActivity(), R.string.delete_med_msg, Toast.LENGTH_SHORT).show();
                         } else {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                            builder.setMessage("value not saved")
-                                    .setTitle(Generic.ERROR);
+                            builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
+                                    .setTitle(R.string.ERROR_MSG);
                             builder.show();
                         }
                     }

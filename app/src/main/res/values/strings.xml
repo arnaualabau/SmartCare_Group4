@@ -15,13 +15,12 @@
     <string name="ERROR">error</string>
     <string name="SUCCESS">sucess</string>
 
-    <!--mesages-->
+    <!--messages-->
     <string name="ERROR_MSG">Error!</string>
     <string name="SUCCES_MSG">Success!</string>
     <string name="EMERGENCY_MSG">Emergency!</string>
     <string name="SOS_MSG">SOS</string>
     <string name="VALUE_NOT_SAVED_MSG">Could not save value.</string>
-    <string name="ERROR_SIGNUP_MSG">Could not Sign Up in database. Try again.</string>
     <string name="ERROR_REGISTER_MSG">Could not Register in database. Try again.</string>
     <string name="ERROR_EMPTYTEXT">You need to fill in all fields.</string>
     <string name="ERROR_PASSWORDS">Passwords are not equal. Remember passwords should have at least 6 characters.</string>
@@ -32,6 +31,10 @@
     <!--sign up-->
     <string name="ERROR_REGISTER">error register</string>
     <string name="SUCCESS_REGISTER">success register</string>
+    <string name="ERROR_SIGNUP_MSG">Could not Sign Up in database. Try again.</string>
+
+    <!--log out-->
+    <string name="LOGOUT_ASK_MSG">Are you sure you want to log out\?</string>
 
     <!--camera messages-->
     <string name="CAMERA_MSG">Camera will open in order to take a new picture.</string>
@@ -43,7 +46,7 @@
     <string name="STORAGE_TITLE">Storage</string>
     <string name="STORAGE_DENIED">If the access to the storage is not granted, the app will present some limitations. You can allow us to access the storage in your phone\'s settings whenever you feel comfortable with it.</string>
 
-
+    <!--names-->
     <string name="menu_home">Home</string>
     <string name="menu_profile">Profile</string>
     <string name="menu_sensors">Sensors</string>
@@ -55,6 +58,8 @@
     <string name="title_login">Log In</string>
     <string name="title_signup">Sign Up</string>
     <string name="title_notifications">Notifications</string>
+    <string name="profile_type_patient">Patient</string>
+    <string name="profile_type_relative">Relative</string>
     <string-array name="meds_array">
         <item>{No medication}</item>
         <item>Ibuprofeno</item>

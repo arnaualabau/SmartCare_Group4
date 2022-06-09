@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.data.User;
 import com.example.smartcare_group4.databinding.FragmentProfileBinding;
 
@@ -38,7 +39,7 @@ public class ProfileFragment extends Fragment {
         profileViewModel.getUserInfo().observe(getViewLifecycleOwner(), new Observer<User>() {
             @Override
             public void onChanged(User user) {
-                if (!user.getEmail().equals("error")) {
+                if (!user.getEmail().equals(R.string.ERROR)) {
                     profileViewModel.setNameValue(user.getUsername());
                     profileViewModel.setEmailValue(user.getEmail());
                     profileViewModel.setWDIdValue(user.getHardwareId());
