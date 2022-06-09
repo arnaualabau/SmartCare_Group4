@@ -331,8 +331,6 @@ public class FirebaseRepository {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 planning = new ArrayList<EventDAO>();
 
-                Log.d("PLANNING", "onDataChange: "+ snapshot.toString());
-
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     planning.add(dataSnapshot.getValue(EventDAO.class));
                 }
@@ -400,7 +398,6 @@ public class FirebaseRepository {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Log.d("SOS", "is successful");
                                 observable.setValue("success");
 
                             } else {
