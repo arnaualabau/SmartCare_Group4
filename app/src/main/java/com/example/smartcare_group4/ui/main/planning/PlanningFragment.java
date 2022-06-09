@@ -106,18 +106,20 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
         takeMedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (CalendarUtils.selectedDate == LocalDate.now()) {
-                    if (planningViewModel.eventsForDate(LocalDate.now()).size() > 0) {
+
+
+                if (CalendarUtils.selectedDate.equals(LocalDate.now())) {
+                    ArrayList<Event> events = planningViewModel.eventsForDate(LocalDate.now());
+
+                    if (events.size() > 0) {
 
 
 
                     } else {
-
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setMessage(R.string.VALUE_NOT_TODAY_MSG)
+                        builder.setMessage(R.string.VALUE_NOT_MEDS_MSG)
                                 .setTitle(R.string.ERROR_MSG);
                         builder.show();
-
                     }
 
                 } else {
