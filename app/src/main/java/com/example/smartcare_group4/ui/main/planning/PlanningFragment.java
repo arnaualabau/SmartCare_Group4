@@ -103,6 +103,19 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
         });
 
         takeMedButton = v.findViewById(R.id.takeMedButton);
+        takeMedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CalendarUtils.selectedDate == LocalDate.now()) {
+
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
+                            .setTitle(R.string.ERROR_MSG);
+                    builder.show();
+                }
+            }
+        });
 
         delMedButton = v.findViewById(R.id.delMedButton);
         delMedButton.setOnClickListener(new View.OnClickListener() {

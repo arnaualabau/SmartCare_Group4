@@ -16,7 +16,6 @@ public class HomeViewModel extends ViewModel {
         mText = new MutableLiveData<>();
         mText.setValue("This is home fragment. Jo aqui posaria tres botons: sensors, planning i emergencia.");
 
-
     }
 
     public LiveData<String> getText() {

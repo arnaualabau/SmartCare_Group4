@@ -24,6 +24,7 @@
     <string name="ERROR_REGISTER_MSG">Could not Register in database. Try again.</string>
     <string name="ERROR_EMPTYTEXT">You need to fill in all fields.</string>
     <string name="ERROR_PASSWORDS">Passwords are not equal. Remember passwords should have at least 6 characters.</string>
+    <string name="VALUE_NOT_TODAY_MSG">You can only take today\'s medication.</string>
 
     <!--log in-->
     <string name="ERROR_CREDENTIALS">Error entering your credentials. Try again.</string>
@@ -61,7 +62,6 @@
     <string name="profile_type_patient">Patient</string>
     <string name="profile_type_relative">Relative</string>
     <string-array name="meds_array">
-        <item>{No medication}</item>
         <item>Ibuprofeno</item>
         <item>Dalsy</item>
     </string-array>
