@@ -2,17 +2,13 @@ package com.example.smartcare_group4.ui.main.home;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -20,7 +16,6 @@ import androidx.navigation.Navigation;
 
 import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.databinding.FragmentHomeBinding;
-import com.example.smartcare_group4.ui.main.sensors.SensorsFragment;
 
 public class HomeFragment extends Fragment {
 
@@ -84,16 +79,6 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
                 navController.navigate(R.id.nav_sensors);
-                /*
-                Fragment fragment = new SensorsFragment();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.nav_sensors, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-
-                 */
-
 
             }
         });
@@ -103,17 +88,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
 
                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
-                navController.navigate(R.id.nav_sensors);
-                /*
-                Fragment fragment = new SensorsFragment();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.nav_planning, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-
-                 */
-
+                navController.navigate(R.id.nav_planning);
 
             }
         });

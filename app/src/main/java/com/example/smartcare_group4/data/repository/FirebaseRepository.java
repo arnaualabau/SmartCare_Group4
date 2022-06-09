@@ -321,30 +321,6 @@ public class FirebaseRepository {
         return observable;
     }
 
-    public LiveData<ArrayList<EventDAO>> getPlanningInfo() {
-
-        MutableLiveData<ArrayList<EventDAO>> observable = new MutableLiveData<>();
-        planning = new ArrayList<EventDAO>();
-        mDatabase.child("planning").child(idHardware).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    planning.add(dataSnapshot.getValue(EventDAO.class));
-                }
-                if (planning.size()<1) {
-                    planning.add(new EventDAO("empty", "empty"));
-                }
-
-                observable.setValue(planning);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-
-        return observable;
-    }
 
     public LiveData<ArrayList<EventDAO>> subscribeToPlanning() {
 

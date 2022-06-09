@@ -46,13 +46,6 @@ public class PlanningViewModel extends ViewModel {
         return observable;
     }
 
-    public LiveData<ArrayList<EventDAO>> getPlanningInfo() {
-
-        MutableLiveData<ArrayList<EventDAO>> data = (MutableLiveData<ArrayList<EventDAO>>) FirebaseRepository.firebaseInstance.getPlanningInfo();
-
-        return data;
-    }
-
     public void setPlanning(ArrayList<EventDAO> planning) {
 
         ArrayList<Event> events = new ArrayList<>();

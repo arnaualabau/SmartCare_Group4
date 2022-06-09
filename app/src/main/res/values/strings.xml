@@ -13,7 +13,7 @@
 
     <!--aux-->
     <string name="ERROR">error</string>
-    <string name="SUCCESS">sucess</string>
+    <string name="SUCCESS">success</string>
 
     <!--messages-->
     <string name="ERROR_MSG">Error!</string>
