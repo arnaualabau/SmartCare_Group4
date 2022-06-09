@@ -400,6 +400,7 @@ public class FirebaseRepository {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
+                                Log.d("SOS", "is successful");
                                 observable.setValue("success");
 
                             } else {
@@ -407,7 +408,6 @@ public class FirebaseRepository {
                             }
                         }
                     });
-
 
                 } else {
                     observable.setValue("error");
