@@ -36,9 +36,6 @@ public class HomeFragment extends Fragment {
 
         bindViews(root);
 
-        //final TextView textView = binding.textHome;
-        //homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-
         return root;
     }
 
@@ -65,8 +62,6 @@ public class HomeFragment extends Fragment {
                             builder.setMessage(R.string.EMERGENCY_MSG)
                                     .setTitle(R.string.SOS_MSG);
                             builder.show();
-
-                            Log.d("SOS", s);
 
                         } else {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
