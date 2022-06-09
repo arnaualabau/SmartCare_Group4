@@ -20,7 +20,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.data.Device;
-import com.example.smartcare_group4.data.constants.Generic;
 import com.example.smartcare_group4.databinding.FragmentSensorsBinding;
 
 
@@ -64,7 +63,7 @@ public class SensorsFragment extends Fragment {
         sensorsViewModel.getDeviceInfo().observe(getViewLifecycleOwner(), new Observer<Device>() {
             @Override
             public void onChanged(Device device) {
-                if (!device.getHardwareId().equals("error")) {
+                if (!device.getHardwareId().equals(R.string.ERROR)) {
                     sensorsViewModel.setLight(device.getLightSensor());
                     sensorsViewModel.setTap(device.getTap());
                     sensorsViewModel.setPresence(device.getPresenceSensor());
@@ -89,12 +88,12 @@ public class SensorsFragment extends Fragment {
             public void onClick(View view) {
                 if (!sensorsViewModel.isPatient()) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                    alert.setTitle("Insert value between 0 - 255");
+                    alert.setTitle(R.string.LIGHT_SENSOR_VALUES);
                     final EditText input = new EditText(getActivity());
                     input.setInputType(InputType.TYPE_CLASS_NUMBER);
                     input.setRawInputType(Configuration.KEYBOARD_12KEY);
                     alert.setView(input);
-                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    alert.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             //Put actions for OK button here
                             int value = Integer.parseInt(input.getText().toString());
@@ -104,14 +103,14 @@ public class SensorsFragment extends Fragment {
                                 sensorsViewModel.changeLightValue(value).observe(getViewLifecycleOwner(), new Observer<String>() {
                                     @Override
                                     public void onChanged(String s) {
-                                        if (s.equals("success")) {
+                                        if (s.equals(R.string.SUCCESS)) {
                                             //canviar text
                                             //sensorsViewModel.setLight(value);
                                         } else {
                                             //controlar error
                                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                            builder.setMessage("Could not save value.")
-                                                    .setTitle(Generic.ERROR);
+                                            builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
+                                                    .setTitle(R.string.ERROR_MSG);
                                             builder.show();
                                         }
                                     }
@@ -120,12 +119,12 @@ public class SensorsFragment extends Fragment {
                             } else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                 builder.setMessage(R.string.action_settings)
-                                        .setTitle(Generic.ERROR);
+                                        .setTitle(R.string.ERROR_MSG);
                                 builder.show();
                             }
                         }
                     });
-                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    alert.setNegativeButton(R.string.CANCEL, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             //Put actions for CANCEL button here, or leave in blank
                         }
@@ -135,8 +134,8 @@ public class SensorsFragment extends Fragment {
                 } else {
                     //change message to you cannot modify
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setMessage("Not able to modify value.")
-                            .setTitle(Generic.ERROR);
+                    builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
+                            .setTitle(R.string.ERROR_MSG);
                     builder.show();
                 }
             }
@@ -155,13 +154,13 @@ public class SensorsFragment extends Fragment {
                         sensorsViewModel.changeTapValue(step).observe(getViewLifecycleOwner(), new Observer<String>() {
                             @Override
                             public void onChanged(String s) {
-                                if (s.equals("success")) {
+                                if (s.equals(R.string.SUCCESS)) {
                                     //canviar text
                                 } else {
                                     //controlar error
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                    builder.setMessage("Could not save value.")
-                                            .setTitle(Generic.ERROR);
+                                    builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
+                                            .setTitle(R.string.ERROR_MSG);
                                     builder.show();
                                 }
                             }
@@ -188,13 +187,13 @@ public class SensorsFragment extends Fragment {
                         sensorsViewModel.changeTapValue(step).observe(getViewLifecycleOwner(), new Observer<String>() {
                             @Override
                             public void onChanged(String s) {
-                                if (s.equals("success")) {
+                                if (s.equals(R.string.SUCCESS)) {
                                     //canviar text
                                 } else {
                                     //controlar error
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                    builder.setMessage("Could not save value.")
-                                            .setTitle(Generic.ERROR);
+                                    builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
+                                            .setTitle(R.string.ERROR_MSG);
                                     builder.show();
                                 }
                             }

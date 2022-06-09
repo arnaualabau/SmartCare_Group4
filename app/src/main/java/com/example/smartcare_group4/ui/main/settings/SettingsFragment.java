@@ -82,12 +82,12 @@ public class SettingsFragment extends Fragment {
                     settingsViewModel.checkOldPassword(oldPSWtext).observe(getViewLifecycleOwner(), new Observer<String>() {
                         @Override
                         public void onChanged(String s1) {
-                            if (s1.equals("success")) {
+                            if (s1.equals(R.string.SUCCESS)) {
                                 if (settingsViewModel.checkNewPasswords(newPSWtext, newPSW2text)) {
                                     settingsViewModel.changePassword(newPSWtext).observe(getViewLifecycleOwner(), new Observer<String>() {
                                         @Override
                                         public void onChanged(String s2) {
-                                            if (s2.equals("error")) {
+                                            if (s2.equals(R.string.ERROR)) {
                                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                                 builder.setMessage(Generic.PSW_NOTCHANGED)
                                                         .setTitle(Generic.ERROR);
@@ -95,7 +95,7 @@ public class SettingsFragment extends Fragment {
                                                 oldPassword.setText("");
                                                 newPassword.setText("");
                                                 newPassword2.setText("");
-                                            } else if (s2.equals("success")) {
+                                            } else if (s2.equals(R.string.SUCCESS)) {
                                                 //volver a home o borrar todos los campos o que?
                                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                                 builder.setMessage(Generic.PSW_CHANGED)
@@ -114,7 +114,7 @@ public class SettingsFragment extends Fragment {
                                             .setTitle(R.string.ERROR_MSG);
                                     builder.show();
                                 }
-                            } else if (s1.equals("error")) {
+                            } else if (s1.equals(R.string.ERROR)) {
                                 //error message: old password does not match
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                 builder.setMessage(Generic.ERROR_OLDPSW)

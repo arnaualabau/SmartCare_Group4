@@ -14,6 +14,8 @@
     <!--aux-->
     <string name="ERROR">error</string>
     <string name="SUCCESS" translatable="false">success</string>
+    <string name="OK">Ok</string>
+    <string name="CANCEL">Cancel</string>
 
     <!--messages-->
     <string name="ERROR_MSG">Error!</string>
@@ -42,6 +44,9 @@
     <string name="CAMERA_TITLE">Camera</string>
     <string name="CAMERA_DENIED">If the access to the camera is not granted, the app will present some limitations. You can allow us to access the camera in your phone\'s settings whenever you feel comfortable with it.</string>
     <string name="CAMERA_NO">This device does not have a camera.</string>
+
+    <!--sensors-->
+    <string name="LIGHT_SENSOR_VALUES">Choose a light value between 0-255</string>
 
     <!--storage-->
     <string name="STORAGE_TITLE">Storage</string>
