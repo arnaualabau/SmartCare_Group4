@@ -110,15 +110,15 @@ public class SettingsFragment extends Fragment {
                                 } else {
                                     //error message: new passwords do not match or less 6 chars
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                    builder.setMessage(Generic.ERROR_PASSWORDS)
-                                            .setTitle(Generic.ERROR);
+                                    builder.setMessage(R.string.ERROR_PASSWORDS)
+                                            .setTitle(R.string.ERROR_MSG);
                                     builder.show();
                                 }
                             } else if (s1.equals("error")) {
                                 //error message: old password does not match
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                 builder.setMessage(Generic.ERROR_OLDPSW)
-                                        .setTitle(Generic.ERROR);
+                                        .setTitle(R.string.ERROR_MSG);
                                 builder.show();
                             }
                         }

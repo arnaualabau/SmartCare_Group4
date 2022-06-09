@@ -11,6 +11,35 @@
 
     <string name="delete_med_msg">Successfully deleted</string>
 
+    <!--aux-->
+    <string name="ERROR">error</string>
+
+    <!--mesages-->
+    <string name="ERROR_MSG">Error!</string>
+    <string name="SUCCES_MSG">Success!</string>
+    <string name="ERROR_SIGNUP_MSG">Could not Sign Up in database. Try again.</string>
+    <string name="ERROR_REGISTER_MSG">Could not Register in database. Try again.</string>
+    <string name="ERROR_EMPTYTEXT">You need to fill in all fields.</string>
+    <string name="ERROR_PASSWORDS">Passwords are not equal. Remember passwords should have at least 6 characters.</string>
+
+    <!--log in-->
+    <string name="ERROR_CREDENTIALS">Error entering your credentials. Try again.</string>
+
+    <!--sign up-->
+    <string name="ERROR_REGISTER">error register</string>
+    <string name="SUCCESS_REGISTER">success register</string>
+
+    <!--camera messages-->
+    <string name="CAMERA_MSG">Camera will open in order to take a new picture.</string>
+    <string name="CAMERA_TITLE">Camera</string>
+    <string name="CAMERA_DENIED">If the access to the camera is not granted, the app will present some limitations. You can allow us to access the camera in your phone\'s settings whenever you feel comfortable with it.</string>
+    <string name="CAMERA_NO">This device does not have a camera.</string>
+
+    <!--storage-->
+    <string name="STORAGE_TITLE">Storage</string>
+    <string name="STORAGE_DENIED">If the access to the storage is not granted, the app will present some limitations. You can allow us to access the storage in your phone\'s settings whenever you feel comfortable with it.</string>
+
+
 
     <string name="menu_home">Home</string>
     <string name="menu_profile">Profile</string>

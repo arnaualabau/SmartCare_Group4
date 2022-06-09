@@ -26,7 +26,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.smartcare_group4.R;
-import com.example.smartcare_group4.data.constants.Generic;
 import com.example.smartcare_group4.ui.main.MainActivity;
 
 public class SignupFragment extends Fragment {
@@ -192,8 +191,8 @@ public class SignupFragment extends Fragment {
                     //CHECK PASSWORDS
                     if (!signupViewModel.checkPSW(passwdText.getText().toString(), passwd2Text.getText().toString())) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setMessage(Generic.ERROR_PASSWORDS)
-                                .setTitle(Generic.ERROR);
+                        builder.setMessage(R.string.ERROR_PASSWORDS)
+                                .setTitle(R.string.ERROR_MSG);
                         builder.show();
                     } else {
                         //CALL FIREBASE
@@ -204,7 +203,7 @@ public class SignupFragment extends Fragment {
                             @Override
                             public void onChanged(String s) {
                                 result = s;
-                                if (!s.equals("error")) {
+                                if (!s.equals(R.string.ERROR)) {
                                     Log.d("SIGNUP", "success");
                                     boolean patient = patientButton.isChecked();
                                     email = emailText.getText().toString();
@@ -218,7 +217,7 @@ public class SignupFragment extends Fragment {
                                     signupViewModel.registerUser(name, email, result, hardwareId, patient).observe(getViewLifecycleOwner(), new Observer<String>() {
                                         @Override
                                         public void onChanged(String s) {
-                                            if (s.equals("success register")) {
+                                            if (s.equals(R.string.SUCCESS_REGISTER)) {
                                                 //Log.d("SIGNUP", "register DB success");
                                                 Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
                                                 loginToProfile.putExtra("email", email);
@@ -229,12 +228,12 @@ public class SignupFragment extends Fragment {
 
                                                 startActivity(loginToProfile);
 
-                                            } else if (s.equals("error register")) {
+                                            } else if (s.equals(R.string.ERROR_REGISTER)) {
                                                 //ERROR IN REGISTERING IN FIREBASE
                                                 //Log.d("SIGNUP", "register DB error");
                                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                                builder.setMessage(Generic.ERROR_REGISTER)
-                                                        .setTitle(Generic.ERROR);
+                                                builder.setMessage(R.string.ERROR_REGISTER_MSG)
+                                                        .setTitle(R.string.ERROR_MSG);
                                                 builder.show();
                                                 //TODO: quines son les consequencies d'aquest error?
                                             }
@@ -242,12 +241,12 @@ public class SignupFragment extends Fragment {
                                     });
 
 
-                                } else if (s.equals("error")) {
+                                } else if (s.equals(R.string.ERROR)) {
                                     //ERROR IN SIGN UP IN FIREBASE
                                     //Log.d("USER", "error");
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                    builder.setMessage(Generic.ERROR_SIGNUP)
-                                            .setTitle(Generic.ERROR);
+                                    builder.setMessage(R.string.ERROR_SIGNUP_MSG)
+                                            .setTitle(R.string.ERROR_MSG);
                                     builder.show();
                                 }
                             }
@@ -255,8 +254,8 @@ public class SignupFragment extends Fragment {
                     }
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setMessage(Generic.ERROR_EMPTYTEXT)
-                            .setTitle(Generic.ERROR);
+                    builder.setMessage(R.string.ERROR_EMPTYTEXT)
+                            .setTitle(R.string.ERROR_MSG);
                     builder.show();
                 }
 
@@ -271,8 +270,8 @@ public class SignupFragment extends Fragment {
             public void onClick(View view) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setMessage(Generic.CAMERA_MSG)
-                        .setTitle(Generic.CAMERA_TITLE)
+                builder.setMessage(R.string.CAMERA_MSG)
+                        .setTitle(R.string.CAMERA_TITLE)
                         .setIcon(android.R.drawable.ic_menu_camera)
                         .setCancelable(true)
                         .setNegativeButton(android.R.string.no, null)
@@ -283,7 +282,7 @@ public class SignupFragment extends Fragment {
                                 PackageManager packageManager = getActivity().getPackageManager();
                                 if(packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY) == false) {
 
-                                    Toast.makeText(getActivity(), "This device does not have a camera.", Toast.LENGTH_SHORT)
+                                    Toast.makeText(getActivity(), R.string.CAMERA_NO, Toast.LENGTH_SHORT)
                                             .show();
                                 } else {
 
@@ -339,8 +338,8 @@ public class SignupFragment extends Fragment {
                 } else {
 
                     new androidx.appcompat.app.AlertDialog.Builder(getActivity())
-                            .setTitle(Generic.CAMERA_TITLE)
-                            .setMessage(Generic.CAMERA_DENIED)
+                            .setTitle(R.string.CAMERA_TITLE)
+                            .setMessage(R.string.CAMERA_DENIED)
                             .setNegativeButton(android.R.string.ok, null)
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
@@ -355,8 +354,8 @@ public class SignupFragment extends Fragment {
                 } else {
 
                     new androidx.appcompat.app.AlertDialog.Builder(getActivity())
-                            .setTitle(Generic.STORAGE_TITLE)
-                            .setMessage(Generic.STORAGE_DENIED)
+                            .setTitle(R.string.STORAGE_TITLE)
+                            .setMessage(R.string.STORAGE_DENIED)
                             .setNegativeButton(android.R.string.ok, null)
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();

@@ -22,7 +22,6 @@ import com.example.smartcare_group4.ui.main.MainActivity;
 import com.example.smartcare_group4.utils.PrintLog;
 import com.example.smartcare_group4.data.Device;
 import com.example.smartcare_group4.data.User;
-import com.example.smartcare_group4.data.constants.Generic;
 
 public class LoginFragment extends Fragment {
 
@@ -107,13 +106,13 @@ public class LoginFragment extends Fragment {
                         @Override
                         public void onChanged(String s) {
                             result = s;
-                            if (!s.equals("error")) {
+                            if (!s.equals(R.string.ERROR)) {
                                 Log.d("SIGN IN", "success");
 
                                 loginViewModel.getUserInfo(result).observe(getViewLifecycleOwner(), new Observer<User>() {
                                     @Override
                                     public void onChanged(User user) {
-                                        if (!user.getEmail().equals("error")) {
+                                        if (!user.getEmail().equals(R.string.ERROR)) {
 
                                             //GET DEVICE INFO
 
@@ -123,7 +122,7 @@ public class LoginFragment extends Fragment {
                                                 @Override
                                                 public void onChanged(Device device) {
 
-                                                    if (!device.getHardwareId().equals("error")) {
+                                                    if (!device.getHardwareId().equals(R.string.ERROR)) {
                                                         //CHANGE ACTIVITY
 
                                                         Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
@@ -162,14 +161,14 @@ public class LoginFragment extends Fragment {
                                     }
                                 });
 
-                            } else if (s.equals("error")) {
+                            } else if (s.equals(R.string.ERROR_CREDENTIALS)) {
                                 //LOGIN FAILS
                                 //Toast errorToast = Toast.makeText(getActivity(), "Error, retry credentials", Toast.LENGTH_SHORT);
                                 //errorToast.show();
 
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                builder.setMessage(Generic.ERROR_CREDENTIALS)
-                                        .setTitle(Generic.ERROR);
+                                builder.setMessage(R.string.ERROR)
+                                        .setTitle(R.string.ERROR_MSG);
                                 builder.show();
 
                             }
@@ -177,8 +176,8 @@ public class LoginFragment extends Fragment {
                     });
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setMessage(Generic.ERROR_EMPTYTEXT)
-                            .setTitle(Generic.ERROR);
+                    builder.setMessage(R.string.ERROR_EMPTYTEXT)
+                            .setTitle(R.string.ERROR_MSG);
                     builder.show();
                 }
 
