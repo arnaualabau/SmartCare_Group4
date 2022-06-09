@@ -17,7 +17,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.smartcare_group4.R;
-import com.example.smartcare_group4.data.constants.Generic;
 import com.example.smartcare_group4.databinding.FragmentHomeBinding;
 import com.example.smartcare_group4.ui.main.sensors.SensorsFragment;
 
@@ -62,15 +61,15 @@ public class HomeFragment extends Fragment {
                 homeViewModel.setValuesEmergency().observe(getViewLifecycleOwner(), new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
-                        if (!s.equals("success")) {
+                        if (!s.equals(R.string.SUCCESS)) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                            builder.setMessage("Could not save value.")
-                                    .setTitle(Generic.ERROR);
+                            builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
+                                    .setTitle(R.string.ERROR_MSG);
                             builder.show();
                         } else {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                            builder.setMessage("EMERGENCY!")
-                                    .setTitle("SOS");
+                            builder.setMessage(R.string.EMERGENCY_MSG)
+                                    .setTitle(R.string.SOS_MSG);
                             builder.show();
                         }
                     }

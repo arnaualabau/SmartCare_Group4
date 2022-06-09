@@ -13,10 +13,14 @@
 
     <!--aux-->
     <string name="ERROR">error</string>
+    <string name="SUCCESS">sucess</string>
 
     <!--mesages-->
     <string name="ERROR_MSG">Error!</string>
     <string name="SUCCES_MSG">Success!</string>
+    <string name="EMERGENCY_MSG">Emergency!</string>
+    <string name="SOS_MSG">SOS</string>
+    <string name="VALUE_NOT_SAVED_MSG">Could not save value.</string>
     <string name="ERROR_SIGNUP_MSG">Could not Sign Up in database. Try again.</string>
     <string name="ERROR_REGISTER_MSG">Could not Register in database. Try again.</string>
     <string name="ERROR_EMPTYTEXT">You need to fill in all fields.</string>
@@ -38,7 +42,6 @@
     <!--storage-->
     <string name="STORAGE_TITLE">Storage</string>
     <string name="STORAGE_DENIED">If the access to the storage is not granted, the app will present some limitations. You can allow us to access the storage in your phone\'s settings whenever you feel comfortable with it.</string>
-
 
 
     <string name="menu_home">Home</string>
