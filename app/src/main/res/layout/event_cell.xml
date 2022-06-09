@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="60dp">
+    android:layout_height="60dp"
+    android:weightSum="1">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_weight="0.8"
         android:gravity="center"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="12dp"
         android:id="@+id/eventCellTV"
         android:textSize="20sp"
         android:textColor="@color/black"
         android:text="Event"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"
+        android:layout_marginEnd="12dp"
+
+        android:background="@drawable/cross"
+        ></ImageView>
 
 </LinearLayout>
