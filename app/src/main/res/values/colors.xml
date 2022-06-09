@@ -10,4 +10,6 @@
     <color name="grey">#83858A</color>
     <color name="transparent">#00000000</color>
     <color name="red">#FFF00000</color>
+    <color name="green">#FF009000</color>
+
 </resources>
