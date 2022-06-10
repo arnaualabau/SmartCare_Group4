@@ -65,6 +65,13 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
 
                 planningViewModel.setPlanning(planning);
                 setWeekView();
+
+                if (!planningViewModel.isPatient() && planningViewModel.noWeekPlan()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage(R.string.NO_WEEKPLAN_MSG)
+                            .setTitle(R.string.ALERT_MSG);
+                    builder.show();
+                }
             }
         });
 
@@ -117,14 +124,14 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
 
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setMessage(R.string.VALUE_NOT_MEDS_MSG)
+                        builder.setMessage(R.string.NOT_MEDS_MSG)
                                 .setTitle(R.string.ERROR_MSG);
                         builder.show();
                     }
 
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setMessage(R.string.VALUE_NOT_TODAY_MSG)
+                    builder.setMessage(R.string.NOT_TODAY_MSG)
                             .setTitle(R.string.ERROR_MSG);
                     builder.show();
                 }

@@ -80,4 +80,19 @@ public class PlanningViewModel extends ViewModel {
         data = FirebaseRepository.firebaseInstance.deleteEvent(selectedDate);
         return data;
     }
+
+    public boolean noWeekPlan() {
+
+        for (int i = 1; i <= 8; i++) {
+
+            LocalDate date = LocalDate.now().plusDays(i);
+            for (Event event : eventsList.getValue()) {
+                if (event.getDate().equals(date)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
 }
