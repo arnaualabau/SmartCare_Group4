@@ -1,5 +1,6 @@
 package com.example.smartcare_group4.ui.main;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -7,12 +8,14 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.smartcare_group4.R;
+import com.example.smartcare_group4.data.repository.FirebaseRepository;
 import com.example.smartcare_group4.databinding.ActivityMainBinding;
 import com.example.smartcare_group4.data.Device;
 import com.example.smartcare_group4.data.User;
@@ -42,8 +45,29 @@ public class MainActivity extends AppCompatActivity {
         binding.appBarMain.emergency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Snackbar.make(view, "Help is on the way", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                FirebaseRepository.firebaseInstance.setValuesEmergency().observe(MainActivity.this, new Observer<String>() {
+                    @Override
+                    public void onChanged(String s) {
+                        if (s.equals(getString(R.string.SUCCESS))) {
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                            builder.setMessage(R.string.EMERGENCY_MSG)
+                                    .setTitle(R.string.SOS_MSG);
+                            builder.show();
+
+                        } else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                            builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
+                                    .setTitle(R.string.ERROR_MSG);
+                            builder.show();
+
+                        }
+                    }
+                });
             }
         });
 

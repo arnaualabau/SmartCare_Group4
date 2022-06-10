@@ -34,31 +34,23 @@
         android:textSize="20sp"
         android:text="LIGHT VALUE"
         app:layout_constraintBottom_toTopOf="@+id/text_tap"
-        app:layout_constraintEnd_toStartOf="@+id/buttonLight"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_light" />
 
+    <com.google.android.material.slider.Slider
+        android:id="@+id/lightSlider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:valueFrom="0"
+        android:valueTo="255"
+        android:stepSize="1.0"
+        app:layout_constraintTop_toBottomOf="@+id/text_lightValue"
+        app:layout_constraintBottom_toTopOf="@id/text_tap"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        ></com.google.android.material.slider.Slider>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonLight"
-
-        android:layout_width="100sp"
-        android:layout_height="0dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
-
-        android:background="@drawable/textview_backgrounddesign"
-        android:text="Change"
-        android:textSize="15sp"
-
-        app:layout_constraintBottom_toTopOf="@+id/text_tap"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintStart_toEndOf="@id/text_lightValue"
-
-        app:layout_constraintTop_toBottomOf="@id/text_light"
-        app:layout_constraintVertical_bias="0.47"
-        app:layout_constraintWidth_percent="0.8"></androidx.appcompat.widget.AppCompatButton>
 
     <TextView
         android:id="@+id/text_tap"
