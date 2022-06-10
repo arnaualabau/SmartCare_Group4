@@ -4,6 +4,7 @@ public class EventDAO {
 
     private String name;
     private String date;
+    private String taken;
 
     public EventDAO(){
     }
@@ -12,6 +13,15 @@ public class EventDAO {
 
         this.name = name;
         this.date = date;
+        this.taken = "no";
+    }
+
+    public String getTaken() {
+        return taken;
+    }
+
+    public void setTaken(String taken) {
+        this.taken = taken;
     }
 
     public String getName()

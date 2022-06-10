@@ -1,7 +1,5 @@
 package com.example.smartcare_group4.ui.main.planning;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -57,7 +55,7 @@ public class PlanningViewModel extends ViewModel {
 
             if (!eventDAO.getName().equals("empty")) {
                 LocalDate date = LocalDate.parse(eventDAO.getDate(), formatter);
-                events.add(new Event(eventDAO.getName(), date));
+                events.add(new Event(eventDAO.getName(), date, eventDAO.getTaken()));
             }
         }
 

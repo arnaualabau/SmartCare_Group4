@@ -9,21 +9,22 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="0.8"
+        android:layout_weight="0.98"
         android:gravity="center"
         android:layout_marginStart="12dp"
         android:id="@+id/eventCellTV"
-        android:textSize="20sp"
+        android:textSize="24sp"
         android:textColor="@color/black"
         android:text="Event"/>
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="0.2"
+    <ImageButton
+        android:id="@+id/medTaken"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_weight="0.02"
         android:layout_marginEnd="12dp"
-
-        android:background="@drawable/cross"
-        ></ImageView>
+        android:foreground="@drawable/cross"
+        android:background="@color/red"
+        ></ImageButton>
 
 </LinearLayout>

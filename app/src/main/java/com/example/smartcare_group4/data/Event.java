@@ -7,11 +7,21 @@ public class Event {
 
     private String name;
     private LocalDate date;
+    private String taken;
 
-    public Event(String name, LocalDate date) {
+    public Event(String name, LocalDate date, String taken) {
 
         this.name = name;
         this.date = date;
+        this.taken = taken;
+    }
+
+    public String getTaken() {
+        return taken;
+    }
+
+    public void setTaken(String taken) {
+        this.taken = taken;
     }
 
     public String getName()

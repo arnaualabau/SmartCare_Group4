@@ -138,7 +138,7 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
                 planningViewModel.deleteEvent(CalendarUtils.selectedDate).observe(getViewLifecycleOwner(), new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
-                        if (s.equals(R.string.SUCCESS)) {
+                        if (s.equals(getString(R.string.SUCCESS))) {
                             Toast.makeText(getActivity(), R.string.delete_med_msg, Toast.LENGTH_SHORT).show();
                         } else {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
