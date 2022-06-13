@@ -13,7 +13,6 @@ public class ProfileViewModel extends ViewModel {
     private final MutableLiveData<String> emailText;
     private final MutableLiveData<String> hardwareText;
     private final MutableLiveData<String> roleText;
-    //private FirebaseRepository firebase = new FirebaseRepository();
 
 
     public ProfileViewModel() {

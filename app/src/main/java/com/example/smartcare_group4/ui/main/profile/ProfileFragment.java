@@ -1,5 +1,6 @@
 package com.example.smartcare_group4.ui.main.profile;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,7 +40,7 @@ public class ProfileFragment extends Fragment {
         profileViewModel.getUserInfo().observe(getViewLifecycleOwner(), new Observer<User>() {
             @Override
             public void onChanged(User user) {
-                if (!user.getEmail().equals(R.string.ERROR)) {
+                if (!user.getEmail().equals(getString(R.string.ERROR))) {
                     profileViewModel.setNameValue(user.getUsername());
                     profileViewModel.setEmailValue(user.getEmail());
                     profileViewModel.setWDIdValue(user.getHardwareId());
@@ -47,7 +48,11 @@ public class ProfileFragment extends Fragment {
 
 
                 } else {
-                    Log.d("PROFILE", "error");
+                    //READ USER INFO FAILS
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage(R.string.ERROR_USER)
+                            .setTitle(R.string.ERROR_MSG);
+                    builder.show();
                 }
             }
         });
