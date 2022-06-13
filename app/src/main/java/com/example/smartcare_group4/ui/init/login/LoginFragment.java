@@ -33,10 +33,7 @@ public class LoginFragment extends Fragment {
     String email = "";
     private EditText passwdText;
     String password = "";
-    //private Button changeButton;
     private String result;
-
-    PrintLog print;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -186,9 +183,6 @@ public class LoginFragment extends Fragment {
                             .setTitle(R.string.ERROR_MSG);
                     builder.show();
                 }
-
-
-
 
             }
         });

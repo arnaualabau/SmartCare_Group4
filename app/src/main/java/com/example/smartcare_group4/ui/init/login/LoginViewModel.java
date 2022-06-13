@@ -9,21 +9,9 @@ import com.example.smartcare_group4.data.Device;
 import com.example.smartcare_group4.data.User;
 
 public class LoginViewModel extends ViewModel {
-    //es un controlador
-    //aixo ha de cridar el repository
-    private final MutableLiveData<String> mText;
-    //private FirebaseRepository firebase = new FirebaseRepository();
 
-    public LoginViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is login fragment");
-    }
+    public LoginViewModel() {}
 
-
-
-    public LiveData<String> getText() {
-        return mText;
-    }
 
     public LiveData<String> login(String email, String password) {
         MutableLiveData<String> data = (MutableLiveData<String>) FirebaseRepository.firebaseInstance.loginFirebase(email, password);
@@ -52,7 +40,6 @@ public class LoginViewModel extends ViewModel {
         if (s1.equals("")) {
             return true;
         }
-
         return false;
     }
 }
