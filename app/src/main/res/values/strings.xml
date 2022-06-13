@@ -57,7 +57,9 @@
     <string name="STORAGE_DENIED">If the access to the storage is not granted, the app will present some limitations. You can allow us to access the storage in your phone\'s settings whenever you feel comfortable with it.</string>
 
     <!--sensors-->
-    <string name="LIGHT_SENSOR_VALUES">Choose a light value between 0-255</string>
+    <string name="LIGHT_SENSOR_VALUES">Choose a light value between 0–255</string>
+    <string name="ERROR_SENSORS">Error getting information about the sensors. Try again.</string>
+
 
     <!--names-->
     <string name="menu_home">Home</string>

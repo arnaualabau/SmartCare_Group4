@@ -23,8 +23,6 @@ import com.google.android.material.slider.Slider;
 public class SensorsFragment extends Fragment {
 
     private FragmentSensorsBinding binding;
-    private Button lightButton;
-    private Button tapButton;
     private Button addTapButton;
     private Button removeTapButton;
     private Slider lightSlider;
@@ -33,6 +31,7 @@ public class SensorsFragment extends Fragment {
 
     TextView lightValue;
     TextView tapValue;
+    TextView presenceValue;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -56,18 +55,22 @@ public class SensorsFragment extends Fragment {
 
         //declaration
         lightValue = binding.textLightValue;
-        final TextView presenceValue = binding.textPresenceValue;
+        presenceValue = binding.textPresenceValue;
         tapValue = binding.textTapValue;
 
         sensorsViewModel.getDeviceInfo().observe(getViewLifecycleOwner(), new Observer<Device>() {
             @Override
             public void onChanged(Device device) {
-                if (!device.getHardwareId().equals(R.string.ERROR)) {
+                if (!device.getHardwareId().equals(getString(R.string.ERROR))) {
                     sensorsViewModel.setLight(device.getLightSensor());
                     sensorsViewModel.setTap(device.getTap());
                     sensorsViewModel.setPresence(device.getPresenceSensor());
                 } else {
-                    Log.d("SENSORS", "error");
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage(R.string.ERROR_SENSORS)
+                            .setTitle(R.string.ERROR_MSG);
+                    builder.show();
+
                 }
             }
         });
@@ -91,8 +94,7 @@ public class SensorsFragment extends Fragment {
                     @Override
                     public void onChanged(String s) {
                         if (s.equals(getString(R.string.SUCCESS))) {
-                            //canviar text
-                            //sensorsViewModel.setLight(value);
+                            //values will be automatically changed
                         } else {
                             //controlar error
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -112,7 +114,6 @@ public class SensorsFragment extends Fragment {
             public void onClick(View view) {
                 if (!sensorsViewModel.isPatient()) {
                     int step = Integer.parseInt(tapValue.getText().toString());
-                    Log.d("sensors", Integer.toString(step));
                     if (sensorsViewModel.checkStep(step, 0, 4)) {
                         step = step + 1;
 
@@ -142,7 +143,6 @@ public class SensorsFragment extends Fragment {
             public void onClick(View view) {
                 if (!sensorsViewModel.isPatient()) {
                     int step = Integer.parseInt(tapValue.getText().toString());
-                    Log.d("sensors", Integer.toString(step));
 
                     if (sensorsViewModel.checkStep(step, 1, 5)) {
                         step = step - 1;
@@ -150,7 +150,7 @@ public class SensorsFragment extends Fragment {
                         sensorsViewModel.changeTapValue(step).observe(getViewLifecycleOwner(), new Observer<String>() {
                             @Override
                             public void onChanged(String s) {
-                                if (s.equals(R.string.SUCCESS)) {
+                                if (s.equals(getString(R.string.SUCCESS))) {
                                     //canviar text
                                 } else {
                                     //controlar error
