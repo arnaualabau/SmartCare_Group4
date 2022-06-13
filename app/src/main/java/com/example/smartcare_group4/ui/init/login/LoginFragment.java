@@ -89,7 +89,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
                 password = passwdText.getText().toString();
-                print.debug("Pass", password);
+                //print.debug("Pass", password);
             }
         });
 
@@ -106,23 +106,21 @@ public class LoginFragment extends Fragment {
                         @Override
                         public void onChanged(String s) {
                             result = s;
-                            if (!s.equals(R.string.ERROR)) {
-                                Log.d("SIGN IN", "success");
+                            if (!s.equals(getString(R.string.ERROR))) {
 
                                 loginViewModel.getUserInfo(result).observe(getViewLifecycleOwner(), new Observer<User>() {
                                     @Override
                                     public void onChanged(User user) {
-                                        if (!user.getEmail().equals(R.string.ERROR)) {
+                                        if (!user.getEmail().equals(getString(R.string.ERROR))) {
 
                                             //GET DEVICE INFO
 
                                             loginViewModel.setHWId(user.getHardwareId());
-
                                             loginViewModel.getDeviceInfo().observe(getViewLifecycleOwner(), new Observer<Device>() {
                                                 @Override
                                                 public void onChanged(Device device) {
 
-                                                    if (!device.getHardwareId().equals(R.string.ERROR)) {
+                                                    if (!device.getHardwareId().equals(getString(R.string.ERROR))) {
                                                         //CHANGE ACTIVITY
 
                                                         Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
@@ -138,36 +136,44 @@ public class LoginFragment extends Fragment {
 
 
                                                         startActivity(loginToProfile);
-                                                        //getActivity().finish();
 
-                                                        //borrar els camps de text
+                                                        //Empty text fields
                                                         emailText.setText("");
                                                         passwdText.setText("");
 
                                                     } else {
-                                                        //error en get device
+                                                        //READ DEVICE INFO FAILS
+                                                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                                        builder.setMessage(R.string.ERROR_DEVICE)
+                                                                .setTitle(R.string.ERROR_MSG);
+                                                        builder.show();
+
+                                                        //Empty text fields
+                                                        emailText.setText("");
+                                                        passwdText.setText("");
                                                     }
                                                 }
                                             });
 
-
-
-
                                         } else {
                                             //READ USER INFO FAILS
-                                            Log.d("LOGIN", "error in reading info user");
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                            builder.setMessage(R.string.ERROR_USER)
+                                                    .setTitle(R.string.ERROR_MSG);
+                                            builder.show();
+
+                                            //Empty text fields
+                                            emailText.setText("");
+                                            passwdText.setText("");
 
                                         }
                                     }
                                 });
 
-                            } else if (s.equals(R.string.ERROR_CREDENTIALS)) {
+                            } else if (s.equals(getString(R.string.ERROR))) {
                                 //LOGIN FAILS
-                                //Toast errorToast = Toast.makeText(getActivity(), "Error, retry credentials", Toast.LENGTH_SHORT);
-                                //errorToast.show();
-
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                builder.setMessage(R.string.ERROR)
+                                builder.setMessage(R.string.ERROR_CREDENTIALS)
                                         .setTitle(R.string.ERROR_MSG);
                                 builder.show();
 

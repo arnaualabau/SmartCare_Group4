@@ -12,7 +12,7 @@
     <string name="delete_med_msg">Successfully deleted</string>
 
     <!--aux-->
-    <string name="ERROR">error</string>
+    <string name="ERROR" translatable="false">error</string>
     <string name="SUCCESS" translatable="false">success</string>
     <string name="OK">Ok</string>
     <string name="CANCEL">Cancel</string>
@@ -34,6 +34,9 @@
 
     <!--log in-->
     <string name="ERROR_CREDENTIALS">Error entering your credentials. Try again.</string>
+    <string name="ERROR_DEVICE">Error getting information about the device. Try again. </string>
+    <string name="ERROR_USER">Error getting information about the user. Try again. </string>
+
 
     <!--sign up-->
     <string name="ERROR_REGISTER">error register</string>
