@@ -79,12 +79,6 @@ public class SignupFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_signup, container, false);
         bindViews(v);
 
-        //binding = FragmentSignupBinding.inflate(inflater, container, false);
-        //View root = binding.getRoot();
-
-        //textView = binding.textSignup;
-        //signupViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-
         return v;
     }
 
@@ -203,54 +197,43 @@ public class SignupFragment extends Fragment {
                         builder.show();
                     } else {
                         //CALL FIREBASE
-                        Log.d("SIGNUP", "entra a call firebase");
                         signupViewModel.signUp(emailText.getText().toString(),
                                 passwdText.getText().toString()
                         ).observe(getViewLifecycleOwner(), new Observer<String>() {
                             @Override
                             public void onChanged(String s) {
                                 result = s;
-                                if (!s.equals(R.string.ERROR)) {
-                                    Log.d("SIGNUP", "success");
+                                if (!s.equals(getString(R.string.ERROR))) {
                                     boolean patient = patientButton.isChecked();
                                     email = emailText.getText().toString();
                                     password = passwdText.getText().toString();
                                     name = nameText.getText().toString();
                                     hardwareId = hardwareIdText.getText().toString();
 
-                                    //Log.d("RADIO BUTTON", radioButton.toString());
-
-                                    //Log.d("RADIO BUTTON", Integer.toString(selectedRadioButton));
                                     signupViewModel.registerUser(name, email, result, hardwareId, patient).observe(getViewLifecycleOwner(), new Observer<String>() {
                                         @Override
                                         public void onChanged(String s) {
-                                            if (s.equals(R.string.SUCCESS_REGISTER)) {
-                                                //Log.d("SIGNUP", "register DB success");
+                                            if (s.equals(getString(R.string.SUCCESS_REGISTER))) {
                                                 Intent loginToProfile = new Intent(getActivity(), MainActivity.class);
                                                 loginToProfile.putExtra("email", email);
                                                 loginToProfile.putExtra("name", name);
                                                 loginToProfile.putExtra("hardwareId", hardwareId);
                                                 loginToProfile.putExtra("patient", patient);
-                                                //password no se si cal
 
                                                 startActivity(loginToProfile);
 
-                                            } else if (s.equals(R.string.ERROR_REGISTER)) {
+                                            } else if (s.equals(getString(R.string.ERROR_REGISTER))) {
                                                 //ERROR IN REGISTERING IN FIREBASE
-                                                //Log.d("SIGNUP", "register DB error");
                                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                                 builder.setMessage(R.string.ERROR_REGISTER_MSG)
                                                         .setTitle(R.string.ERROR_MSG);
                                                 builder.show();
-                                                //TODO: quines son les consequencies d'aquest error?
                                             }
                                         }
                                     });
 
-
                                 } else if (s.equals(R.string.ERROR)) {
                                     //ERROR IN SIGN UP IN FIREBASE
-                                    //Log.d("USER", "error");
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                     builder.setMessage(R.string.ERROR_SIGNUP_MSG)
                                             .setTitle(R.string.ERROR_MSG);
