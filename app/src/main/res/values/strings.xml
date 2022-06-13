@@ -60,6 +60,10 @@
     <string name="LIGHT_SENSOR_VALUES">Choose a light value between 0–255</string>
     <string name="ERROR_SENSORS">Error getting information about the sensors. Try again.</string>
 
+    <!--settings-->
+    <string name="ERROR_OLDPSW">Incorrect old password. Try again.</string>
+    <string name="PSW_CHANGED">Password changed successfully.</string>
+    <string name="PSW_NOTCHANGED">Password could not be changed. Try again.</string>
 
     <!--names-->
     <string name="menu_home">Home</string>

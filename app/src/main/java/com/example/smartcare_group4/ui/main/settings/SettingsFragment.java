@@ -47,10 +47,6 @@ public class SettingsFragment extends Fragment {
         View root = binding.getRoot();
 
         bindViews(root);
-
-        //final TextView textView = binding.textSettings;
-
-        //settingsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
@@ -72,7 +68,6 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Log.d("SETTINGS", oldPassword.getText().toString());
                 oldPSWtext = oldPassword.getText().toString();
                 newPSWtext = newPassword.getText().toString();
                 newPSW2text = newPassword2.getText().toString();
@@ -82,24 +77,23 @@ public class SettingsFragment extends Fragment {
                     settingsViewModel.checkOldPassword(oldPSWtext).observe(getViewLifecycleOwner(), new Observer<String>() {
                         @Override
                         public void onChanged(String s1) {
-                            if (s1.equals(R.string.SUCCESS)) {
+                            if (s1.equals(getString(R.string.SUCCESS))) {
                                 if (settingsViewModel.checkNewPasswords(newPSWtext, newPSW2text)) {
                                     settingsViewModel.changePassword(newPSWtext).observe(getViewLifecycleOwner(), new Observer<String>() {
                                         @Override
                                         public void onChanged(String s2) {
-                                            if (s2.equals(R.string.ERROR)) {
+                                            if (s2.equals(getString(R.string.ERROR))) {
                                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                                builder.setMessage(Generic.PSW_NOTCHANGED)
-                                                        .setTitle(Generic.ERROR);
+                                                builder.setMessage(R.string.PSW_NOTCHANGED)
+                                                        .setTitle(R.string.ERROR);
                                                 builder.show();
                                                 oldPassword.setText("");
                                                 newPassword.setText("");
                                                 newPassword2.setText("");
-                                            } else if (s2.equals(R.string.SUCCESS)) {
-                                                //volver a home o borrar todos los campos o que?
+                                            } else if (s2.equals(getString(R.string.SUCCESS))) {
                                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                                builder.setMessage(Generic.PSW_CHANGED)
-                                                        .setTitle(Generic.SUCCESS);
+                                                builder.setMessage(R.string.PSW_CHANGED)
+                                                        .setTitle(R.string.SUCCESS);
                                                 builder.show();
                                                 oldPassword.setText("");
                                                 newPassword.setText("");
@@ -114,18 +108,16 @@ public class SettingsFragment extends Fragment {
                                             .setTitle(R.string.ERROR_MSG);
                                     builder.show();
                                 }
-                            } else if (s1.equals(R.string.ERROR)) {
+                            } else if (s1.equals(getString(R.string.ERROR))) {
                                 //error message: old password does not match
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                builder.setMessage(Generic.ERROR_OLDPSW)
+                                builder.setMessage(R.string.ERROR_OLDPSW)
                                         .setTitle(R.string.ERROR_MSG);
                                 builder.show();
                             }
                         }
                     });
                 }
-
-
             }
         });
 
