@@ -9,7 +9,6 @@ import com.example.smartcare_group4.data.repository.FirebaseRepository;
 public class LogoutViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
-    //private FirebaseRepository firebase = new FirebaseRepository();
 
     public LogoutViewModel() {
         mText = new MutableLiveData<>();
