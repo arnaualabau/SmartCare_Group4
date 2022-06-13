@@ -16,7 +16,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class InitActivity extends AppCompatActivity {
 
     private ActivityInitBinding binding;
-    private LoginViewModel loginViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +34,6 @@ public class InitActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.bottomNavView, navController);
 
-        //per Firebase
-        //loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
     }
 
 }
