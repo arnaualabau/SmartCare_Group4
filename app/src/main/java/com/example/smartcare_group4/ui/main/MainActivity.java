@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     TextView navigationSubTitle;
 
     private User user = new User();
-    private Device device = new Device();
 
 
     @Override
@@ -81,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        //NavController navController = Navigation.findNavController(navigationView).navigate(R.id.nav_host_fragment_content_main, bundle);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
@@ -93,23 +91,6 @@ public class MainActivity extends AppCompatActivity {
         navigationSubTitle = (TextView) headerView.findViewById(R.id.NavigationSubTitle);
         navigationSubTitle.setText(user.getEmail());
 
-
-        //navigationTitle = (TextView) binding.drawerLayout.findViewById(R.id.NavigationTitle);
-        //navigationTitle = (TextView) findViewById(R.id.NavigationTitle);
-        //navigationSubTitle = (TextView) findViewById(R.id.NavigationSubTitle);
-        //navigationTitle.setText("AAAAA");
-
-        /*user.setPatient(getIntent().getBooleanExtra("patient", false));
-        user.setHardwareId(getIntent().getStringExtra("hardwareId"));
-
-        device.setHardwareId(getIntent().getStringExtra("hardwareId"));
-        device.setLightSensor(getIntent().getIntExtra("light", 0));
-        device.setTap(getIntent().getIntExtra("tap", 0));
-        device.setPresenceSensor(getIntent().getIntExtra("presence", 0));
-        */
-
-        //no se com es fa per posar el text
-        //navigationTitle.setText(user.getUsername());
     }
 
     @Override
