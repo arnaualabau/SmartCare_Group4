@@ -1,5 +1,6 @@
 package com.example.smartcare_group4.data.repository;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,8 @@ import com.example.smartcare_group4.data.EventDAO;
 import com.example.smartcare_group4.data.User;
 import com.example.smartcare_group4.ui.main.planning.CalendarUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -22,7 +25,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -30,6 +37,8 @@ public class FirebaseRepository {
 
     public static FirebaseRepository firebaseInstance = new FirebaseRepository();
     private DatabaseReference mDatabase;
+
+    private FirebaseStorage firabaseStorage = FirebaseStorage.getInstance();
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser user;
@@ -44,7 +53,6 @@ public class FirebaseRepository {
         // Initialize Firebase Auth
         mDatabase = FirebaseDatabase.getInstance().getReference();
         idUser = "";
-
     }
 
     public LiveData<String> signUpFirebase(String email, String password) {
@@ -456,6 +464,33 @@ public class FirebaseRepository {
                     observable.setValue("error");
                 }
 
+            }
+        });
+
+        return observable;
+    }
+
+    public LiveData<String> storeProfilePicture(String email, Bitmap imageBitmap) {
+
+        MutableLiveData<String> observable = new MutableLiveData<>();
+
+        StorageReference storageRef = firabaseStorage.getReference();
+        StorageReference profilePicRef = storageRef.child("profile/"+user.getUid()+".jpg");
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        imageBitmap.compress(Bitmap.CompressFormat.JPEG,100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = profilePicRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                observable.setValue("error");
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                observable.setValue("success");
+                //storageRef.getDownloadUrl()
             }
         });
 

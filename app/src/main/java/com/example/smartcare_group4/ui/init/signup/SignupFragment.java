@@ -63,7 +63,7 @@ public class SignupFragment extends Fragment {
 
     private String result;
 
-    private Button setProfilePic;
+    private Boolean imgTaken = false;
     String currentPhotoPath;
     ImageView profilePic;
     private static final int REQUEST_CODE = 14;
@@ -220,6 +220,23 @@ public class SignupFragment extends Fragment {
                                                 loginToProfile.putExtra("hardwareId", hardwareId);
                                                 loginToProfile.putExtra("patient", patient);
 
+                                                if (imgTaken) {
+                                                    Bitmap imageBitmap = BitmapFactory.decodeFile(currentPhotoPath);
+                                                    signupViewModel.storeProfilePicture(email, imageBitmap).observe(getViewLifecycleOwner(), new Observer<String>() {
+                                                        @Override
+                                                        public void onChanged(String s) {
+
+                                                            Log.d("SIGNUP", "SUCCESS??"+s);
+
+                                                            if (s.equals(getString(R.string.SUCCESS))) {
+
+
+                                                            } else if (s.equals(getString(R.string.ERROR))) {
+                                                            }
+                                                        }
+                                                    });
+                                                }
+
                                                 startActivity(loginToProfile);
 
                                             } else if (s.equals(getString(R.string.ERROR_REGISTER))) {
@@ -232,7 +249,7 @@ public class SignupFragment extends Fragment {
                                         }
                                     });
 
-                                } else if (s.equals(R.string.ERROR)) {
+                                } else if (s.equals(getString(R.string.ERROR))) {
                                     //ERROR IN SIGN UP IN FIREBASE
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                     builder.setMessage(R.string.ERROR_SIGNUP_MSG)
@@ -345,7 +362,7 @@ public class SignupFragment extends Fragment {
             Bitmap imageBitmap = BitmapFactory.decodeFile(currentPhotoPath);
             profilePic.setImageBitmap(imageBitmap);
             profilePic.setBackgroundColor(Color.rgb(0,0,0));
-
+            imgTaken = true;
         }
     }
 

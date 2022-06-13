@@ -1,5 +1,7 @@
 package com.example.smartcare_group4.ui.init.signup;
 
+import android.graphics.Bitmap;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -26,12 +28,13 @@ public class SignupViewModel extends ViewModel {
 
     }
 
-    /*public LiveData<String> profilePicture(String name, String email, String password, String id, String hardwareId, boolean patient) {
+    public LiveData<String> storeProfilePicture(String email, Bitmap imageBitmap) {
 
+        MutableLiveData<String> data = (MutableLiveData<String>) FirebaseRepository.firebaseInstance.storeProfilePicture(email, imageBitmap);
 
-        return ;
+        return data;
 
-    }*/
+    }
 
     public boolean checkPSW(String psw1, String psw2) {
         //Firebase password requirements
@@ -46,14 +49,6 @@ public class SignupViewModel extends ViewModel {
         }
     }
 
-
-    public LiveData<String> startCamera(String email, String password) {
-
-        MutableLiveData<String> data = (MutableLiveData<String>) FirebaseRepository.firebaseInstance.signUpFirebase(email, password);
-
-        return data;
-
-    }
 
     public boolean emptyTexts(String s1) {
         if (s1.equals("")) {
