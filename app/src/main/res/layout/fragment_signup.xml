@@ -11,24 +11,24 @@
         android:id="@+id/pictureLayout"
 
         android:layout_marginStart="24dp"
+
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/nameSignup"
         app:layout_constraintEnd_toStartOf="@id/hardwareIDSignup"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHeight_percent="0.15"
+        app:layout_constraintHeight_percent="0.2"
         app:layout_constraintWidth_percent="0.25">
 
         <ImageView
             android:id="@+id/pictureSignup"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginBottom="0dp"
-            android:background="@mipmap/default_prof" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_profile"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:layout_marginBottom="12dp"/>
 
         <ImageButton
             android:id="@+id/editPictureSignup"

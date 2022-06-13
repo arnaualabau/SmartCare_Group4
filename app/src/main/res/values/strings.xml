@@ -43,18 +43,18 @@
     <!--log out-->
     <string name="LOGOUT_ASK_MSG">Are you sure you want to log out\?</string>
 
-    <!--camera messages-->
+    <!--camera & permissions messages-->
     <string name="CAMERA_MSG">Camera will open in order to take a new picture.</string>
     <string name="CAMERA_TITLE">Camera</string>
-    <string name="CAMERA_DENIED">If the access to the camera is not granted, the app will present some limitations. You can allow us to access the camera in your phone\'s settings whenever you feel comfortable with it.</string>
+    <string name="PERMISSIONS_TITLE">Permissions</string>
+    <string name="PERMISSIONS_DENIED">This app needs Camera and Storage permissions to work without restrictions. You can give those permissions in your phone\'s settings whenever you feel comfortable with it.</string>
     <string name="CAMERA_NO">This device does not have a camera.</string>
-
-    <!--sensors-->
-    <string name="LIGHT_SENSOR_VALUES">Choose a light value between 0-255</string>
-
     <!--storage-->
     <string name="STORAGE_TITLE">Storage</string>
     <string name="STORAGE_DENIED">If the access to the storage is not granted, the app will present some limitations. You can allow us to access the storage in your phone\'s settings whenever you feel comfortable with it.</string>
+
+    <!--sensors-->
+    <string name="LIGHT_SENSOR_VALUES">Choose a light value between 0-255</string>
 
     <!--names-->
     <string name="menu_home">Home</string>

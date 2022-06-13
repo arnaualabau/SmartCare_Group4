@@ -5,7 +5,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -21,12 +27,18 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.ui.main.MainActivity;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class SignupFragment extends Fragment {
 
@@ -54,7 +66,7 @@ public class SignupFragment extends Fragment {
     private Button setProfilePic;
     String currentPhotoPath;
     ImageView profilePic;
-    private static final int CAMERA_PERMISSIONS_REQUEST = 14;
+    private static final int REQUEST_CODE = 14;
     private static final int READ_PERMISSIONS_REQUEST = 15;
     private static final int WRITE_PERMISSIONS_REQUEST = 16;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -87,7 +99,6 @@ public class SignupFragment extends Fragment {
         relativeButton = v.findViewById(R.id.relativeSignup);
 
         emailText = v.findViewById(R.id.emailSignup);
-        emailText.setText("a@a.com");
         emailText.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -107,7 +118,6 @@ public class SignupFragment extends Fragment {
         });
 
         nameText = v.findViewById(R.id.nameSignup);
-        nameText.setText("María");
         nameText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -126,7 +136,6 @@ public class SignupFragment extends Fragment {
         });
 
         passwdText = v.findViewById(R.id.passwordSignup);
-        passwdText.setText("123456");
         passwdText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -145,7 +154,6 @@ public class SignupFragment extends Fragment {
         });
 
         passwd2Text = v.findViewById(R.id.passwordSignup2);
-        passwd2Text.setText("123456");
         passwd2Text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -164,7 +172,6 @@ public class SignupFragment extends Fragment {
         });
 
         hardwareIdText = v.findViewById(R.id.hardwareIDSignup);
-        hardwareIdText.setText("123456");
         hardwareIdText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -264,6 +271,7 @@ public class SignupFragment extends Fragment {
         });
 
 
+        profilePic = v.findViewById(R.id.pictureSignup);
         editPictureButton = v.findViewById(R.id.editPictureSignup);
         editPictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -286,29 +294,9 @@ public class SignupFragment extends Fragment {
                                             .show();
                                 } else {
 
-                                    if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
-                                            == PackageManager.PERMISSION_DENIED) {
+                                    if (requestPermissions()) {
 
-                                        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSIONS_REQUEST);
-                                    } else {
-
-                                        //el permiso de la camara ya ha sido aceptado
-                                        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                                == PackageManager.PERMISSION_DENIED) {
-
-                                            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSIONS_REQUEST);
-                                        } else {
-                                            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
-                                                    == PackageManager.PERMISSION_DENIED) {
-
-                                                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_PERMISSIONS_REQUEST);
-                                            } else {
-
-                                                dispatchTakePictureIntent();
-                                            }
-
-                                        }
-
+                                        dispatchTakePictureIntent();
 
                                     }
 
@@ -322,6 +310,24 @@ public class SignupFragment extends Fragment {
 
     }
 
+    private boolean requestPermissions() {
+
+        String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+        if (ContextCompat.checkSelfPermission(getActivity(), permissions[0]) == PackageManager.PERMISSION_DENIED
+                || ContextCompat.checkSelfPermission(getActivity(), permissions[1]) == PackageManager.PERMISSION_DENIED
+                || ContextCompat.checkSelfPermission(getActivity(), permissions[2]) == PackageManager.PERMISSION_DENIED) {
+
+            requestPermissions(permissions, REQUEST_CODE);
+
+            return false;
+
+        }
+
+        return true;
+    }
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
@@ -329,7 +335,7 @@ public class SignupFragment extends Fragment {
 
         switch (requestCode) {
 
-            case CAMERA_PERMISSIONS_REQUEST:
+            case REQUEST_CODE:
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 &&
                         grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -338,41 +344,34 @@ public class SignupFragment extends Fragment {
                 } else {
 
                     new androidx.appcompat.app.AlertDialog.Builder(getActivity())
-                            .setTitle(R.string.CAMERA_TITLE)
-                            .setMessage(R.string.CAMERA_DENIED)
+                            .setTitle(R.string.PERMISSIONS_TITLE)
+                            .setMessage(R.string.PERMISSIONS_DENIED)
                             .setNegativeButton(android.R.string.ok, null)
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
                 }
                 return;
-            case READ_PERMISSIONS_REQUEST:
-            case WRITE_PERMISSIONS_REQUEST:
-                if (grantResults.length > 0 &&
-                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Permission is granted. Continue the action or workflow
-                    // in your app.
-                } else {
+        }
+    }
 
-                    new androidx.appcompat.app.AlertDialog.Builder(getActivity())
-                            .setTitle(R.string.STORAGE_TITLE)
-                            .setMessage(R.string.STORAGE_DENIED)
-                            .setNegativeButton(android.R.string.ok, null)
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
-                }
-                return;
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == getActivity().RESULT_OK) {
+
+            Bitmap imageBitmap = BitmapFactory.decodeFile(currentPhotoPath);
+            profilePic.setImageBitmap(imageBitmap);
+            profilePic.setBackgroundColor(Color.rgb(0,0,0));
 
         }
     }
 
     private void dispatchTakePictureIntent() {
 
-        /*Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         // Ensure that there's a camera activity to handle the intent
-        CameraActivity activity = (CameraActivity)getActivity();
-        if (takePictureIntent.resolveActivity(activity.getPackageManager()) != null) {
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             // Create the File where the photo should go.
             // If you don't do this, you may get a crash in some devices.
             File photoFile = null;
@@ -380,19 +379,27 @@ public class SignupFragment extends Fragment {
                 photoFile = createImageFile();
             } catch (IOException ex) {
                 // Error occurred while creating the File
-                Toast toast = Toast.makeText(activity, "There was a problem saving the photo...", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getActivity(), "There was a problem saving the photo...", Toast.LENGTH_SHORT);
                 toast.show();
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                Uri fileUri = Uri.fromFile(photoFile);
-                activity.setCapturedImageURI(fileUri);
-                activity.setCurrentPhotoPath(fileUri.getPath());
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                        activity.getCapturedImageURI());
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+                Uri photoURI = FileProvider.getUriForFile(getActivity(),"com.example.android.fileprovider", photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
-        }*/
+        }
+    }
+
+    private File createImageFile() throws IOException {
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
     }
 
 }
