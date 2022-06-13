@@ -95,12 +95,25 @@ public class MainActivity extends AppCompatActivity {
         navigationSubTitle.setText(user.getEmail());
         navigationImage = (ImageView) headerView.findViewById(R.id.NavigationImage);
 
+
         if (getIntent().getBooleanExtra("imageBool", false)) {
-            byte[] img = getIntent().getByteArrayExtra("profilePic");
-            Bitmap imageBitmap = BitmapFactory.decodeByteArray(img, 0, img.length);
-            navigationImage.setImageBitmap(imageBitmap);
+
+            FirebaseRepository.firebaseInstance.getProfilePicture().observe(MainActivity.this, new Observer<byte[]>() {
+                @Override
+                public void onChanged(byte[] img) {
+                    if (img.length > 0) {
+
+                        Bitmap imageBitmap = BitmapFactory.decodeByteArray(img, 0, img.length);
+                        navigationImage.setImageBitmap(imageBitmap);
+
+                    } else {
+
+                    }
+                }
+            });
+
         }
-        
+
     }
 
 

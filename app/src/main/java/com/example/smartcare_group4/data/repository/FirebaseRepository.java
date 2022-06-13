@@ -176,7 +176,6 @@ public class FirebaseRepository {
                 // Get Post object and use the values to update the UI
                 //Post post = dataSnapshot.getValue(Post.class);
 
-                //Log.d("SUBSCRIBE TO VALUES", dataSnapshot.getValue(Device.class).toString());
                 Device device = new Device();
                 device = dataSnapshot.getValue(Device.class);
                 observable.setValue(device);
@@ -194,13 +193,13 @@ public class FirebaseRepository {
 
     }
 
-    public LiveData<String> registerUser(String name, String email, String id, String hardwareId, boolean patient){
+    public LiveData<String> registerUser(String name, String email, String id, String hardwareId, boolean patient, boolean imgTaken){
 
         MutableLiveData<String> observable = new MutableLiveData<>();
 
         //firebase method to register user with callback
         Log.d("SIGNUP", "register user FB");
-        userInfo = new User(name, email, hardwareId, patient);
+        userInfo = new User(name, email, hardwareId, patient, imgTaken);
         mDatabase.child("users").child(id).setValue(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -475,21 +474,17 @@ public class FirebaseRepository {
         StorageReference storageRef = firabaseStorage.getReference();
         StorageReference profilePicRef = storageRef.child("profile/"+user.getUid()+".jpg");
 
-        Log.d("SINGUP", "storeProfilePicture: 1");
-
         UploadTask uploadTask = profilePicRef.putBytes(img);
         uploadTask.addOnFailureListener(new OnFailureListener() {
 
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("SIGNUP", "storeProfilePicture: SUCCESS");
 
                 observable.setValue("error");
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Log.d("SIGNUP", "storeProfilePicture: FAIL");
 
                 observable.setValue("success");
                 //storageRef.getDownloadUrl()
@@ -497,5 +492,31 @@ public class FirebaseRepository {
         });
 
         return observable;
+    }
+
+
+    public LiveData<byte[]> getProfilePicture() {
+
+        MutableLiveData<byte[]> observable = new MutableLiveData<>();
+
+        StorageReference storageRef = firabaseStorage.getReference();
+        StorageReference profilePicRef = storageRef.child("profile/"+user.getUid()+".jpg");
+
+        final long ONE_MEGABYTE = 1024*1024;
+        profilePicRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                observable.setValue(bytes);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
+
+        return observable;
+
     }
 }

@@ -14,7 +14,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -211,7 +210,7 @@ public class SignupFragment extends Fragment {
                                     name = nameText.getText().toString();
                                     hardwareId = hardwareIdText.getText().toString();
 
-                                    signupViewModel.registerUser(name, email, result, hardwareId, patient).observe(getViewLifecycleOwner(), new Observer<String>() {
+                                    signupViewModel.registerUser(name, email, result, hardwareId, patient, imgTaken).observe(getViewLifecycleOwner(), new Observer<String>() {
                                         @Override
                                         public void onChanged(String s) {
                                             if (s.equals(getString(R.string.SUCCESS_REGISTER))) {
@@ -233,7 +232,6 @@ public class SignupFragment extends Fragment {
 
 
                                                             if (s.equals(getString(R.string.SUCCESS))) {
-                                                                loginToProfile.putExtra("profilePic", img);
 
                                                                 startActivity(loginToProfile);
 

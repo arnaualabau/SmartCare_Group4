@@ -18,9 +18,9 @@ public class SignupViewModel extends ViewModel {
 
     }
 
-    public LiveData<String> registerUser(String name, String email, String id, String hardwareId, boolean patient) {
+    public LiveData<String> registerUser(String name, String email, String id, String hardwareId, boolean patient, boolean imgTaken) {
 
-        MutableLiveData<String> data = (MutableLiveData<String>) FirebaseRepository.firebaseInstance.registerUser(name, email, id, hardwareId, patient);
+        MutableLiveData<String> data = (MutableLiveData<String>) FirebaseRepository.firebaseInstance.registerUser(name, email, id, hardwareId, patient, imgTaken);
 
         return data;
 

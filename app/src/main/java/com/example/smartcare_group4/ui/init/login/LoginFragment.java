@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +17,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.smartcare_group4.R;
-import com.example.smartcare_group4.ui.main.MainActivity;
-import com.example.smartcare_group4.utils.PrintLog;
 import com.example.smartcare_group4.data.Device;
 import com.example.smartcare_group4.data.User;
+import com.example.smartcare_group4.ui.main.MainActivity;
 
 public class LoginFragment extends Fragment {
 
@@ -126,6 +124,7 @@ public class LoginFragment extends Fragment {
                                                         loginToProfile.putExtra("name", user.getUsername());
                                                         loginToProfile.putExtra("hardwareId", user.getHardwareId());
                                                         loginToProfile.putExtra("patient", user.isPatient());
+                                                        loginToProfile.putExtra("imageBool", user.isImageTaken());
 
                                                         loginToProfile.putExtra("light", device.getLightSensor());
                                                         loginToProfile.putExtra("tap", device.getTap());

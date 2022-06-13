@@ -6,19 +6,28 @@ public class User {
     public String email;
     public boolean patient;
     public String hardwareId;
+    public boolean imageTaken;
 
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public User(String username, String email, String hardwareId, boolean patient) {
+    public User(String username, String email, String hardwareId, boolean patient, boolean imageTaken) {
         this.username = username;
         this.email = email;
         this.patient = patient;
         this.hardwareId = hardwareId;
+        this.imageTaken = imageTaken;
     }
 
+    public boolean isImageTaken() {
+        return imageTaken;
+    }
+
+    public void setImageTaken(boolean imageTaken) {
+        this.imageTaken = imageTaken;
+    }
 
     public String getUsername() {
         return username;
