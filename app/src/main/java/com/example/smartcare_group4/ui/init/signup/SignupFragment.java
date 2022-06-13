@@ -35,6 +35,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.ui.main.MainActivity;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -219,25 +220,33 @@ public class SignupFragment extends Fragment {
                                                 loginToProfile.putExtra("name", name);
                                                 loginToProfile.putExtra("hardwareId", hardwareId);
                                                 loginToProfile.putExtra("patient", patient);
+                                                loginToProfile.putExtra("imageBool", imgTaken);
 
                                                 if (imgTaken) {
                                                     Bitmap imageBitmap = BitmapFactory.decodeFile(currentPhotoPath);
-                                                    signupViewModel.storeProfilePicture(email, imageBitmap).observe(getViewLifecycleOwner(), new Observer<String>() {
+                                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                                    imageBitmap.compress(Bitmap.CompressFormat.JPEG,100, baos);
+                                                    byte[] img = baos.toByteArray();
+                                                    signupViewModel.storeProfilePicture(email, img).observe(getViewLifecycleOwner(), new Observer<String>() {
                                                         @Override
                                                         public void onChanged(String s) {
 
-                                                            Log.d("SIGNUP", "SUCCESS??"+s);
 
                                                             if (s.equals(getString(R.string.SUCCESS))) {
+                                                                loginToProfile.putExtra("profilePic", img);
 
+                                                                startActivity(loginToProfile);
 
                                                             } else if (s.equals(getString(R.string.ERROR))) {
+                                                                loginToProfile.putExtra("imageBool", false);
+                                                                startActivity(loginToProfile);
+
                                                             }
                                                         }
                                                     });
+                                                } else {
+                                                    startActivity(loginToProfile);
                                                 }
-
-                                                startActivity(loginToProfile);
 
                                             } else if (s.equals(getString(R.string.ERROR_REGISTER))) {
                                                 //ERROR IN REGISTERING IN FIREBASE

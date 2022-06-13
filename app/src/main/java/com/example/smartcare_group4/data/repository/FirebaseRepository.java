@@ -1,6 +1,5 @@
 package com.example.smartcare_group4.data.repository;
 
-import android.graphics.Bitmap;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -29,7 +28,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -470,25 +468,29 @@ public class FirebaseRepository {
         return observable;
     }
 
-    public LiveData<String> storeProfilePicture(String email, Bitmap imageBitmap) {
+    public LiveData<String> storeProfilePicture(String email, byte[] img) {
 
         MutableLiveData<String> observable = new MutableLiveData<>();
 
         StorageReference storageRef = firabaseStorage.getReference();
         StorageReference profilePicRef = storageRef.child("profile/"+user.getUid()+".jpg");
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        imageBitmap.compress(Bitmap.CompressFormat.JPEG,100, baos);
-        byte[] data = baos.toByteArray();
 
-        UploadTask uploadTask = profilePicRef.putBytes(data);
+        Log.d("SINGUP", "storeProfilePicture: 1");
+
+        UploadTask uploadTask = profilePicRef.putBytes(img);
         uploadTask.addOnFailureListener(new OnFailureListener() {
+
             @Override
             public void onFailure(@NonNull Exception e) {
+                Log.d("SIGNUP", "storeProfilePicture: SUCCESS");
+
                 observable.setValue("error");
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.d("SIGNUP", "storeProfilePicture: FAIL");
+
                 observable.setValue("success");
                 //storageRef.getDownloadUrl()
             }

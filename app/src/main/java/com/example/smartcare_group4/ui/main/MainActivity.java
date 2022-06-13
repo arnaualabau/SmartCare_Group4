@@ -1,9 +1,12 @@
 package com.example.smartcare_group4.ui.main;
 
 import android.app.AlertDialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,10 +18,9 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.smartcare_group4.R;
+import com.example.smartcare_group4.data.User;
 import com.example.smartcare_group4.data.repository.FirebaseRepository;
 import com.example.smartcare_group4.databinding.ActivityMainBinding;
-import com.example.smartcare_group4.data.Device;
-import com.example.smartcare_group4.data.User;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView navigationTitle;
     TextView navigationSubTitle;
+    ImageView navigationImage;
 
     private User user = new User();
 
@@ -90,8 +93,16 @@ public class MainActivity extends AppCompatActivity {
         navigationTitle.setText(user.getUsername());
         navigationSubTitle = (TextView) headerView.findViewById(R.id.NavigationSubTitle);
         navigationSubTitle.setText(user.getEmail());
+        navigationImage = (ImageView) headerView.findViewById(R.id.NavigationImage);
 
+        if (getIntent().getBooleanExtra("imageBool", false)) {
+            byte[] img = getIntent().getByteArrayExtra("profilePic");
+            Bitmap imageBitmap = BitmapFactory.decodeByteArray(img, 0, img.length);
+            navigationImage.setImageBitmap(imageBitmap);
+        }
+        
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

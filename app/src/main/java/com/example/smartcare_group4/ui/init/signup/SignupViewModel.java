@@ -1,7 +1,5 @@
 package com.example.smartcare_group4.ui.init.signup;
 
-import android.graphics.Bitmap;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -28,9 +26,9 @@ public class SignupViewModel extends ViewModel {
 
     }
 
-    public LiveData<String> storeProfilePicture(String email, Bitmap imageBitmap) {
+    public LiveData<String> storeProfilePicture(String email, byte[] img) {
 
-        MutableLiveData<String> data = (MutableLiveData<String>) FirebaseRepository.firebaseInstance.storeProfilePicture(email, imageBitmap);
+        MutableLiveData<String> data = (MutableLiveData<String>) FirebaseRepository.firebaseInstance.storeProfilePicture(email, img);
 
         return data;
 
