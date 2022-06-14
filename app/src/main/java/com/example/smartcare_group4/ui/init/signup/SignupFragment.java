@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.ui.main.MainActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -252,6 +259,9 @@ public class SignupFragment extends Fragment {
                                                 builder.setMessage(R.string.ERROR_REGISTER_MSG)
                                                         .setTitle(R.string.ERROR_MSG);
                                                 builder.show();
+
+                                                //eliminar de auth
+                                                deleteUser(email, password);
                                             }
                                         }
                                     });
@@ -315,6 +325,40 @@ public class SignupFragment extends Fragment {
             }
         });
 
+    }
+
+    private void deleteUser(String email, String password) {
+
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        // Get auth credentials from the user for re-authentication. The example below shows
+        // email and password credentials but there are multiple possible providers,
+        // such as GoogleAuthProvider or FacebookAuthProvider.
+        AuthCredential credential = EmailAuthProvider.getCredential(email, password);
+
+        // Prompt the user to re-provide their sign-in credentials
+        if (user != null) {
+            user.reauthenticate(credential)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            user.delete()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            /*
+                                            if (task.isSuccessful()) {
+
+                                                Log.d("TAG", "User account deleted.");
+                                                startActivity(new Intent(DeleteUser.this, StartActivity.class));
+                                                Toast.makeText(DeleteUser.this, "Deleted User Successfully,", Toast.LENGTH_LONG).show();
+                                            }
+                                            */
+                                        }
+                                    });
+                        }
+                    });
+        }
     }
 
     private boolean requestPermissions() {
