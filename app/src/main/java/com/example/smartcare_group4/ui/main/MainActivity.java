@@ -33,12 +33,16 @@ public class MainActivity extends AppCompatActivity {
     TextView navigationSubTitle;
     ImageView navigationImage;
 
+    private MainViewModel mainViewModel;
+
     private User user = new User();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mainViewModel = new MainViewModel();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -51,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "Help is on the way", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
-                FirebaseRepository.firebaseInstance.setValuesEmergency().observe(MainActivity.this, new Observer<String>() {
+                mainViewModel.setValuesEmergency().observe(MainActivity.this, new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
                         if (s.equals(getString(R.string.SUCCESS))) {
@@ -98,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (getIntent().getBooleanExtra("imageBool", false)) {
 
-            FirebaseRepository.firebaseInstance.getProfilePicture().observe(MainActivity.this, new Observer<byte[]>() {
+            mainViewModel.getProfilePicture().observe(MainActivity.this, new Observer<byte[]>() {
                 @Override
                 public void onChanged(byte[] img) {
                     if (img.length > 0) {
@@ -111,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
-
         }
 
     }

@@ -114,12 +114,12 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
             @Override
             public void onClick(View view) {
 
-
                 if (CalendarUtils.selectedDate.equals(LocalDate.now())) {
                     ArrayList<Event> events = planningViewModel.eventsForDate(LocalDate.now());
 
                     if (events.size() > 0) {
 
+                        CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusDays(1);
 
 
                     } else {
@@ -128,7 +128,6 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
                                 .setTitle(R.string.ERROR_MSG);
                         builder.show();
                     }
-
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setMessage(R.string.NOT_TODAY_MSG)
