@@ -48,18 +48,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);
+
+        //Emergency button
         binding.appBarMain.emergency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Snackbar.make(view, "Help is on the way", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-
+                //change values
                 mainViewModel.setValuesEmergency().observe(MainActivity.this, new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
                         if (s.equals(getString(R.string.SUCCESS))) {
-
+                            //show message
                             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                             builder.setMessage(R.string.EMERGENCY_MSG)
                                     .setTitle(R.string.SOS_MSG);
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //BUILD DRAWER
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.drawerNavView;
         // Passing each menu ID as a set of Ids because each
@@ -86,10 +89,12 @@ public class MainActivity extends AppCompatActivity {
                 .setOpenableLayout(drawer)
                 .build();
 
+        //NAVIGATION CONTROLLER
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        //set profile information in navigation drawer header
         user.setUsername(getIntent().getStringExtra("name"));
         user.setEmail(getIntent().getStringExtra("email"));
         View headerView = navigationView.getHeaderView(0);
@@ -99,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         navigationSubTitle.setText(user.getEmail());
         navigationImage = (ImageView) headerView.findViewById(R.id.NavigationImage);
 
-
+        //if user has image, put image in header
         if (getIntent().getBooleanExtra("imageBool", false)) {
 
             mainViewModel.getProfilePicture().observe(MainActivity.this, new Observer<byte[]>() {

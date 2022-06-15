@@ -67,22 +67,26 @@ public class SettingsFragment extends Fragment {
         changePSWButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                //obtain text from fields
                 oldPSWtext = oldPassword.getText().toString();
                 newPSWtext = newPassword.getText().toString();
                 newPSW2text = newPassword2.getText().toString();
 
+                //check if fields are empty or not
                 if (! (settingsViewModel.emptyTexts(oldPSWtext) || settingsViewModel.emptyTexts(newPSWtext) || settingsViewModel.emptyTexts(newPSW2text)) ) {
-
+                    //check old password
                     settingsViewModel.checkOldPassword(oldPSWtext).observe(getViewLifecycleOwner(), new Observer<String>() {
                         @Override
                         public void onChanged(String s1) {
                             if (s1.equals(getString(R.string.SUCCESS))) {
+                                //check new passwords
                                 if (settingsViewModel.checkNewPasswords(newPSWtext, newPSW2text)) {
+                                    //change password
                                     settingsViewModel.changePassword(newPSWtext).observe(getViewLifecycleOwner(), new Observer<String>() {
                                         @Override
                                         public void onChanged(String s2) {
                                             if (s2.equals(getString(R.string.ERROR))) {
+                                                //error
                                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                                 builder.setMessage(R.string.PSW_NOTCHANGED)
                                                         .setTitle(R.string.ERROR);
@@ -91,6 +95,7 @@ public class SettingsFragment extends Fragment {
                                                 newPassword.setText("");
                                                 newPassword2.setText("");
                                             } else if (s2.equals(getString(R.string.SUCCESS))) {
+                                                //success
                                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                                 builder.setMessage(R.string.PSW_CHANGED)
                                                         .setTitle(R.string.SUCCESS);

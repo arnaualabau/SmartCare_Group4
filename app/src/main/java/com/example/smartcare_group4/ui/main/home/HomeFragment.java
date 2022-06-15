@@ -50,6 +50,7 @@ public class HomeFragment extends Fragment {
         sensorsButton = v.findViewById(R.id.buttonSensors);
         planningButton = v.findViewById(R.id.buttonPlanning);
 
+        //change values in firebase
         emergencyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,6 +76,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        //go to sensors view
         sensorsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,6 +86,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        //go to planning view
         planningButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

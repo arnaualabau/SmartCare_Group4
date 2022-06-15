@@ -75,7 +75,7 @@ public class SensorsFragment extends Fragment {
             }
         });
 
-
+        //update UI
         sensorsViewModel.getText(1).observe(getViewLifecycleOwner(), lightValue::setText);
         sensorsViewModel.getText(2).observe(getViewLifecycleOwner(), tapValue::setText);
         sensorsViewModel.getText(3).observe(getViewLifecycleOwner(), presenceValue::setText);
@@ -96,7 +96,7 @@ public class SensorsFragment extends Fragment {
                         if (s.equals(getString(R.string.SUCCESS))) {
                             //values will be automatically changed
                         } else {
-                            //controlar error
+                            //error
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                             builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
                                     .setTitle(R.string.ERROR_MSG);
@@ -115,15 +115,16 @@ public class SensorsFragment extends Fragment {
                 if (!sensorsViewModel.isPatient()) {
                     int step = Integer.parseInt(tapValue.getText().toString());
                     if (sensorsViewModel.checkStep(step, 0, 4)) {
+                        //increase value
                         step = step + 1;
 
                         sensorsViewModel.changeTapValue(step).observe(getViewLifecycleOwner(), new Observer<String>() {
                             @Override
                             public void onChanged(String s) {
                                 if (s.equals(getString(R.string.SUCCESS))) {
-                                    //canviar text
+                                    //values will be automatically changed
                                 } else {
-                                    //controlar error
+                                    //error
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                     builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
                                             .setTitle(R.string.ERROR_MSG);
@@ -145,15 +146,16 @@ public class SensorsFragment extends Fragment {
                     int step = Integer.parseInt(tapValue.getText().toString());
 
                     if (sensorsViewModel.checkStep(step, 1, 5)) {
+                        //decrease value
                         step = step - 1;
 
                         sensorsViewModel.changeTapValue(step).observe(getViewLifecycleOwner(), new Observer<String>() {
                             @Override
                             public void onChanged(String s) {
                                 if (s.equals(getString(R.string.SUCCESS))) {
-                                    //canviar text
+                                    //values will be automatically changed
                                 } else {
-                                    //controlar error
+                                    //error
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                     builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
                                             .setTitle(R.string.ERROR_MSG);
@@ -165,7 +167,7 @@ public class SensorsFragment extends Fragment {
                 }
             }
         });
-
+        //control which buttons should be shown
         if (sensorsViewModel.isPatient()) {
             addTapButton.setVisibility(View.GONE);
             removeTapButton.setVisibility(View.GONE);

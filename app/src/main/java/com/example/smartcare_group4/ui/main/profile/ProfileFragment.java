@@ -57,6 +57,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        //update UI
         profileViewModel.getText(1).observe(getViewLifecycleOwner(), nameValue::setText);
         profileViewModel.getText(2).observe(getViewLifecycleOwner(), emailValue::setText);
         profileViewModel.getText(3).observe(getViewLifecycleOwner(), HWValue::setText);

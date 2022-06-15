@@ -17,11 +17,9 @@ public class SensorsViewModel extends ViewModel {
         lightText = new MutableLiveData<>();
         tapText = new MutableLiveData<>();
         presenceText = new MutableLiveData<>();
-
-        //cridar a subscribe to values
-        //FirebaseRepository.firebaseInstance.subscribeToValues().observe();
     }
 
+    //Subscribe to sensors values in firebase to be continuously updated
     public MutableLiveData<Device> subscribeValues() {
         MutableLiveData<Device> observable = new MutableLiveData<>();
 
@@ -67,13 +65,6 @@ public class SensorsViewModel extends ViewModel {
         return FirebaseRepository.firebaseInstance.isPatient();
     }
 
-    public boolean checkValue(int value, int max) {
-        if (value >= 0 && value <= max) {
-            return true;
-        }
-        return false;
-    }
-
     public MutableLiveData<String> changeLightValue(int value) {
         MutableLiveData<String> data = FirebaseRepository.firebaseInstance.changeLightValue(value);
         return data;
@@ -84,6 +75,7 @@ public class SensorsViewModel extends ViewModel {
         return data;
     }
 
+    //check if a value is between two others
     public boolean checkStep(int step, int min, int max) {
         if (step >= min && step <= max) {
             return true;
