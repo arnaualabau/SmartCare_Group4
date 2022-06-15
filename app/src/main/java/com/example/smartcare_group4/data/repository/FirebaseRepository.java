@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.data.Device;
 import com.example.smartcare_group4.data.EventDAO;
 import com.example.smartcare_group4.data.User;
@@ -32,17 +33,18 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class FirebaseRepository {
-
+    //Create Singleton
     public static FirebaseRepository firebaseInstance = new FirebaseRepository();
-    private DatabaseReference mDatabase;
 
+    //Access to Firebase Database
+    private DatabaseReference mDatabase;
+    //Access to Firebase Storage
     private FirebaseStorage firabaseStorage = FirebaseStorage.getInstance();
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser user;
     private String idUser;
     private String idHardware;
-
     private User userInfo;
     private Device device;
     private ArrayList<EventDAO> planning;
@@ -53,33 +55,32 @@ public class FirebaseRepository {
         idUser = "";
     }
 
+    //Sign Up method in Authentication Firebase
     public LiveData<String> signUpFirebase(String email, String password) {
 
         MutableLiveData<String> observable = new MutableLiveData<>();
         mAuth = FirebaseAuth.getInstance();
+
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("SIGNUP", "signUpWithEmail:success");
+                            // Sign in success
                             user = mAuth.getCurrentUser();
-                            Log.d("SIGNUP", user.getUid());
                             idUser = user.getUid();
-                            idHardware = "123456";
+                            //idHardware = "123456";
                             observable.setValue(user.getUid());
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.d("SIGNUP", "signUpWithEmail:failure"+ task.getException().getLocalizedMessage());
-                            observable.setValue("error");
-
+                            observable.setValue(String.valueOf(R.string.ERROR));
                         }
                     }
                 });
         return observable;
     } //signUp Firebase
 
+    //Log In method in Authentication Firebase
     public LiveData<String> loginFirebase(String email, String password) {
 
         MutableLiveData<String> observable = new MutableLiveData<>();
@@ -90,45 +91,39 @@ public class FirebaseRepository {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("LOGIN", "signInWithEmail:success");
+                            // Sign in success
                             user = mAuth.getCurrentUser();
                             idUser = user.getUid();
-                            MutableLiveData<String> data = new MutableLiveData<>();
-
                             observable.setValue(user.getUid());
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.d("LOGIN", "signInWithEmail:failure", task.getException());
-                            observable.setValue("error");
-
+                            observable.setValue(String.valueOf(R.string.ERROR));
                         }
                     }
                 });
         return observable;
     } //loginFirebase
 
+    //Sign Out method in Authentication Firebase
     public String signOut() {
+
         String result = "";
-        Log.d("SIGNOUT", idUser);
         try {
             FirebaseAuth.getInstance().signOut();
-            result = "success";
+            result = String.valueOf(R.string.SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
-            result = "error";
+            result = String.valueOf(R.string.ERROR);
         }
-
         return result;
-    }
+    } //Sign Out
 
+    //Re-Authenticate user with credentials
     public MutableLiveData<String> checkCredentials(String oldPass) {
-        MutableLiveData<String> observable = new MutableLiveData<>();
 
+        MutableLiveData<String> observable = new MutableLiveData<>();
         AuthCredential credential = EmailAuthProvider
                 .getCredential(userInfo.getEmail(), oldPass);
-
-        Log.d("check creds", oldPass + userInfo.getEmail());
 
         // Prompt the user to re-provide their sign-in credentials
         user.reauthenticate(credential)
@@ -136,36 +131,36 @@ public class FirebaseRepository {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            observable.setValue("success");
+                            observable.setValue(String.valueOf(R.string.SUCCESS));
                         } else {
-                            observable.setValue("error");
+                            observable.setValue(String.valueOf(R.string.ERROR));
                         }
                     }
                 });
         return observable;
-    }
+    } //check credentials
 
+    //Change Password in Firebase Authentication
     public MutableLiveData<String> changePSW(String newPass) {
-        MutableLiveData<String> observable = new MutableLiveData<>();
 
+        MutableLiveData<String> observable = new MutableLiveData<>();
         user.updatePassword(newPass).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    observable.setValue("success");
-                    Log.d("changePSW", "Password updated");
+                    observable.setValue(String.valueOf(R.string.SUCCESS));
 
                 } else {
-                    Log.d("changePSW", "Error password not updated");
-                    observable.setValue("error");
+                    observable.setValue(String.valueOf(R.string.ERROR));
 
                 }
             }
         });
 
         return observable;
-    }
+    } //Change password
 
+    //Subscribe to Values of Sensors in Firebase Database
     public LiveData<Device> subscribeToValues() {
 
         MutableLiveData<Device> observable = new MutableLiveData<>();
@@ -173,9 +168,6 @@ public class FirebaseRepository {
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // Get Post object and use the values to update the UI
-                //Post post = dataSnapshot.getValue(Post.class);
-
                 Device device = new Device();
                 device = dataSnapshot.getValue(Device.class);
                 observable.setValue(device);
@@ -186,64 +178,64 @@ public class FirebaseRepository {
                 // Getting Post failed, log a message
             }
         };
-
-        mDatabase.child("devices").child(idHardware).addValueEventListener(postListener);
+        //constantly checking the user's sensors values
+        mDatabase.child(String.valueOf(R.string.DEVICES)).child(idHardware).addValueEventListener(postListener);
 
         return observable;
 
-    }
+    } //subscribe to values
 
+    //Register User info and Device Info in Firebase Database
     public LiveData<String> registerUser(String name, String email, String id, String hardwareId, boolean patient, boolean imgTaken){
 
         MutableLiveData<String> observable = new MutableLiveData<>();
 
         //firebase method to register user with callback
-        Log.d("SIGNUP", "register user FB");
         userInfo = new User(name, email, hardwareId, patient, imgTaken);
-        mDatabase.child("users").child(id).setValue(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mDatabase.child(String.valueOf(R.string.USERS)).child(id).setValue(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
 
                     device = new Device(hardwareId);
+
+                    //before registering the device, make sure it is not already registered
                     if (!isHadwareID(hardwareId)) {
-                        mDatabase.child("devices").child(hardwareId).setValue(device).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        mDatabase.child(String.valueOf(R.string.DEVICES)).child(hardwareId).setValue(device).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    observable.setValue("success register");
+                                    observable.setValue(String.valueOf(R.string.SUCCESS_REGISTER));
                                     idHardware = hardwareId;
-                                    Log.d("USER", "success in register user DB");
                                 } else {
-                                    observable.setValue("error register");
-                                    Log.d("USER", "failure in register user DB:"+task.getException().getLocalizedMessage());
+                                    observable.setValue(String.valueOf(R.string.ERROR_REGISTER));
                                 }
                             }
                         });
                     } else {
-                        observable.setValue("success register");
-                        Log.d("USER", "success in register user DB");
+                        observable.setValue(String.valueOf(R.string.SUCCESS_REGISTER));
                     }
 
                 } else {
-                    observable.setValue("error register");
-                    Log.d("USER", "failure in register user DB:"+task.getException().getLocalizedMessage());
+                    observable.setValue(String.valueOf(R.string.ERROR_REGISTER));
                 }
 
             }
         });
 
         return observable;
-    }
+    } //Register User
 
+    //Find if the Hardware is already registered
     private boolean isHadwareID(String hardwareId) {
         final boolean[] found = {false};
-        mDatabase.child("devices")
+        mDatabase.child(String.valueOf(R.string.DEVICES))
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             Device dev = snapshot.getValue(Device.class);
+                            assert dev != null;
                             if (dev.hardwareId.equals(hardwareId)) {
                                 found[0] = true;
                             }
@@ -254,45 +246,22 @@ public class FirebaseRepository {
                     }
                 });
         return found[0];
-    }
+    } //isHardwareID
 
-    public LiveData<String> getHWid () {
-        MutableLiveData<String> observable = new MutableLiveData<>();
-        mDatabase.child("users").child(idUser).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("firebase", "Error getting data", task.getException());
-                    observable.setValue("error");
-                }
-                else {
-                    Log.d("firebase", "Read info in Login");
-                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                    User user = (User) task.getResult().getValue(User.class);
-                    observable.setValue(user.getHardwareId());
-                }
-            }
-        });
-
-        return observable;
-    }
-
+    //Get User information from Firebase Database
     public LiveData<User> getUserInfo() {
 
         MutableLiveData<User> observable = new MutableLiveData<>();
 
-        mDatabase.child("users").child(idUser).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        mDatabase.child(String.valueOf(R.string.USERS)).child(idUser).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
-                    Log.e("firebase", "Error getting data", task.getException());
                     userInfo = new User();
-                    userInfo.setEmail("error");
+                    userInfo.setEmail(String.valueOf(R.string.ERROR));
                     observable.setValue(userInfo);
                 }
                 else {
-                    Log.d("firebase", "Read info in Login");
-                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
                     userInfo = (User) task.getResult().getValue(User.class);
                     observable.setValue(userInfo);
                 }
@@ -300,23 +269,21 @@ public class FirebaseRepository {
         });
 
         return observable;
-    }
+    } //get user info
 
+    //Get Device Info from Firebase Database
     public LiveData<Device> getDeviceInfo() {
 
         MutableLiveData<Device> observable = new MutableLiveData<>();
-        mDatabase.child("devices").child(idHardware).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        mDatabase.child(String.valueOf(R.string.DEVICES)).child(idHardware).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
-                    Log.e("firebase", "Error getting DEVICE data", task.getException());
                     device = new Device();
-                    device.setHardwareId("error");
+                    device.setHardwareId(String.valueOf(R.string.ERROR));
                     observable.setValue(device);
                 }
                 else {
-                    Log.d("firebase", "Read info in Login DEVICE");
-                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
                     device = (Device) task.getResult().getValue(Device.class);
                     observable.setValue(device);
                 }
@@ -324,14 +291,14 @@ public class FirebaseRepository {
         });
 
         return observable;
-    }
+    } //get device info
 
-
+    //Subscribe to Values of Planning in Firebase Database
     public LiveData<ArrayList<EventDAO>> subscribeToPlanning() {
 
         MutableLiveData<ArrayList<EventDAO>> observable = new MutableLiveData<>();
 
-        mDatabase.child("planning").child(idHardware).addValueEventListener(new ValueEventListener() {
+        mDatabase.child(String.valueOf(R.string.PLANNING)).child(idHardware).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 planning = new ArrayList<EventDAO>();
@@ -351,8 +318,6 @@ public class FirebaseRepository {
             }
         });
 
-
-
         return observable;
     }
 
@@ -360,70 +325,74 @@ public class FirebaseRepository {
         idHardware = hardwareId;
     }
 
+    //Change Light Value in Firebase Database
     public MutableLiveData<String> changeLightValue(int value) {
         MutableLiveData<String> observable = new MutableLiveData<>();
 
-        mDatabase.child("devices").child(idHardware).child("lightSensor").setValue(value).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mDatabase.child(String.valueOf(R.string.DEVICES)).child(idHardware).child(String.valueOf(R.string.LIGHT_SENSOR)).setValue(value).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                   observable.setValue("success");
+                   observable.setValue(String.valueOf(R.string.SUCCESS));
                 } else {
-                   observable.setValue("error");
+                   observable.setValue(String.valueOf(R.string.ERROR));
                 }
             }
         });
         return observable;
-    }
+    } //change light value
 
+    //Change Tap Value in Firebase Database
     public MutableLiveData<String> changeTapValue(int value) {
         MutableLiveData<String> observable = new MutableLiveData<>();
 
-        mDatabase.child("devices").child(idHardware).child("tap").setValue(value).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mDatabase.child(String.valueOf(R.string.DEVICES)).child(idHardware).child(String.valueOf(R.string.TAP_SENSOR)).setValue(value).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    observable.setValue("success");
+                    observable.setValue(String.valueOf(R.string.SUCCESS));
                 } else {
-                    observable.setValue("error");
+                    observable.setValue(String.valueOf(R.string.ERROR));
                 }
             }
         });
         return observable;
-    }
+    } //change tap value
 
+    //Set values to indicate there is an emergency in Firebase
     public MutableLiveData<String> setValuesEmergency() {
         MutableLiveData<String> observable = new MutableLiveData<>();
 
-        mDatabase.child("devices").child(idHardware).child("tap").setValue(0).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mDatabase.child(String.valueOf(R.string.DEVICES)).child(idHardware).child(String.valueOf(R.string.TAP_SENSOR)).setValue(R.integer.TAP_SOS).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    mDatabase.child("devices").child(idHardware).child("lightSensor").setValue(0).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    mDatabase.child(String.valueOf(R.string.DEVICES)).child(idHardware).child(String.valueOf(R.string.LIGHT_SENSOR)).setValue(R.integer.LIGHT_SOS).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                observable.setValue("success");
+                                observable.setValue(String.valueOf(R.string.SUCCESS));
 
                             } else {
-                                observable.setValue("error");
+                                observable.setValue(String.valueOf(R.string.ERROR));
                             }
                         }
                     });
 
                 } else {
-                    observable.setValue("error");
+                    observable.setValue(String.valueOf(R.string.ERROR));
                 }
             }
         });
         return observable;
-    }
+    } //set values emergency
 
     public boolean isPatient() {
 
         return userInfo.isPatient();
     }
 
+    //Save Event of Planning to Firebase
     public MutableLiveData<String> saveEvent(String medSelected, LocalDate selectedDate) {
 
         MutableLiveData<String> observable = new MutableLiveData<>();
@@ -431,42 +400,44 @@ public class FirebaseRepository {
         String formattedDate = CalendarUtils.formattedDate(selectedDate);
         EventDAO eventDAO = new EventDAO(medSelected, formattedDate);
 
-        mDatabase.child("planning").child(idHardware).child(formattedDate).setValue(eventDAO).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mDatabase.child(String.valueOf(R.string.PLANNING)).child(idHardware).child(formattedDate).setValue(eventDAO).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    observable.setValue("success");
+                    observable.setValue(String.valueOf(R.string.SUCCESS));
                 } else {
-                    observable.setValue("error");
+                    observable.setValue(String.valueOf(R.string.ERROR));
                 }
 
             }
         });
 
         return observable;
-    }
+    } //save event
 
+    //Delete Event of Planning from Firebase
     public MutableLiveData<String> deleteEvent(LocalDate selectedDate) {
 
         MutableLiveData<String> observable = new MutableLiveData<>();
 
         String formattedDate = CalendarUtils.formattedDate(selectedDate);
 
-        mDatabase.child("planning").child(idHardware).child(formattedDate).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+        mDatabase.child(String.valueOf(R.string.PLANNING)).child(idHardware).child(formattedDate).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    observable.setValue("success");
+                    observable.setValue(String.valueOf(R.string.SUCCESS));
                 } else {
-                    observable.setValue("error");
+                    observable.setValue(String.valueOf(R.string.ERROR));
                 }
 
             }
         });
 
         return observable;
-    }
+    } //delete event
 
+    //Save image in Firebase Storage
     public LiveData<String> storeProfilePicture(String email, byte[] img) {
 
         MutableLiveData<String> observable = new MutableLiveData<>();
@@ -480,21 +451,21 @@ public class FirebaseRepository {
             @Override
             public void onFailure(@NonNull Exception e) {
 
-                observable.setValue("error");
+                observable.setValue(String.valueOf(R.string.ERROR));
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                observable.setValue("success");
+                observable.setValue(String.valueOf(R.string.SUCCESS));
                 //storageRef.getDownloadUrl()
             }
         });
 
         return observable;
-    }
+    } //storage profile picture
 
-
+    //Get image from Firebase Storage
     public LiveData<byte[]> getProfilePicture() {
 
         MutableLiveData<byte[]> observable = new MutableLiveData<>();
@@ -518,5 +489,5 @@ public class FirebaseRepository {
 
         return observable;
 
-    }
+    } // get profile picture
 }

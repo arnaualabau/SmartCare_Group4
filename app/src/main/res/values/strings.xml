@@ -65,6 +65,15 @@
     <string name="PSW_CHANGED">Password changed successfully.</string>
     <string name="PSW_NOTCHANGED">Password could not be changed. Try again.</string>
 
+    <!--firebase-->
+    <string name="USERS">users</string>
+    <string name="DEVICES">devices</string>
+    <string name="PLANNING">planning</string>
+    <string name="LIGHT_SENSOR">lightSensor</string>
+    <string name="TAP_SENSOR">tap</string>
+
+
+
     <!--names-->
     <string name="menu_home">Home</string>
     <string name="menu_profile">Profile</string>
