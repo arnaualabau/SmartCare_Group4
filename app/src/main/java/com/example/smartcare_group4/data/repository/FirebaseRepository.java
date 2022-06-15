@@ -72,8 +72,8 @@ public class FirebaseRepository {
                             //idHardware = "123456";
                             observable.setValue(user.getUid());
                         } else {
-                            // If sign in fails, display a message to the user.
-                            observable.setValue(String.valueOf(R.string.ERROR));
+                            // If sign up fails, display a message to the user.
+                            observable.setValue("error");
                         }
                     }
                 });
@@ -97,7 +97,7 @@ public class FirebaseRepository {
                             observable.setValue(user.getUid());
                         } else {
                             // If sign in fails, display a message to the user.
-                            observable.setValue(String.valueOf(R.string.ERROR));
+                            observable.setValue("error");
                         }
                     }
                 });
@@ -110,10 +110,10 @@ public class FirebaseRepository {
         String result = "";
         try {
             FirebaseAuth.getInstance().signOut();
-            result = String.valueOf(R.string.SUCCESS);
+            result = "success";
         } catch (Exception e) {
             e.printStackTrace();
-            result = String.valueOf(R.string.ERROR);
+            result = "error";
         }
         return result;
     } //Sign Out
@@ -131,9 +131,9 @@ public class FirebaseRepository {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            observable.setValue(String.valueOf(R.string.SUCCESS));
+                            observable.setValue("success");
                         } else {
-                            observable.setValue(String.valueOf(R.string.ERROR));
+                            observable.setValue("error");
                         }
                     }
                 });
@@ -148,10 +148,10 @@ public class FirebaseRepository {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    observable.setValue(String.valueOf(R.string.SUCCESS));
+                    observable.setValue("success");
 
                 } else {
-                    observable.setValue(String.valueOf(R.string.ERROR));
+                    observable.setValue("error");
 
                 }
             }
@@ -214,7 +214,7 @@ public class FirebaseRepository {
             }
         };
         //constantly checking the user's sensors values
-        mDatabase.child(String.valueOf(R.string.DEVICES)).child(idHardware).addValueEventListener(postListener);
+        mDatabase.child("devices").child(idHardware).addValueEventListener(postListener);
 
         return observable;
 
@@ -227,7 +227,7 @@ public class FirebaseRepository {
 
         //firebase method to register user with callback
         userInfo = new User(name, email, hardwareId, patient, imgTaken);
-        mDatabase.child(String.valueOf(R.string.USERS)).child(id).setValue(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mDatabase.child("users").child(id).setValue(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
@@ -236,23 +236,23 @@ public class FirebaseRepository {
 
                     //before registering the device, make sure it is not already registered
                     if (!isHadwareID(hardwareId)) {
-                        mDatabase.child(String.valueOf(R.string.DEVICES)).child(hardwareId).setValue(device).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        mDatabase.child("devices").child(hardwareId).setValue(device).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    observable.setValue(String.valueOf(R.string.SUCCESS_REGISTER));
+                                    observable.setValue("success register");
                                     idHardware = hardwareId;
                                 } else {
-                                    observable.setValue(String.valueOf(R.string.ERROR_REGISTER));
+                                    observable.setValue("error register");
                                 }
                             }
                         });
                     } else {
-                        observable.setValue(String.valueOf(R.string.SUCCESS_REGISTER));
+                        observable.setValue("success register");
                     }
 
                 } else {
-                    observable.setValue(String.valueOf(R.string.ERROR_REGISTER));
+                    observable.setValue("error register");
                 }
 
             }
@@ -264,7 +264,7 @@ public class FirebaseRepository {
     //Find if the Hardware is already registered
     private boolean isHadwareID(String hardwareId) {
         final boolean[] found = {false};
-        mDatabase.child(String.valueOf(R.string.DEVICES))
+        mDatabase.child("devices")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -288,12 +288,12 @@ public class FirebaseRepository {
 
         MutableLiveData<User> observable = new MutableLiveData<>();
 
-        mDatabase.child(String.valueOf(R.string.USERS)).child(idUser).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        mDatabase.child("users").child(idUser).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
                     userInfo = new User();
-                    userInfo.setEmail(String.valueOf(R.string.ERROR));
+                    userInfo.setEmail("error");
                     observable.setValue(userInfo);
                 }
                 else {
@@ -310,12 +310,12 @@ public class FirebaseRepository {
     public LiveData<Device> getDeviceInfo() {
 
         MutableLiveData<Device> observable = new MutableLiveData<>();
-        mDatabase.child(String.valueOf(R.string.DEVICES)).child(idHardware).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        mDatabase.child("devices").child(idHardware).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
                     device = new Device();
-                    device.setHardwareId(String.valueOf(R.string.ERROR));
+                    device.setHardwareId("error");
                     observable.setValue(device);
                 }
                 else {
@@ -333,7 +333,7 @@ public class FirebaseRepository {
 
         MutableLiveData<ArrayList<EventDAO>> observable = new MutableLiveData<>();
 
-        mDatabase.child(String.valueOf(R.string.PLANNING)).child(idHardware).addValueEventListener(new ValueEventListener() {
+        mDatabase.child("planning").child(idHardware).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 planning = new ArrayList<EventDAO>();
@@ -364,13 +364,13 @@ public class FirebaseRepository {
     public MutableLiveData<String> changeLightValue(int value) {
         MutableLiveData<String> observable = new MutableLiveData<>();
 
-        mDatabase.child(String.valueOf(R.string.DEVICES)).child(idHardware).child(String.valueOf(R.string.LIGHT_SENSOR)).setValue(value).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mDatabase.child("devices").child(idHardware).child("lightSensor").setValue(value).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                   observable.setValue(String.valueOf(R.string.SUCCESS));
+                   observable.setValue("success");
                 } else {
-                   observable.setValue(String.valueOf(R.string.ERROR));
+                   observable.setValue("error");
                 }
             }
         });
@@ -381,13 +381,13 @@ public class FirebaseRepository {
     public MutableLiveData<String> changeTapValue(int value) {
         MutableLiveData<String> observable = new MutableLiveData<>();
 
-        mDatabase.child(String.valueOf(R.string.DEVICES)).child(idHardware).child(String.valueOf(R.string.TAP_SENSOR)).setValue(value).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mDatabase.child("devices").child(idHardware).child("tap").setValue(value).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    observable.setValue(String.valueOf(R.string.SUCCESS));
+                    observable.setValue("success");
                 } else {
-                    observable.setValue(String.valueOf(R.string.ERROR));
+                    observable.setValue("error");
                 }
             }
         });
@@ -398,24 +398,24 @@ public class FirebaseRepository {
     public MutableLiveData<String> setValuesEmergency() {
         MutableLiveData<String> observable = new MutableLiveData<>();
 
-        mDatabase.child(String.valueOf(R.string.DEVICES)).child(idHardware).child(String.valueOf(R.string.TAP_SENSOR)).setValue(R.integer.TAP_SOS).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mDatabase.child("devices").child(idHardware).child("tap").setValue(R.integer.TAP_SOS).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    mDatabase.child(String.valueOf(R.string.DEVICES)).child(idHardware).child(String.valueOf(R.string.LIGHT_SENSOR)).setValue(R.integer.LIGHT_SOS).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    mDatabase.child("devices").child(idHardware).child("lightSensor").setValue(R.integer.LIGHT_SOS).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                observable.setValue(String.valueOf(R.string.SUCCESS));
+                                observable.setValue("success");
 
                             } else {
-                                observable.setValue(String.valueOf(R.string.ERROR));
+                                observable.setValue("error");
                             }
                         }
                     });
 
                 } else {
-                    observable.setValue(String.valueOf(R.string.ERROR));
+                    observable.setValue("error");
                 }
             }
         });
@@ -435,13 +435,13 @@ public class FirebaseRepository {
         String formattedDate = CalendarUtils.formattedDate(selectedDate);
         EventDAO eventDAO = new EventDAO(medSelected, formattedDate);
 
-        mDatabase.child(String.valueOf(R.string.PLANNING)).child(idHardware).child(formattedDate).setValue(eventDAO).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mDatabase.child("planning").child(idHardware).child(formattedDate).setValue(eventDAO).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    observable.setValue(String.valueOf(R.string.SUCCESS));
+                    observable.setValue("success");
                 } else {
-                    observable.setValue(String.valueOf(R.string.ERROR));
+                    observable.setValue("error");
                 }
 
             }
@@ -457,13 +457,13 @@ public class FirebaseRepository {
 
         String formattedDate = CalendarUtils.formattedDate(selectedDate);
 
-        mDatabase.child(String.valueOf(R.string.PLANNING)).child(idHardware).child(formattedDate).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+        mDatabase.child("planning").child(idHardware).child(formattedDate).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    observable.setValue(String.valueOf(R.string.SUCCESS));
+                    observable.setValue("success");
                 } else {
-                    observable.setValue(String.valueOf(R.string.ERROR));
+                    observable.setValue("error");
                 }
 
             }
@@ -486,13 +486,13 @@ public class FirebaseRepository {
             @Override
             public void onFailure(@NonNull Exception e) {
 
-                observable.setValue(String.valueOf(R.string.ERROR));
+                observable.setValue("error");
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                observable.setValue(String.valueOf(R.string.SUCCESS));
+                observable.setValue("success");
                 //storageRef.getDownloadUrl()
             }
         });

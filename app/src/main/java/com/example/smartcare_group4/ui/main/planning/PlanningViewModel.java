@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.data.Event;
 import com.example.smartcare_group4.data.EventDAO;
 import com.example.smartcare_group4.data.repository.FirebaseRepository;
@@ -26,6 +27,7 @@ public class PlanningViewModel extends ViewModel {
         return eventsList;
     }
 
+    //Get events of a specific date
     public static ArrayList<Event> eventsForDate(LocalDate date) {
         ArrayList<Event> events = new ArrayList<>();
 
@@ -37,7 +39,7 @@ public class PlanningViewModel extends ViewModel {
         return events;
     }
 
-
+    //Subscribe to values of planning in firebase
     public MutableLiveData<ArrayList<EventDAO>> subscribePlanning() {
 
         MutableLiveData<ArrayList<EventDAO>> observable = (MutableLiveData<ArrayList<EventDAO>>) FirebaseRepository.firebaseInstance.subscribeToPlanning();
@@ -52,8 +54,8 @@ public class PlanningViewModel extends ViewModel {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
 
         for (EventDAO eventDAO: planning) {
-
-            if (!eventDAO.getName().equals("empty")) {
+            //TODO: que ho faci be aixo de value of
+            if (!eventDAO.getName().equals(String.valueOf(R.string.EMPTY))) {
                 LocalDate date = LocalDate.parse(eventDAO.getDate(), formatter);
                 events.add(new Event(eventDAO.getName(), date, eventDAO.getTaken()));
             }
@@ -68,12 +70,14 @@ public class PlanningViewModel extends ViewModel {
         return FirebaseRepository.firebaseInstance.isPatient();
     }
 
+    //Save event in firebase, using the medicine needed and the date
     public MutableLiveData<String> saveEvent(String medSelected, LocalDate selectedDate) {
         MutableLiveData<String> data = new MutableLiveData<>();
         data = FirebaseRepository.firebaseInstance.saveEvent(medSelected, selectedDate);
         return data;
     }
 
+    //Delete event from firebase
     public LiveData<String> deleteEvent(LocalDate selectedDate) {
 
         MutableLiveData<String> data = new MutableLiveData<>();
@@ -81,6 +85,7 @@ public class PlanningViewModel extends ViewModel {
         return data;
     }
 
+    //Check if there is or not a med plan for the week ahead
     public boolean noWeekPlan() {
 
         for (int i = 1; i <= 8; i++) {

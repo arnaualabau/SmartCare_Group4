@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,6 +102,7 @@ public class LoginFragment extends Fragment {
                         @Override
                         public void onChanged(String s) {
                             result = s;
+                            Log.d("login", s);
                             if (!s.equals(getString(R.string.ERROR))) {
 
                                 loginViewModel.getUserInfo(result).observe(getViewLifecycleOwner(), new Observer<User>() {

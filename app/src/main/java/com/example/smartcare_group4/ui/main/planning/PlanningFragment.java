@@ -92,7 +92,7 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
         addMedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                //save event to firebase
                 planningViewModel.saveEvent(medSelected, CalendarUtils.selectedDate).observe(getViewLifecycleOwner(), new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
@@ -141,6 +141,7 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
         delMedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //delete medicine in firebase
                 planningViewModel.deleteEvent(CalendarUtils.selectedDate).observe(getViewLifecycleOwner(), new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
@@ -157,7 +158,7 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
             }
         });
 
-
+        //CREATE SPINNER WITH MEDICINES AVAILABLE
         spinner = (Spinner) v.findViewById(R.id.medSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.meds_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
@@ -167,10 +168,12 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
         // Specify Listener
         spinner.setOnItemSelectedListener(this);
 
+        //CALENDAR VIEW
         calendarRecyclerView = v.findViewById(R.id.calendarRecyclerView);
         monthYearText = v.findViewById(R.id.monthYearTV);
         eventListView = v.findViewById(R.id.eventListView);
 
+        //go back in the calendar
         lastWeek = v.findViewById(R.id.lastWeek);
         lastWeek.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,7 +182,7 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
                 setWeekView();
             }
         });
-
+        //go forward in the calendar
         nextWeek = v.findViewById(R.id.nextWeek);
         nextWeek.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,6 +194,8 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
     }
 
     private void setWeekView() {
+
+        //view depends on the user's role
 
         if (planningViewModel.isPatient()) {
             takeMedButton.setVisibility(View.VISIBLE);

@@ -72,6 +72,8 @@
     <string name="LIGHT_SENSOR">lightSensor</string>
     <string name="TAP_SENSOR">tap</string>
 
+    <!--planning-->
+    <string name="EMPTY">empty</string>
 
 
     <!--names-->
