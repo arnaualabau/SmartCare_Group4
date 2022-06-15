@@ -203,7 +203,7 @@ public class SignupFragment extends Fragment {
                                 .setTitle(R.string.ERROR_MSG);
                         builder.show();
                     } else {
-                        //CALL FIREBASE
+                        //SIGN UP IN FIREBASE AUTHENTICATION
                         signupViewModel.signUp(emailText.getText().toString(),
                                 passwdText.getText().toString()
                         ).observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -211,12 +211,14 @@ public class SignupFragment extends Fragment {
                             public void onChanged(String s) {
                                 result = s;
                                 if (!s.equals(getString(R.string.ERROR))) {
+
                                     boolean patient = patientButton.isChecked();
                                     email = emailText.getText().toString();
                                     password = passwdText.getText().toString();
                                     name = nameText.getText().toString();
                                     hardwareId = hardwareIdText.getText().toString();
 
+                                    //REGISTER USER IN FIREBASE
                                     signupViewModel.registerUser(name, email, result, hardwareId, patient, imgTaken).observe(getViewLifecycleOwner(), new Observer<String>() {
                                         @Override
                                         public void onChanged(String s) {
@@ -228,6 +230,7 @@ public class SignupFragment extends Fragment {
                                                 loginToProfile.putExtra("patient", patient);
                                                 loginToProfile.putExtra("imageBool", imgTaken);
 
+                                                //CHECK IF AN IMAGE HAS BEEN TAKEN TO SHOW IT OR NOT
                                                 if (imgTaken) {
                                                     Bitmap imageBitmap = BitmapFactory.decodeFile(currentPhotoPath);
                                                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -236,7 +239,6 @@ public class SignupFragment extends Fragment {
                                                     signupViewModel.storeProfilePicture(email, img).observe(getViewLifecycleOwner(), new Observer<String>() {
                                                         @Override
                                                         public void onChanged(String s) {
-
 
                                                             if (s.equals(getString(R.string.SUCCESS))) {
 
@@ -260,8 +262,8 @@ public class SignupFragment extends Fragment {
                                                         .setTitle(R.string.ERROR_MSG);
                                                 builder.show();
 
-                                                //eliminar de auth
-                                                deleteUser(email, password);
+                                                //Eliminate user from Authentication
+                                                signupViewModel.deleteUser(email, password);
                                             }
                                         }
                                     });
@@ -277,6 +279,7 @@ public class SignupFragment extends Fragment {
                         });
                     }
                 } else {
+                    //User has not filled in all fields
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setMessage(R.string.ERROR_EMPTYTEXT)
                             .setTitle(R.string.ERROR_MSG);
@@ -293,7 +296,7 @@ public class SignupFragment extends Fragment {
         editPictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                //ask for permission to take photo
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setMessage(R.string.CAMERA_MSG)
                         .setTitle(R.string.CAMERA_TITLE)
@@ -303,16 +306,16 @@ public class SignupFragment extends Fragment {
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-
+                                //make sure the user has camera on the device
                                 PackageManager packageManager = getActivity().getPackageManager();
                                 if(packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY) == false) {
 
                                     Toast.makeText(getActivity(), R.string.CAMERA_NO, Toast.LENGTH_SHORT)
                                             .show();
                                 } else {
-
+                                    //Ask for permissions
                                     if (requestPermissions()) {
-
+                                        //take photo
                                         dispatchTakePictureIntent();
 
                                     }
@@ -327,40 +330,8 @@ public class SignupFragment extends Fragment {
 
     }
 
-    private void deleteUser(String email, String password) {
 
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        // Get auth credentials from the user for re-authentication. The example below shows
-        // email and password credentials but there are multiple possible providers,
-        // such as GoogleAuthProvider or FacebookAuthProvider.
-        AuthCredential credential = EmailAuthProvider.getCredential(email, password);
-
-        // Prompt the user to re-provide their sign-in credentials
-        if (user != null) {
-            user.reauthenticate(credential)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            user.delete()
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            /*
-                                            if (task.isSuccessful()) {
-
-                                                Log.d("TAG", "User account deleted.");
-                                                startActivity(new Intent(DeleteUser.this, StartActivity.class));
-                                                Toast.makeText(DeleteUser.this, "Deleted User Successfully,", Toast.LENGTH_LONG).show();
-                                            }
-                                            */
-                                        }
-                                    });
-                        }
-                    });
-        }
-    }
-
+    //Check if permissions needed to take a photo are given or not and ask for them
     private boolean requestPermissions() {
 
         String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -376,7 +347,7 @@ public class SignupFragment extends Fragment {
         }
 
         return true;
-    }
+    } //request permissions
 
 
     @Override
@@ -405,17 +376,7 @@ public class SignupFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == getActivity().RESULT_OK) {
 
-            Bitmap imageBitmap = BitmapFactory.decodeFile(currentPhotoPath);
-            profilePic.setImageBitmap(imageBitmap);
-            profilePic.setBackgroundColor(Color.rgb(0,0,0));
-            imgTaken = true;
-        }
-    }
 
     private void dispatchTakePictureIntent() {
 
@@ -452,5 +413,19 @@ public class SignupFragment extends Fragment {
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == getActivity().RESULT_OK) {
+
+            Bitmap imageBitmap = BitmapFactory.decodeFile(currentPhotoPath);
+            profilePic.setImageBitmap(imageBitmap);
+            profilePic.setBackgroundColor(Color.rgb(0,0,0));
+            imgTaken = true;
+        }
+    }
+
+
 
 }

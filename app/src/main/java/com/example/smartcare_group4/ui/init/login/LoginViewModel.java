@@ -36,6 +36,7 @@ public class LoginViewModel extends ViewModel {
         FirebaseRepository.firebaseInstance.setHWId(hardwareId);
     }
 
+    //Check if the field is empty
     public boolean emptyTexts(String s1) {
         if (s1.equals("")) {
             return true;

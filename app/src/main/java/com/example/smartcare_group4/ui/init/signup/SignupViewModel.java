@@ -54,4 +54,8 @@ public class SignupViewModel extends ViewModel {
         }
         return false;
     }
+
+    public void deleteUser(String email, String password) {
+        FirebaseRepository.firebaseInstance.deleteUser(email, password);
+    }
 }

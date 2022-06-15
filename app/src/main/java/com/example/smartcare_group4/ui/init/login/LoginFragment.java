@@ -177,6 +177,7 @@ public class LoginFragment extends Fragment {
                         }
                     });
                 } else {
+                    //User has not filled in all fields
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setMessage(R.string.ERROR_EMPTYTEXT)
                             .setTitle(R.string.ERROR_MSG);

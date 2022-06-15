@@ -160,6 +160,41 @@ public class FirebaseRepository {
         return observable;
     } //Change password
 
+
+    public void deleteUser(String email, String password) {
+
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        // Get auth credentials from the user for re-authentication. The example below shows
+        // email and password credentials but there are multiple possible providers,
+        // such as GoogleAuthProvider or FacebookAuthProvider.
+        AuthCredential credential = EmailAuthProvider.getCredential(email, password);
+
+        // Prompt the user to re-provide their sign-in credentials
+        if (user != null) {
+            user.reauthenticate(credential)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            user.delete()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            /*
+                                            if (task.isSuccessful()) {
+
+                                                Log.d("TAG", "User account deleted.");
+                                                startActivity(new Intent(DeleteUser.this, StartActivity.class));
+                                                Toast.makeText(DeleteUser.this, "Deleted User Successfully,", Toast.LENGTH_LONG).show();
+                                            }
+                                            */
+                                        }
+                                    });
+                        }
+                    });
+        }
+    }
+
     //Subscribe to Values of Sensors in Firebase Database
     public LiveData<Device> subscribeToValues() {
 
