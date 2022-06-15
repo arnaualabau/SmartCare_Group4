@@ -57,7 +57,7 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
         planningViewModel =
                 new ViewModelProvider(this).get(PlanningViewModel.class);
 
-        CalendarUtils.selectedDate = LocalDate.now();
+        CalendarUtils.selectedDate = CalendarUtils.now;
 
         planningViewModel.subscribePlanning().observe(getViewLifecycleOwner(), new Observer<ArrayList<EventDAO>>() {
             @Override
@@ -114,7 +114,7 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
             @Override
             public void onClick(View view) {
 
-                if (CalendarUtils.selectedDate.equals(LocalDate.now())) {
+                if (CalendarUtils.selectedDate.equals(CalendarUtils.now)) {
                     ArrayList<Event> events = planningViewModel.eventsForDate(LocalDate.now());
 
                     if (events.size() > 0) {
@@ -124,6 +124,11 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
                             public void onChanged(String s) {
                                 if (s.equals(getString(R.string.SUCCESS))) {
                                     Toast.makeText(getActivity(), R.string.take_med_msg, Toast.LENGTH_SHORT).show();
+                                    CalendarUtils.now = CalendarUtils.now.plusDays(1);
+                                    CalendarUtils.selectedDate = CalendarUtils.now;
+
+                                    setWeekView();
+
                                 } else {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                     builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)

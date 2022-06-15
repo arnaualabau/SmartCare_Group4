@@ -19,10 +19,12 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.data.User;
-import com.example.smartcare_group4.data.repository.FirebaseRepository;
 import com.example.smartcare_group4.databinding.ActivityMainBinding;
+import com.example.smartcare_group4.ui.main.planning.CalendarUtils;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.time.LocalDate;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        CalendarUtils.now = LocalDate.now();
 
         mainViewModel = new MainViewModel();
 

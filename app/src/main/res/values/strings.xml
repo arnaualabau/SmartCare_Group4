@@ -33,8 +33,6 @@
     <string name="take_med_msg">Successfully consumed</string>
 
 
-
-
     <!--log in-->
     <string name="ERROR_CREDENTIALS">Error entering your credentials. Try again.</string>
     <string name="ERROR_DEVICE">Error getting information about the device. Try again. </string>

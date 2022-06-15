@@ -9,9 +9,6 @@
     <RelativeLayout
 
         android:id="@+id/pictureLayout"
-
-        android:layout_marginStart="24dp"
-
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/nameSignup"
@@ -19,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHeight_percent="0.2"
-        app:layout_constraintWidth_percent="0.25">
+        app:layout_constraintWidth_percent="0.35">
 
         <ImageView
             android:id="@+id/pictureSignup"
@@ -50,10 +47,11 @@
         android:layout_marginStart="12dp"
 
         android:hint="Hardware ID"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:selectAllOnFocus="true"
         android:background="@drawable/custom_input"
         android:drawableStart="@drawable/ic_menu_gallery"
+
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:drawablePadding="12dp"
@@ -62,13 +60,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/pictureLayout"
         app:layout_constraintTop_toTopOf="parent"
-
-        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintWidth_percent="0.45"
+        app:layout_constraintHeight_percent="0.12"
 
         ></EditText>
 
     <RadioGroup
-
         android:id="@+id/userTypeSignup"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -78,9 +75,9 @@
         app:layout_constraintStart_toEndOf="@+id/pictureLayout"
         app:layout_constraintTop_toBottomOf="@+id/hardwareIDSignup"
 
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="6dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="36dp"
         app:layout_constraintHeight_percent="0.1">
 
         <RadioButton
@@ -101,7 +98,9 @@
 
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="24dp"
+
         android:hint="Name"
         android:textSize="25sp"
         android:selectAllOnFocus="true"
@@ -116,8 +115,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pictureLayout"
 
+
+        app:layout_constraintHeight_percent="0.12"
         app:layout_constraintWidth_percent="0.8"
-        app:layout_constraintHeight_percent="0.1"
 
         ></EditText>
 
@@ -125,7 +125,8 @@
         android:id="@+id/emailSignup"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="12dp"
+
         android:hint="Email"
         android:textSize="25sp"
         android:selectAllOnFocus="true"
@@ -140,8 +141,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameSignup"
 
+        app:layout_constraintHeight_percent="0.12"
         app:layout_constraintWidth_percent="0.8"
-        app:layout_constraintHeight_percent="0.1"
 
         ></EditText>
 
@@ -150,10 +151,12 @@
         android:inputType="textPassword"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="0dp"
+        android:layout_marginBottom="12dp"
+
         android:hint="Password"
         android:textSize="25sp"
         android:selectAllOnFocus="true"
+
         android:background="@drawable/custom_input"
         android:drawableStart="@drawable/custom_lock_icon"
         android:paddingStart="12dp"
@@ -165,8 +168,8 @@
         app:layout_constraintTop_toBottomOf="@+id/emailSignup"
         app:layout_constraintBottom_toTopOf="@id/passwordSignup2"
 
+        app:layout_constraintHeight_percent="0.12"
         app:layout_constraintWidth_percent="0.8"
-        app:layout_constraintHeight_percent="0.1"
 
         ></EditText>
 
@@ -175,10 +178,11 @@
         android:inputType="textPassword"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="0dp"
+        android:layout_marginBottom="12dp"
         android:hint="Repeat Password"
         android:textSize="25sp"
         android:selectAllOnFocus="true"
+
         android:background="@drawable/custom_input"
         android:drawableStart="@drawable/custom_lock_icon"
         android:paddingStart="12dp"
@@ -190,8 +194,8 @@
         app:layout_constraintTop_toBottomOf="@+id/passwordSignup"
         app:layout_constraintBottom_toTopOf="@id/buttonSignup"
 
+        app:layout_constraintHeight_percent="0.12"
         app:layout_constraintWidth_percent="0.8"
-        app:layout_constraintHeight_percent="0.1"
 
         ></EditText>
     
@@ -201,18 +205,18 @@
 
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginBottom="120dp"
+        android:layout_marginTop="6dp"
 
         android:text="Sign Up"
-        android:textSize="15sp"
+        android:textSize="25sp"
         android:background="@drawable/textview_backgrounddesign"
+
         app:layout_constraintBottom_toBottomOf="parent"
-
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordSignup2"
+        app:layout_constraintBaseline_toBottomOf="parent"
 
         app:layout_constraintHeight_percent="0.1"
         app:layout_constraintWidth_percent="0.8"></androidx.appcompat.widget.AppCompatButton>
