@@ -9,7 +9,6 @@
     <string name="action_addmed">Add Medication</string>
     <string name="action_delmed">Delete Medication</string>
 
-    <string name="delete_med_msg">Successfully deleted</string>
 
     <!--aux-->
     <string name="ERROR" translatable="false">error</string>
@@ -30,6 +29,10 @@
     <string name="NOT_TODAY_MSG">You can only take today\'s medication.</string>
     <string name="NOT_MEDS_MSG">You have no medications planned for today.</string>
     <string name="NO_WEEKPLAN_MSG">You have not planned anything for the following week.</string>
+    <string name="delete_med_msg">Successfully deleted</string>
+    <string name="take_med_msg">Successfully consumed</string>
+
+
 
 
     <!--log in-->
@@ -74,6 +77,9 @@
 
     <!--planning-->
     <string name="EMPTY">empty</string>
+    <string name="MED_SUCCESSFULLY_TAKEN">yes</string>
+    <string name="MED_WRONGLY_TAKEN">wrong</string>
+    <string name="MED_NOT_TAKEN">no</string>
 
 
     <!--names-->

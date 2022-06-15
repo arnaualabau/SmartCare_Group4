@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.data.Event;
 import com.example.smartcare_group4.data.EventDAO;
 import com.example.smartcare_group4.data.repository.FirebaseRepository;
@@ -84,6 +83,14 @@ public class PlanningViewModel extends ViewModel {
         return data;
     }
 
+    //Medicine taken, change status on firebase
+    public LiveData<String> takeMedicine(LocalDate selectedDate) {
+
+        MutableLiveData<String> data = new MutableLiveData<>();
+        data = FirebaseRepository.firebaseInstance.takeMedicine(selectedDate);
+        return data;
+    }
+
     //Check if there is or not a med plan for the week ahead
     public boolean noWeekPlan() {
 
@@ -99,4 +106,6 @@ public class PlanningViewModel extends ViewModel {
 
         return true;
     }
+
+
 }

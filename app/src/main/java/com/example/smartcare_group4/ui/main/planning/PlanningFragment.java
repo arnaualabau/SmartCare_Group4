@@ -119,8 +119,19 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
 
                     if (events.size() > 0) {
 
-                        CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusDays(1);
-
+                        planningViewModel.takeMedicine(CalendarUtils.selectedDate).observe(getViewLifecycleOwner(), new Observer<String>() {
+                            @Override
+                            public void onChanged(String s) {
+                                if (s.equals(getString(R.string.SUCCESS))) {
+                                    Toast.makeText(getActivity(), R.string.take_med_msg, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                    builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
+                                            .setTitle(R.string.ERROR_MSG);
+                                    builder.show();
+                                }
+                            }
+                        });
 
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

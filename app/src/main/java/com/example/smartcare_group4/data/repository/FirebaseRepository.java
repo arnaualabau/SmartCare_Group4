@@ -1,7 +1,5 @@
 package com.example.smartcare_group4.data.repository;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -472,6 +470,29 @@ public class FirebaseRepository {
         return observable;
     } //delete event
 
+    //Change medicine status on firebase
+    public MutableLiveData<String> takeMedicine(LocalDate selectedDate) {
+
+        MutableLiveData<String> observable = new MutableLiveData<>();
+
+        String formattedDate = CalendarUtils.formattedDate(selectedDate);
+
+        mDatabase.child("planning").child(idHardware).child(formattedDate).child("taken").setValue("yes").addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    observable.setValue("success");
+                } else {
+                    observable.setValue("error");
+                }
+
+            }
+        });
+
+        return observable;
+
+    } //take medicine
+
     //Save image in Firebase Storage
     public LiveData<String> storeProfilePicture(String email, byte[] img) {
 
@@ -525,4 +546,6 @@ public class FirebaseRepository {
         return observable;
 
     } // get profile picture
+
+
 }
