@@ -54,8 +54,7 @@ public class PlanningViewModel extends ViewModel {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
 
         for (EventDAO eventDAO: planning) {
-            //TODO: que ho faci be aixo de value of
-            if (!eventDAO.getName().equals(String.valueOf(R.string.EMPTY))) {
+            if (!eventDAO.getName().equals("empty")) {
                 LocalDate date = LocalDate.parse(eventDAO.getDate(), formatter);
                 events.add(new Event(eventDAO.getName(), date, eventDAO.getTaken()));
             }
