@@ -31,6 +31,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class FirebaseRepository {
+
+    //constants
+    final int LIGHT_SOS = 255;
+    final int TAP_SOS = 0;
+
     //Create Singleton
     public static FirebaseRepository firebaseInstance = new FirebaseRepository();
 
@@ -396,11 +401,11 @@ public class FirebaseRepository {
     public MutableLiveData<String> setValuesEmergency() {
         MutableLiveData<String> observable = new MutableLiveData<>();
 
-        mDatabase.child("devices").child(idHardware).child("tap").setValue(R.integer.TAP_SOS).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mDatabase.child("devices").child(idHardware).child("tap").setValue(TAP_SOS).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    mDatabase.child("devices").child(idHardware).child("lightSensor").setValue(R.integer.LIGHT_SOS).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    mDatabase.child("devices").child(idHardware).child("lightSensor").setValue(LIGHT_SOS).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
