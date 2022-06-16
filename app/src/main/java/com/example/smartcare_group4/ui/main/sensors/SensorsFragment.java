@@ -2,7 +2,6 @@ package com.example.smartcare_group4.ui.main.sensors;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,14 +85,22 @@ public class SensorsFragment extends Fragment {
     private void bindViews(View v) {
 
         lightSlider = v.findViewById(R.id.lightSlider);
-        lightSlider.addOnChangeListener(new Slider.OnChangeListener() {
+        lightSlider.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
+            public void onStartTrackingTouch(@NonNull Slider slider) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+
+                int value = (int) slider.getValue();
 
                 sensorsViewModel.changeLightValue((int)value).observe(getViewLifecycleOwner(), new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
                         if (s.equals(getString(R.string.SUCCESS))) {
+
                             //values will be automatically changed
                         } else {
                             //error
@@ -104,9 +111,9 @@ public class SensorsFragment extends Fragment {
                         }
                     }
                 });
+
             }
         });
-
 
         addTapButton = v.findViewById(R.id.addBtn);
         addTapButton.setOnClickListener(new View.OnClickListener() {

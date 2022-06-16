@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.data.Device;
 import com.example.smartcare_group4.data.EventDAO;
 import com.example.smartcare_group4.data.User;
@@ -186,7 +185,6 @@ public class FirebaseRepository {
                                             /*
                                             if (task.isSuccessful()) {
 
-                                                Log.d("TAG", "User account deleted.");
                                                 startActivity(new Intent(DeleteUser.this, StartActivity.class));
                                                 Toast.makeText(DeleteUser.this, "Deleted User Successfully,", Toast.LENGTH_LONG).show();
                                             }
