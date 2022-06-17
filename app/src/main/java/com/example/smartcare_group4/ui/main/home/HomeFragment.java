@@ -2,7 +2,6 @@ package com.example.smartcare_group4.ui.main.home;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,13 +60,15 @@ public class HomeFragment extends Fragment {
 
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                             builder.setMessage(R.string.EMERGENCY_MSG)
-                                    .setTitle(R.string.SOS_MSG);
+                                    .setTitle(R.string.SOS_MSG)
+                                    .setPositiveButton(android.R.string.ok, null);
                             builder.show();
 
                         } else {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                             builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
-                                    .setTitle(R.string.ERROR_MSG);
+                                    .setTitle(R.string.ERROR_MSG)
+                                    .setPositiveButton(android.R.string.ok, null);
                             builder.show();
 
                         }

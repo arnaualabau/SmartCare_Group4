@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -68,13 +67,15 @@ public class MainActivity extends AppCompatActivity {
                             //show message
                             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                             builder.setMessage(R.string.EMERGENCY_MSG)
-                                    .setTitle(R.string.SOS_MSG);
+                                    .setTitle(R.string.SOS_MSG)
+                                    .setPositiveButton(android.R.string.ok, null);
                             builder.show();
 
                         } else {
                             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                             builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
-                                    .setTitle(R.string.ERROR_MSG);
+                                    .setTitle(R.string.ERROR_MSG)
+                                    .setPositiveButton(android.R.string.ok, null);
                             builder.show();
 
                         }
@@ -118,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
                         Bitmap imageBitmap = BitmapFactory.decodeByteArray(img, 0, img.length);
                         navigationImage.setImageBitmap(imageBitmap);
+                        navigationImage.setBackgroundResource(R.color.transparent);
 
                     } else {
 
@@ -126,14 +128,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
     }
 
     @Override

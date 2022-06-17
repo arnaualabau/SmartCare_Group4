@@ -22,10 +22,10 @@
             android:id="@+id/pictureSignup"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/ic_profile"
-            android:scaleType="centerInside"
+            android:layout_marginBottom="6dp"
             android:adjustViewBounds="true"
-            android:layout_marginBottom="12dp"/>
+            android:background="@drawable/ic_profile"
+            android:scaleType="centerInside" />
 
         <ImageButton
             android:id="@+id/editPictureSignup"
@@ -34,7 +34,9 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:background="@color/transparent"
-            android:src="@drawable/ic_menu_camera" />
+            android:src="@drawable/addphoto"
+
+            />
 
     </RelativeLayout>
 
@@ -50,7 +52,7 @@
         android:textSize="20sp"
         android:selectAllOnFocus="true"
         android:background="@drawable/custom_input"
-        android:drawableStart="@drawable/ic_menu_gallery"
+        android:drawableStart="@drawable/hardware"
 
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
@@ -105,7 +107,7 @@
         android:textSize="25sp"
         android:selectAllOnFocus="true"
         android:background="@drawable/custom_input"
-        android:drawableStart="@drawable/ic_profile"
+        android:drawableStart="@drawable/profile"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:drawablePadding="12dp"
@@ -131,7 +133,7 @@
         android:textSize="25sp"
         android:selectAllOnFocus="true"
         android:background="@drawable/custom_input"
-        android:drawableStart="@drawable/ic_email"
+        android:drawableStart="@drawable/email"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:drawablePadding="12dp"
@@ -158,7 +160,7 @@
         android:selectAllOnFocus="true"
 
         android:background="@drawable/custom_input"
-        android:drawableStart="@drawable/custom_lock_icon"
+        android:drawableStart="@drawable/lock"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:drawablePadding="12dp"
@@ -184,7 +186,7 @@
         android:selectAllOnFocus="true"
 
         android:background="@drawable/custom_input"
-        android:drawableStart="@drawable/custom_lock_icon"
+        android:drawableStart="@drawable/lock"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:drawablePadding="12dp"

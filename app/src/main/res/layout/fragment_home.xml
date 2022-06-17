@@ -7,8 +7,6 @@
     tools:context=".ui.main.home.HomeFragment">
 
 
-
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonSensors"
 
@@ -20,12 +18,18 @@
         android:text="Sensors"
         android:textSize="25sp"
         android:background="@drawable/textview_backgrounddesign"
+        android:backgroundTint="@color/blue"
+        android:drawableBottom="@drawable/sensors"
+        android:drawableTint="@color/black"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/buttonPlanning"
 
-        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintHeight_percent="0.15"
         app:layout_constraintWidth_percent="0.8"></androidx.appcompat.widget.AppCompatButton>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -39,13 +43,18 @@
         android:text="Planning"
         android:textSize="25sp"
         android:background="@drawable/textview_backgrounddesign"
+        android:backgroundTint="@color/teal_200"
+        android:drawableBottom="@drawable/list"
+        android:drawableTint="@color/black"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonSensors"
         app:layout_constraintBottom_toTopOf="@+id/buttonEmergency"
 
-        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintHeight_percent="0.15"
         app:layout_constraintWidth_percent="0.8"></androidx.appcompat.widget.AppCompatButton>
 
 
@@ -60,13 +69,17 @@
         android:text="Emergency"
         android:textSize="25sp"
         android:background="@drawable/textview_backgrounddesign"
-
+        android:backgroundTint="@color/red"
+        android:drawableBottom="@drawable/emergency"
+        android:drawableTint="@color/black"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonPlanning"
         app:layout_constraintBottom_toBottomOf="parent"
 
-        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintHeight_percent="0.15"
         app:layout_constraintWidth_percent="0.8"></androidx.appcompat.widget.AppCompatButton>
 </androidx.constraintlayout.widget.ConstraintLayout>

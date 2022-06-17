@@ -33,7 +33,9 @@
         android:textSize="25sp"
         android:background="@drawable/textview_backgrounddesign"
         app:layout_constraintBottom_toBottomOf="parent"
-
+        android:drawableStart="@drawable/logout"
+        android:drawableTint="@color/black"
+        android:paddingStart="12dp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

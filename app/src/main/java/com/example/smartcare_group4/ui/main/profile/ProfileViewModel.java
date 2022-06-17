@@ -66,4 +66,22 @@ public class ProfileViewModel extends ViewModel {
 
         }
     }
+
+    public boolean imageTaken() {
+        return FirebaseRepository.firebaseInstance.imageTaken();
+    }
+
+    public LiveData<String> storeProfilePicture(byte[] img) {
+
+        MutableLiveData<String> data = (MutableLiveData<String>) FirebaseRepository.firebaseInstance.storeProfilePicture(img);
+
+        return data;
+
+    }
+
+    public LiveData<byte[]> getProfilePicture() {
+
+        MutableLiveData<byte[]> observable = (MutableLiveData<byte[]>) FirebaseRepository.firebaseInstance.getProfilePicture();
+        return observable;
+    }
 }

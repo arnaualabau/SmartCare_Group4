@@ -2,13 +2,11 @@ package com.example.smartcare_group4.ui.main.settings;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,10 +14,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.smartcare_group4.R;
-import com.example.smartcare_group4.data.constants.Generic;
 import com.example.smartcare_group4.databinding.FragmentSettingsBinding;
-
-import javax.microedition.khronos.egl.EGLDisplay;
 
 public class SettingsFragment extends Fragment {
 
@@ -89,7 +84,8 @@ public class SettingsFragment extends Fragment {
                                                 //error
                                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                                 builder.setMessage(R.string.PSW_NOTCHANGED)
-                                                        .setTitle(R.string.ERROR);
+                                                        .setTitle(R.string.ERROR)
+                                                        .setPositiveButton(android.R.string.ok, null);
                                                 builder.show();
                                                 oldPassword.setText("");
                                                 newPassword.setText("");
@@ -98,7 +94,8 @@ public class SettingsFragment extends Fragment {
                                                 //success
                                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                                 builder.setMessage(R.string.PSW_CHANGED)
-                                                        .setTitle(R.string.SUCCESS);
+                                                        .setTitle(R.string.SUCCESS)
+                                                        .setPositiveButton(android.R.string.ok, null);
                                                 builder.show();
                                                 oldPassword.setText("");
                                                 newPassword.setText("");
@@ -110,14 +107,16 @@ public class SettingsFragment extends Fragment {
                                     //error message: new passwords do not match or less 6 chars
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                     builder.setMessage(R.string.ERROR_PASSWORDS)
-                                            .setTitle(R.string.ERROR_MSG);
+                                            .setTitle(R.string.ERROR_MSG)
+                                            .setPositiveButton(android.R.string.ok, null);
                                     builder.show();
                                 }
                             } else if (s1.equals(getString(R.string.ERROR))) {
                                 //error message: old password does not match
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                 builder.setMessage(R.string.ERROR_OLDPSW)
-                                        .setTitle(R.string.ERROR_MSG);
+                                        .setTitle(R.string.ERROR_MSG)
+                                        .setPositiveButton(android.R.string.ok, null);
                                 builder.show();
                             }
                         }

@@ -1,5 +1,7 @@
 package com.example.smartcare_group4.data.repository;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -233,10 +235,13 @@ public class FirebaseRepository {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
 
-                    device = new Device(hardwareId);
+                    Log.d("HWID", "onComplete: "+ hardwareId);
 
                     //before registering the device, make sure it is not already registered
                     if (!isHadwareID(hardwareId)) {
+
+                        device = new Device(hardwareId);
+
                         mDatabase.child("devices").child(hardwareId).setValue(device).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -272,7 +277,8 @@ public class FirebaseRepository {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             Device dev = snapshot.getValue(Device.class);
                             assert dev != null;
-                            if (dev.hardwareId.equals(hardwareId)) {
+
+                            if (dev.getHardwareId().equals(hardwareId)) {
                                 found[0] = true;
                             }
                         }
@@ -423,6 +429,11 @@ public class FirebaseRepository {
         return observable;
     } //set values emergency
 
+    public boolean imageTaken() {
+
+        return userInfo.isImageTaken();
+    }
+
     public boolean isPatient() {
 
         return userInfo.isPatient();
@@ -497,7 +508,7 @@ public class FirebaseRepository {
     } //take medicine
 
     //Save image in Firebase Storage
-    public LiveData<String> storeProfilePicture(String email, byte[] img) {
+    public LiveData<String> storeProfilePicture(byte[] img) {
 
         MutableLiveData<String> observable = new MutableLiveData<>();
 

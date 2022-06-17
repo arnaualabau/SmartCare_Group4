@@ -7,14 +7,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,12 +32,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.ui.main.MainActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -74,8 +66,6 @@ public class SignupFragment extends Fragment {
     String currentPhotoPath;
     ImageView profilePic;
     private static final int REQUEST_CODE = 14;
-    private static final int READ_PERMISSIONS_REQUEST = 15;
-    private static final int WRITE_PERMISSIONS_REQUEST = 16;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
 
 
@@ -200,7 +190,8 @@ public class SignupFragment extends Fragment {
                     if (!signupViewModel.checkPSW(passwdText.getText().toString(), passwd2Text.getText().toString())) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setMessage(R.string.ERROR_PASSWORDS)
-                                .setTitle(R.string.ERROR_MSG);
+                                .setTitle(R.string.ERROR_MSG)
+                                .setPositiveButton(android.R.string.ok, null);
                         builder.show();
                     } else {
                         //SIGN UP IN FIREBASE AUTHENTICATION
@@ -236,7 +227,7 @@ public class SignupFragment extends Fragment {
                                                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                                                     imageBitmap.compress(Bitmap.CompressFormat.JPEG,100, baos);
                                                     byte[] img = baos.toByteArray();
-                                                    signupViewModel.storeProfilePicture(email, img).observe(getViewLifecycleOwner(), new Observer<String>() {
+                                                    signupViewModel.storeProfilePicture(img).observe(getViewLifecycleOwner(), new Observer<String>() {
                                                         @Override
                                                         public void onChanged(String s) {
 
@@ -259,7 +250,8 @@ public class SignupFragment extends Fragment {
                                                 //ERROR IN REGISTERING IN FIREBASE
                                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                                 builder.setMessage(R.string.ERROR_REGISTER_MSG)
-                                                        .setTitle(R.string.ERROR_MSG);
+                                                        .setTitle(R.string.ERROR_MSG)
+                                                        .setPositiveButton(android.R.string.ok, null);
                                                 builder.show();
 
                                                 //Eliminate user from Authentication
@@ -272,7 +264,8 @@ public class SignupFragment extends Fragment {
                                     //ERROR IN SIGN UP IN FIREBASE
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                     builder.setMessage(R.string.ERROR_SIGNUP_MSG)
-                                            .setTitle(R.string.ERROR_MSG);
+                                            .setTitle(R.string.ERROR_MSG)
+                                            .setPositiveButton(android.R.string.ok, null);
                                     builder.show();
                                 }
                             }
@@ -282,7 +275,8 @@ public class SignupFragment extends Fragment {
                     //User has not filled in all fields
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setMessage(R.string.ERROR_EMPTYTEXT)
-                            .setTitle(R.string.ERROR_MSG);
+                            .setTitle(R.string.ERROR_MSG)
+                            .setPositiveButton(android.R.string.ok, null);
                     builder.show();
                 }
 
@@ -421,7 +415,7 @@ public class SignupFragment extends Fragment {
 
             Bitmap imageBitmap = BitmapFactory.decodeFile(currentPhotoPath);
             profilePic.setImageBitmap(imageBitmap);
-            profilePic.setBackgroundColor(Color.rgb(0,0,0));
+            profilePic.setBackgroundResource(R.color.transparent);
             imgTaken = true;
         }
     }

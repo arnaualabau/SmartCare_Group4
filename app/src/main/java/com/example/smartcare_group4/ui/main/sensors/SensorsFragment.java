@@ -67,7 +67,8 @@ public class SensorsFragment extends Fragment {
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setMessage(R.string.ERROR_SENSORS)
-                            .setTitle(R.string.ERROR_MSG);
+                            .setTitle(R.string.ERROR_MSG)
+                            .setPositiveButton(android.R.string.ok, null);
                     builder.show();
 
                 }
@@ -106,7 +107,8 @@ public class SensorsFragment extends Fragment {
                             //error
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                             builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
-                                    .setTitle(R.string.ERROR_MSG);
+                                    .setTitle(R.string.ERROR_MSG)
+                                    .setPositiveButton(android.R.string.ok, null);
                             builder.show();
                         }
                     }
@@ -134,7 +136,8 @@ public class SensorsFragment extends Fragment {
                                     //error
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                     builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
-                                            .setTitle(R.string.ERROR_MSG);
+                                            .setTitle(R.string.ERROR_MSG)
+                                            .setPositiveButton(android.R.string.ok, null);
                                     builder.show();
                                 }
                             }
@@ -165,7 +168,8 @@ public class SensorsFragment extends Fragment {
                                     //error
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                     builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
-                                            .setTitle(R.string.ERROR_MSG);
+                                            .setTitle(R.string.ERROR_MSG)
+                                            .setPositiveButton(android.R.string.ok, null);
                                     builder.show();
                                 }
                             }

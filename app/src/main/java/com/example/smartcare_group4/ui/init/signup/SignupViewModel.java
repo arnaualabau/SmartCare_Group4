@@ -26,9 +26,9 @@ public class SignupViewModel extends ViewModel {
 
     }
 
-    public LiveData<String> storeProfilePicture(String email, byte[] img) {
+    public LiveData<String> storeProfilePicture(byte[] img) {
 
-        MutableLiveData<String> data = (MutableLiveData<String>) FirebaseRepository.firebaseInstance.storeProfilePicture(email, img);
+        MutableLiveData<String> data = (MutableLiveData<String>) FirebaseRepository.firebaseInstance.storeProfilePicture(img);
 
         return data;
 

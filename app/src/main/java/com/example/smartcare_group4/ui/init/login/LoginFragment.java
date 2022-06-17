@@ -141,7 +141,8 @@ public class LoginFragment extends Fragment {
                                                         //READ DEVICE INFO FAILS
                                                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                                         builder.setMessage(R.string.ERROR_DEVICE)
-                                                                .setTitle(R.string.ERROR_MSG);
+                                                                .setTitle(R.string.ERROR_MSG)
+                                                                .setPositiveButton(android.R.string.ok, null);
                                                         builder.show();
 
                                                         //Empty text fields
@@ -155,7 +156,8 @@ public class LoginFragment extends Fragment {
                                             //READ USER INFO FAILS
                                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                             builder.setMessage(R.string.ERROR_USER)
-                                                    .setTitle(R.string.ERROR_MSG);
+                                                    .setTitle(R.string.ERROR_MSG)
+                                                    .setPositiveButton(android.R.string.ok, null);
                                             builder.show();
 
                                             //Empty text fields
@@ -170,7 +172,8 @@ public class LoginFragment extends Fragment {
                                 //LOGIN FAILS
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                 builder.setMessage(R.string.ERROR_CREDENTIALS)
-                                        .setTitle(R.string.ERROR_MSG);
+                                        .setTitle(R.string.ERROR_MSG)
+                                        .setPositiveButton(android.R.string.ok, null);
                                 builder.show();
 
                             }
@@ -180,7 +183,8 @@ public class LoginFragment extends Fragment {
                     //User has not filled in all fields
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setMessage(R.string.ERROR_EMPTYTEXT)
-                            .setTitle(R.string.ERROR_MSG);
+                            .setTitle(R.string.ERROR_MSG)
+                            .setPositiveButton(android.R.string.ok, null);
                     builder.show();
                 }
 
