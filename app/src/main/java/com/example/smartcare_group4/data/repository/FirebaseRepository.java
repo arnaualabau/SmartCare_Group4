@@ -515,6 +515,8 @@ public class FirebaseRepository {
         StorageReference storageRef = firabaseStorage.getReference();
         StorageReference profilePicRef = storageRef.child("profile/"+user.getUid()+".jpg");
 
+
+
         UploadTask uploadTask = profilePicRef.putBytes(img);
         uploadTask.addOnFailureListener(new OnFailureListener() {
 
@@ -527,8 +529,13 @@ public class FirebaseRepository {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                observable.setValue("success");
-                //storageRef.getDownloadUrl()
+                mDatabase.child(user.getUid()).child("imageTaken").setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        observable.setValue("success");
+                    }
+                });
+
             }
         });
 
@@ -560,6 +567,5 @@ public class FirebaseRepository {
         return observable;
 
     } // get profile picture
-
 
 }

@@ -23,4 +23,8 @@ public class MainViewModel extends ViewModel {
         MutableLiveData<String> observable = (MutableLiveData<String>) FirebaseRepository.firebaseInstance.setValuesEmergency();
         return observable;
     }
+
+    public boolean imageTaken() {
+        return FirebaseRepository.firebaseInstance.imageTaken();
+    }
 }

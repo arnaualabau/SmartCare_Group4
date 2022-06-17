@@ -79,6 +79,8 @@ public class ProfileViewModel extends ViewModel {
 
     }
 
+
+
     public LiveData<byte[]> getProfilePicture() {
 
         MutableLiveData<byte[]> observable = (MutableLiveData<byte[]>) FirebaseRepository.firebaseInstance.getProfilePicture();

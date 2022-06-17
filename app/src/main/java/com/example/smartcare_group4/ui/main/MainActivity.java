@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
@@ -86,6 +87,44 @@ public class MainActivity extends AppCompatActivity {
 
         //BUILD DRAWER
         DrawerLayout drawer = binding.drawerLayout;
+        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View drawerView) {
+                //if user has image, put image in header
+                if (mainViewModel.imageTaken()) {
+
+                    mainViewModel.getProfilePicture().observe(MainActivity.this, new Observer<byte[]>() {
+                        @Override
+                        public void onChanged(byte[] img) {
+                            if (img.length > 0) {
+
+                                Bitmap imageBitmap = BitmapFactory.decodeByteArray(img, 0, img.length);
+                                navigationImage.setImageBitmap(imageBitmap);
+                                navigationImage.setBackgroundResource(R.color.transparent);
+
+                            } else {
+
+                            }
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
         NavigationView navigationView = binding.drawerNavView;
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -109,24 +148,7 @@ public class MainActivity extends AppCompatActivity {
         navigationSubTitle.setText(user.getEmail());
         navigationImage = (ImageView) headerView.findViewById(R.id.NavigationImage);
 
-        //if user has image, put image in header
-        if (getIntent().getBooleanExtra("imageBool", false)) {
 
-            mainViewModel.getProfilePicture().observe(MainActivity.this, new Observer<byte[]>() {
-                @Override
-                public void onChanged(byte[] img) {
-                    if (img.length > 0) {
-
-                        Bitmap imageBitmap = BitmapFactory.decodeByteArray(img, 0, img.length);
-                        navigationImage.setImageBitmap(imageBitmap);
-                        navigationImage.setBackgroundResource(R.color.transparent);
-
-                    } else {
-
-                    }
-                }
-            });
-        }
 
     }
 
@@ -136,4 +158,6 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
 }

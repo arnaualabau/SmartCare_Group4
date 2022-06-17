@@ -58,6 +58,26 @@ public class ProfileFragment extends Fragment {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        profilePic = root.findViewById(R.id.profilePicture);
+        if (profileViewModel.imageTaken()) {
+            profileViewModel.getProfilePicture().observe(getViewLifecycleOwner(), new Observer<byte[]>() {
+                @Override
+                public void onChanged(byte[] img) {
+                    if (img.length > 0) {
+
+                        Bitmap imageBitmap = BitmapFactory.decodeByteArray(img, 0, img.length);
+                        profilePic.setImageBitmap(imageBitmap);
+                        profilePic.setBackgroundResource(R.color.transparent);
+
+                    } else {
+
+                    }
+                }
+            });
+
+        }
+
+
         //declaration
         final TextView nameValue = binding.textNameValue;
         final TextView emailValue = binding.textEmailValue;
@@ -91,26 +111,6 @@ public class ProfileFragment extends Fragment {
         profileViewModel.getText(2).observe(getViewLifecycleOwner(), emailValue::setText);
         profileViewModel.getText(3).observe(getViewLifecycleOwner(), HWValue::setText);
         profileViewModel.getText(4).observe(getViewLifecycleOwner(), roleValue::setText);
-
-
-        profilePic = root.findViewById(R.id.profilePicture);
-        if (profileViewModel.imageTaken()) {
-
-            profileViewModel.getProfilePicture().observe(getActivity(), new Observer<byte[]>() {
-                @Override
-                public void onChanged(byte[] img) {
-                    if (img.length > 0) {
-
-                        Bitmap imageBitmap = BitmapFactory.decodeByteArray(img, 0, img.length);
-                        profilePic.setImageBitmap(imageBitmap);
-                        profilePic.setBackgroundResource(R.color.transparent);
-
-                    } else {
-
-                    }
-                }
-            });
-        }
 
 
         editPictureButton = root.findViewById(R.id.editPictureProfile);
