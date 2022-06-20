@@ -153,29 +153,41 @@
         android:layout_height="0dp"
         android:layout_weight="5" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/takeMedButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:text="@string/action_takemed"
-        android:background="@null"
+
+        android:background="@drawable/textview_backgrounddesign"
+        android:backgroundTint="@color/blue"
+        android:drawableStart="@drawable/ic_menu_camera"
+        android:paddingStart="12dp"
         android:textStyle="bold"
+        android:textSize="20sp"
         android:layout_weight="1"
         android:layout_gravity="center"
         android:visibility="gone"
-        android:layout_marginBottom="24dp"/>
+        android:layout_marginBottom="24dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginEnd="72dp"
+        />
 
-    <Button
-        android:id="@+id/delMedButton"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.AppCompatButton        android:id="@+id/delMedButton"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:text="@string/action_delmed"
-        android:background="@null"
+
+        android:background="@drawable/textview_backgrounddesign"
+        android:backgroundTint="@color/blue"
         android:textStyle="bold"
         android:layout_weight="1"
+        android:textSize="20sp"
         android:layout_gravity="center"
         android:visibility="visible"
-        android:layout_marginBottom="24dp"/>
+        android:layout_marginBottom="24dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginEnd="72dp"/>
 
 
 

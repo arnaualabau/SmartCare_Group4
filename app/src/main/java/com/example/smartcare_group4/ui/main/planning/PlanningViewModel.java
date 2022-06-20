@@ -1,5 +1,7 @@
 package com.example.smartcare_group4.ui.main.planning;
 
+import android.graphics.Bitmap;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -108,4 +110,9 @@ public class PlanningViewModel extends ViewModel {
     }
 
 
+    public LiveData<String> processMedPicture(Bitmap img) {
+        MutableLiveData<String> data = (MutableLiveData<String>) FirebaseRepository.firebaseInstance.processMedPicture(img);
+
+        return data;
+    }
 }

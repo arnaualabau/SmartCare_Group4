@@ -1,7 +1,18 @@
 package com.example.smartcare_group4.ui.main.planning;
 
+import android.Manifest;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -26,8 +39,13 @@ import com.example.smartcare_group4.data.Event;
 import com.example.smartcare_group4.data.EventDAO;
 import com.example.smartcare_group4.databinding.FragmentPlanningBinding;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class PlanningFragment extends Fragment implements CalendarAdapter.OnItemListener, AdapterView.OnItemSelectedListener {
 
@@ -46,6 +64,10 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
 
     private Button nextWeek;
     private Button lastWeek;
+
+    String currentPhotoPath;
+    private static final int REQUEST_CODE = 14;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
 
     private EventAdapter eventAdapter;
     private CalendarAdapter calendarAdapter;
@@ -93,21 +115,30 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
         addMedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //save event to firebase
-                planningViewModel.saveEvent(medSelected, CalendarUtils.selectedDate).observe(getViewLifecycleOwner(), new Observer<String>() {
-                    @Override
-                    public void onChanged(String s) {
-                        if (s.equals(getString(R.string.SUCCESS))) {
-                            Toast.makeText(getActivity(), medSelected, Toast.LENGTH_SHORT).show();
-                        } else {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                            builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
-                                    .setTitle(R.string.ERROR_MSG)
-                                    .setPositiveButton(android.R.string.ok, null);
-                            builder.show();
+                if (CalendarUtils.selectedDate.isBefore(CalendarUtils.now)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage(R.string.NOT_PAST_MSG)
+                            .setTitle(R.string.ERROR_MSG)
+                            .setPositiveButton(android.R.string.ok, null);
+                    builder.show();
+
+                } else {
+                    //save event to firebase
+                    planningViewModel.saveEvent(medSelected, CalendarUtils.selectedDate).observe(getViewLifecycleOwner(), new Observer<String>() {
+                        @Override
+                        public void onChanged(String s) {
+                            if (s.equals(getString(R.string.SUCCESS))) {
+                                Toast.makeText(getActivity(), medSelected, Toast.LENGTH_SHORT).show();
+                            } else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
+                                        .setTitle(R.string.ERROR_MSG)
+                                        .setPositiveButton(android.R.string.ok, null);
+                                builder.show();
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
 
@@ -121,7 +152,35 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
 
                     if (events.size() > 0) {
 
-                        planningViewModel.takeMedicine(CalendarUtils.selectedDate).observe(getViewLifecycleOwner(), new Observer<String>() {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setMessage(R.string.CAMERA_MSG)
+                                .setTitle(R.string.CAMERA_TITLE)
+                                .setIcon(android.R.drawable.ic_menu_camera)
+                                .setCancelable(true)
+                                .setNegativeButton(android.R.string.no, null)
+                                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        //make sure the user has camera on the device
+                                        PackageManager packageManager = getActivity().getPackageManager();
+                                        if (packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY) == false) {
+
+                                            Toast.makeText(getActivity(), R.string.CAMERA_NO, Toast.LENGTH_SHORT)
+                                                    .show();
+                                        } else {
+                                            //Ask for permissions
+                                            if (requestPermissions()) {
+                                                //take photo
+                                                dispatchTakePictureIntent();
+
+                                            }
+
+                                        }
+                                    }
+                                });
+                        builder.show();
+
+                        /*planningViewModel.takeMedicine(CalendarUtils.selectedDate).observe(getViewLifecycleOwner(), new Observer<String>() {
                             @Override
                             public void onChanged(String s) {
                                 if (s.equals(getString(R.string.SUCCESS))) {
@@ -139,7 +198,7 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
                                     builder.show();
                                 }
                             }
-                        });
+                        });*/
 
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -162,21 +221,40 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
         delMedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //delete medicine in firebase
-                planningViewModel.deleteEvent(CalendarUtils.selectedDate).observe(getViewLifecycleOwner(), new Observer<String>() {
-                    @Override
-                    public void onChanged(String s) {
-                        if (s.equals(getString(R.string.SUCCESS))) {
-                            Toast.makeText(getActivity(), R.string.delete_med_msg, Toast.LENGTH_SHORT).show();
-                        } else {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                            builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
-                                    .setTitle(R.string.ERROR_MSG)
-                                    .setPositiveButton(android.R.string.ok, null);
-                            builder.show();
-                        }
+                if (CalendarUtils.selectedDate.isBefore(CalendarUtils.now)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage(R.string.NOT_PAST_MSG)
+                            .setTitle(R.string.ERROR_MSG)
+                            .setPositiveButton(android.R.string.ok, null);
+                    builder.show();
+
+                } else {
+                    ArrayList<Event> events = planningViewModel.eventsForDate(LocalDate.now());
+
+                    if (events.size() > 0) {
+                        //delete medicine in firebase
+                        planningViewModel.deleteEvent(CalendarUtils.selectedDate).observe(getViewLifecycleOwner(), new Observer<String>() {
+                            @Override
+                            public void onChanged(String s) {
+                                if (s.equals(getString(R.string.SUCCESS))) {
+                                    Toast.makeText(getActivity(), R.string.delete_med_msg, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                    builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
+                                            .setTitle(R.string.ERROR_MSG)
+                                            .setPositiveButton(android.R.string.ok, null);
+                                    builder.show();
+                                }
+                            }
+                        });
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setMessage(R.string.NOT_MEDS_MSG)
+                                .setTitle(R.string.ERROR_MSG)
+                                .setPositiveButton(android.R.string.ok, null);
+                        builder.show();
                     }
-                });
+                }
             }
         });
 
@@ -268,5 +346,115 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
     public void onItemClick(int position, LocalDate date) {
         CalendarUtils.selectedDate = date;
         setWeekView();
+    }
+
+    //Camera & Permissions
+    //Check if permissions needed to take a photo are given or not and ask for them
+    private boolean requestPermissions() {
+
+        String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+        if (ContextCompat.checkSelfPermission(getActivity(), permissions[0]) == PackageManager.PERMISSION_DENIED
+                || ContextCompat.checkSelfPermission(getActivity(), permissions[1]) == PackageManager.PERMISSION_DENIED
+                || ContextCompat.checkSelfPermission(getActivity(), permissions[2]) == PackageManager.PERMISSION_DENIED) {
+
+            requestPermissions(permissions, REQUEST_CODE);
+
+            return false;
+
+        }
+
+        return true;
+    } //request permissions
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+
+            case REQUEST_CODE:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 &&
+                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission is granted. Continue the action or workflow
+                    // in your app.
+                } else {
+
+                    new androidx.appcompat.app.AlertDialog.Builder(getActivity())
+                            .setTitle(R.string.PERMISSIONS_TITLE)
+                            .setMessage(R.string.PERMISSIONS_DENIED)
+                            .setNegativeButton(android.R.string.ok, null)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }
+                return;
+        }
+    }
+
+
+
+    private void dispatchTakePictureIntent() {
+
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            // Create the File where the photo should go.
+            // If you don't do this, you may get a crash in some devices.
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                Toast toast = Toast.makeText(getActivity(), "There was a problem saving the photo...", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(getActivity(),"com.example.android.fileprovider", photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
+        }
+    }
+
+    private File createImageFile() throws IOException {
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == getActivity().RESULT_OK) {
+
+            try {
+                ExifInterface exif = new ExifInterface(currentPhotoPath);
+                int rotation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                Log.d("MLKIT", "onActivityResult: "+rotation);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Bitmap imageBitmap = BitmapFactory.decodeFile(currentPhotoPath);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG,100, baos);
+            byte[] img = baos.toByteArray();
+            planningViewModel.processMedPicture(imageBitmap).observe(getViewLifecycleOwner(), new Observer<String>() {
+                @Override
+                public void onChanged(String s) {
+
+                }
+            });
+        }
     }
 }

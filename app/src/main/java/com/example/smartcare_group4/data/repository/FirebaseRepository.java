@@ -1,5 +1,8 @@
 package com.example.smartcare_group4.data.repository;
 
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -27,7 +30,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.text.Text;
+import com.google.mlkit.vision.text.TextRecognition;
+import com.google.mlkit.vision.text.TextRecognizer;
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
+import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -52,6 +61,7 @@ public class FirebaseRepository {
     private User userInfo;
     private Device device;
     private ArrayList<EventDAO> planning;
+
 
     public FirebaseRepository(){
         // Initialize Firebase Auth
@@ -515,8 +525,6 @@ public class FirebaseRepository {
         StorageReference storageRef = firabaseStorage.getReference();
         StorageReference profilePicRef = storageRef.child("profile/"+user.getUid()+".jpg");
 
-
-
         UploadTask uploadTask = profilePicRef.putBytes(img);
         uploadTask.addOnFailureListener(new OnFailureListener() {
 
@@ -568,4 +576,85 @@ public class FirebaseRepository {
 
     } // get profile picture
 
+    public LiveData<String> processMedPicture(Bitmap imageBitmap) {
+
+        MutableLiveData<String> observable = new MutableLiveData<>();
+
+        StorageReference storageRef = firabaseStorage.getReference();
+        StorageReference profilePicRef = storageRef.child("medication/"+user.getUid()+"/"+CalendarUtils.selectedDate+".jpg");
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        imageBitmap.compress(Bitmap.CompressFormat.JPEG,100, baos);
+        byte[] img = baos.toByteArray();
+        UploadTask uploadTask = profilePicRef.putBytes(img);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Log.d("MLKIT", "onFailure: ");
+
+
+                observable.setValue("error");
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                Log.d("MLKIT", "onSuccess: ");
+                InputImage image = InputImage.fromBitmap(imageBitmap, 0);
+                //InputImage image = InputImage.fromByteArray(img,480,360,0,InputImage.IMAGE_FORMAT_NV21 /*or IMAGE_FORMAT_YV12*/);
+                Log.d("MLKIT", "img: "+img.toString());
+                Log.d("MLKIT", "image: "+image.toString());
+
+                TextRecognizer recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
+                Task<Text> result = recognizer.process(image).addOnSuccessListener(new OnSuccessListener<Text>() {
+                    @Override
+                    public void onSuccess(Text text) {
+
+                        String resultText = text.getText();
+                        Log.d("MLKIT", "resultText: "+ resultText);
+
+                        for (Text.TextBlock block : text.getTextBlocks()) {
+
+                            String blockText = block.getText();
+                            Log.d("MLKIT", "blockText: "+ blockText);
+
+                            Point[] blockCornerPoints = block.getCornerPoints();
+                            Rect blockFrame = block.getBoundingBox();
+                            for (Text.Line line : block.getLines()) {
+                                String lineText = line.getText();
+                                Log.d("MLKIT", "lineText: "+ lineText);
+
+                                Point[] lineCornerPoints = line.getCornerPoints();
+                                Rect lineFrame = line.getBoundingBox();
+                                for (Text.Element element : line.getElements()) {
+                                    String elementText = element.getText();
+                                    Log.d("MLKIT", "elementText: "+ elementText);
+
+                                    Point[] elementCornerPoints = element.getCornerPoints();
+                                    Rect elementFrame = element.getBoundingBox();
+                                }
+                            }
+                        }
+
+                        observable.setValue("success");
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("MLKIT", "onFailure2   : ");
+
+                    }
+                });
+
+
+
+            }
+        });
+
+        return observable;
+    }
 }
