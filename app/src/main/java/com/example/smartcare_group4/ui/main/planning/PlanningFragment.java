@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -441,6 +442,8 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
             planningViewModel.processMedPicture(imageBitmap, rotation).observe(getViewLifecycleOwner(), new Observer<String>() {
                 @Override
                 public void onChanged(String s) {
+
+                    Log.d("MLKIT", "onChanged: "+ s);
 
                     if (!s.equals(getString(R.string.ERROR))) {
 

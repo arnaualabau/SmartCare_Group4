@@ -635,9 +635,9 @@ public class FirebaseRepository {
                     @Override
                     public void onSuccess(Text text) {
 
-                        observable.setValue("wrong");
+                        boolean wrong = true;
 
-                        Log.d("MLKIT", "textgetBlocks: "+ text.getTextBlocks());
+                        Log.d("MLKIT", "textgetBlocks: "+ text.getText());
 
                         for (int i = 0; i<text.getTextBlocks().size();i++) {
 
@@ -651,15 +651,22 @@ public class FirebaseRepository {
                                         && text.getTextBlocks().get(i+2).getText().equals("LA SALLE S.A.")) {
 
                                     observable.setValue(blockText);
+                                    wrong = false;
+
                                 }
-                            }
-                            if (blockText.toLowerCase(Locale.ROOT).equals("metaspirina")) {
+                            } else if (blockText.toLowerCase(Locale.ROOT).equals("metaspirina")) {
 
                                 if (text.getTextBlocks().get(i+1).getText().equals("80g Tabletas")) {
                                     observable.setValue(blockText);
+                                    wrong = false;
                                 }
                             }
                         }
+
+                        if (wrong) {
+                            observable.setValue("wrong");
+                        }
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
