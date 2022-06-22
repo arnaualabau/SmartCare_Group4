@@ -436,7 +436,7 @@ public class FirebaseRepository {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
 
-                                mDatabase.child("emergency").child(idHardware).setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                mDatabase.child("emergency").child(idHardware).setValue("yes").addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
@@ -679,13 +679,13 @@ public class FirebaseRepository {
 
     public Object subscribeEmergency() {
 
-        MutableLiveData<Boolean> observable = new MutableLiveData<>();
+        MutableLiveData<String> observable = new MutableLiveData<>();
 
         mDatabase.child("emergency").child(idHardware).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                observable.setValue((Boolean) snapshot.getValue());
+                observable.setValue((String) snapshot.getValue());
             }
 
             @Override
@@ -696,11 +696,11 @@ public class FirebaseRepository {
         return observable;
     }
 
-    public Object setEmergencyOff() {
+    public Object setEmergency(String emergency) {
 
         MutableLiveData<String> observable = new MutableLiveData<>();
 
-        mDatabase.child("emergency").child(idHardware).setValue(false).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mDatabase.child("emergency").child(idHardware).setValue(emergency).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {

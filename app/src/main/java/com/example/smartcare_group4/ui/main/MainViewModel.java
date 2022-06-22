@@ -28,16 +28,15 @@ public class MainViewModel extends ViewModel {
         return FirebaseRepository.firebaseInstance.imageTaken();
     }
 
-    public LiveData<Boolean> subscribeEmergency() {
-        MutableLiveData<Boolean> observable = new MutableLiveData<>();
+    public LiveData<String> subscribeEmergency() {
+        MutableLiveData<String> observable = new MutableLiveData<>();
 
-        observable = (MutableLiveData<Boolean>) FirebaseRepository.firebaseInstance.subscribeEmergency();
+        observable = (MutableLiveData<String>) FirebaseRepository.firebaseInstance.subscribeEmergency();
         return observable;
     }
 
-    public LiveData<String> setEmergencyOff() {
-        MutableLiveData<String> observable = (MutableLiveData<String>) FirebaseRepository.firebaseInstance.setEmergencyOff();
+    public LiveData<String> setEmergency(String emergency) {
+        MutableLiveData<String> observable = (MutableLiveData<String>) FirebaseRepository.firebaseInstance.setEmergency(emergency);
         return observable;
-
     }
 }

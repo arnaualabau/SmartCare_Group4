@@ -54,11 +54,11 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.appBarMain.toolbar);
 
-        mainViewModel.subscribeEmergency().observe(this, new Observer<Boolean>() {
+        mainViewModel.subscribeEmergency().observe(this, new Observer<String>() {
             @Override
-            public void onChanged(Boolean emergency) {
+            public void onChanged(String emergency) {
 
-                if (emergency) {
+                if (emergency.equals(getString(R.string.SOS))) {
                     setEmergencyValues();
                 }
             }
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                setEmergencyValues();
+                setEmergency("yes");
             }
         });
 
@@ -151,19 +151,7 @@ public class MainActivity extends AppCompatActivity {
                             .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    mainViewModel.setEmergencyOff().observe(MainActivity.this, new Observer<String>() {
-
-                                        @Override
-                                        public void onChanged(String s) {
-                                            if (s.equals(getString(R.string.SUCCESS))) {
-                                                Toast.makeText(MainActivity.this, R.string.HELP_MSG, Toast.LENGTH_SHORT).show();
-
-                                            } else {
-
-                                            }
-                                        }
-
-                                    });
+                                    setEmergency("no");
                                 }
                             });
                     builder.show();
@@ -185,6 +173,31 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    private void setEmergency(String emergency) {
+
+        mainViewModel.setEmergency(emergency).observe(MainActivity.this, new Observer<String>() {
+
+            @Override
+            public void onChanged(String s) {
+                if (s.equals(getString(R.string.SUCCESS))) {
+
+                    if (emergency.equals("no")) {
+                        Toast.makeText(MainActivity.this, R.string.HELP_MSG, Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
+                            .setTitle(R.string.ERROR_MSG)
+                            .setPositiveButton(android.R.string.ok, null);
+                    builder.show();
+                }
+            }
+
+        });
     }
 
 }

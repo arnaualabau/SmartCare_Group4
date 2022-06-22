@@ -53,16 +53,11 @@ public class HomeFragment extends Fragment {
         emergencyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                homeViewModel.setValuesEmergency().observe(getViewLifecycleOwner(), new Observer<String>() {
+                homeViewModel.setEmergency("yes").observe(getViewLifecycleOwner(), new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
                         if (s.equals(getString(R.string.SUCCESS))) {
 
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                            builder.setMessage(R.string.EMERGENCY_MSG)
-                                    .setTitle(R.string.SOS_MSG)
-                                    .setPositiveButton(android.R.string.ok, null);
-                            builder.show();
 
                         } else {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
