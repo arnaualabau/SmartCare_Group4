@@ -21,6 +21,7 @@
     <string name="ERROR_MSG">Error!</string>
     <string name="SUCCES_MSG">Success!</string>
     <string name="EMERGENCY_MSG">Emergency!</string>
+    <string name="HELP_MSG">Help is on the way!</string>
     <string name="SOS_MSG">SOS</string>
     <string name="VALUE_NOT_SAVED_MSG">Could not save value.</string>
     <string name="ERROR_REGISTER_MSG">Could not Register in database. Try again.</string>

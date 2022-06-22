@@ -12,11 +12,15 @@ public class SensorsViewModel extends ViewModel {
     private final MutableLiveData<String> lightText;
     private final MutableLiveData<String> tapText;
     private final MutableLiveData<String> presenceText;
+    private final MutableLiveData<String> temperatureText;
+    private final MutableLiveData<String> humidityText;
 
     public SensorsViewModel() {
         lightText = new MutableLiveData<>();
         tapText = new MutableLiveData<>();
         presenceText = new MutableLiveData<>();
+        temperatureText = new MutableLiveData<>();
+        humidityText = new MutableLiveData<>();
     }
 
     //Subscribe to sensors values in firebase to be continuously updated
@@ -38,6 +42,16 @@ public class SensorsViewModel extends ViewModel {
     public void setPresence(int value) {
         presenceText.setValue(Integer.toString(value));
     }
+
+    public void setTemperature(float value) {
+        temperatureText.setValue(Float.toString(value));
+    }
+
+    public void setHumidity(float value) {
+        humidityText.setValue(Float.toString(value));
+    }
+
+
 
     public LiveData<String> getText(int value) {
         MutableLiveData<String> defaultString = new MutableLiveData<>();
@@ -84,4 +98,6 @@ public class SensorsViewModel extends ViewModel {
         }
 
     }
+
+
 }

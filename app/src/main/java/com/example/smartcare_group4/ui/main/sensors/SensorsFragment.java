@@ -43,6 +43,8 @@ public class SensorsFragment extends Fragment {
                 sensorsViewModel.setLight(device.getLightSensor());
                 sensorsViewModel.setTap(device.getTap());
                 sensorsViewModel.setPresence(device.getPresenceSensor());
+                sensorsViewModel.setTemperature(device.getTemperature());
+                sensorsViewModel.setHumidity(device.getHumidity());
                 lightSlider.setValue((float) device.getLightSensor());
             }
         });

@@ -256,8 +256,21 @@ public class FirebaseRepository {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    observable.setValue("success register");
-                                    idHardware = hardwareId;
+
+                                    mDatabase.child("emergency").child(hardwareId).setValue(false).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                observable.setValue("success register");
+                                                idHardware = hardwareId;
+                                            } else {
+                                                observable.setValue("error register");
+                                            }
+
+                                        }
+                                    });
+
+
                                 } else {
                                     observable.setValue("error register");
                                 }
@@ -423,7 +436,18 @@ public class FirebaseRepository {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                observable.setValue("success");
+
+                                mDatabase.child("emergency").child(idHardware).setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            observable.setValue("success");
+
+                                        } else {
+                                            observable.setValue("error");
+                                        }
+                                    }
+                                });
 
                             } else {
                                 observable.setValue("error");
@@ -655,6 +679,43 @@ public class FirebaseRepository {
             }
         });
 
+        return observable;
+    }
+
+    public Object subscribeEmergency() {
+
+        MutableLiveData<Boolean> observable = new MutableLiveData<>();
+
+        mDatabase.child("emergency").child(idHardware).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                observable.setValue((Boolean) snapshot.getValue());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+        return observable;
+    }
+
+    public Object setEmergencyOff() {
+
+        MutableLiveData<String> observable = new MutableLiveData<>();
+
+        mDatabase.child("emergency").child(idHardware).setValue(false).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    observable.setValue("success");
+
+                } else {
+                    observable.setValue("error");
+                }
+            }
+        });
         return observable;
     }
 }

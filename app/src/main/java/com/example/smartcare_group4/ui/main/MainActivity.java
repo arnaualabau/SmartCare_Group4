@@ -1,12 +1,14 @@
 package com.example.smartcare_group4.ui.main;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +24,6 @@ import com.example.smartcare_group4.data.User;
 import com.example.smartcare_group4.databinding.ActivityMainBinding;
 import com.example.smartcare_group4.ui.main.planning.CalendarUtils;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.time.LocalDate;
 
@@ -53,35 +54,22 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.appBarMain.toolbar);
 
+        mainViewModel.subscribeEmergency().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean emergency) {
+
+                if (emergency) {
+                    setEmergencyValues();
+                }
+            }
+        });
+
         //Emergency button
         binding.appBarMain.emergency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Snackbar.make(view, "Help is on the way", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                //change values
-                mainViewModel.setValuesEmergency().observe(MainActivity.this, new Observer<String>() {
-                    @Override
-                    public void onChanged(String s) {
-                        if (s.equals(getString(R.string.SUCCESS))) {
-                            //show message
-                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                            builder.setMessage(R.string.EMERGENCY_MSG)
-                                    .setTitle(R.string.SOS_MSG)
-                                    .setPositiveButton(android.R.string.ok, null);
-                            builder.show();
-
-                        } else {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                            builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
-                                    .setTitle(R.string.ERROR_MSG)
-                                    .setPositiveButton(android.R.string.ok, null);
-                            builder.show();
-
-                        }
-                    }
-                });
+                setEmergencyValues();
             }
         });
 
@@ -148,8 +136,48 @@ public class MainActivity extends AppCompatActivity {
         navigationSubTitle.setText(user.getEmail());
         navigationImage = (ImageView) headerView.findViewById(R.id.NavigationImage);
 
+    }
 
+    private void setEmergencyValues() {
 
+        mainViewModel.setValuesEmergency().observe(MainActivity.this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                if (s.equals(getString(R.string.SUCCESS))) {
+                    //show message
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setMessage(R.string.EMERGENCY_MSG)
+                            .setTitle(R.string.SOS_MSG)
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    mainViewModel.setEmergencyOff().observe(MainActivity.this, new Observer<String>() {
+
+                                        @Override
+                                        public void onChanged(String s) {
+                                            if (s.equals(getString(R.string.SUCCESS))) {
+                                                Toast.makeText(MainActivity.this, R.string.HELP_MSG, Toast.LENGTH_SHORT).show();
+
+                                            } else {
+
+                                            }
+                                        }
+
+                                    });
+                                }
+                            });
+                    builder.show();
+
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
+                            .setTitle(R.string.ERROR_MSG)
+                            .setPositiveButton(android.R.string.ok, null);
+                    builder.show();
+
+                }
+            }
+        });
     }
 
     @Override
