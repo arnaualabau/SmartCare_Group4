@@ -13,6 +13,7 @@ import com.example.smartcare_group4.data.repository.FirebaseRepository;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class PlanningViewModel extends ViewModel {
 
@@ -66,6 +67,7 @@ public class PlanningViewModel extends ViewModel {
         eventsList.setValue(events);
 
     }
+
     public boolean isPatient() {
         return FirebaseRepository.firebaseInstance.isPatient();
     }
@@ -86,10 +88,18 @@ public class PlanningViewModel extends ViewModel {
     }
 
     //Medicine taken, change status on firebase
-    public LiveData<String> takeMedicine(LocalDate selectedDate) {
+    public LiveData<String> takeMedicine(LocalDate selectedDate, String medicineDetected, String medicinePlanned) {
 
         MutableLiveData<String> data = new MutableLiveData<>();
-        data = FirebaseRepository.firebaseInstance.takeMedicine(selectedDate);
+
+        String result = medicineDetected;
+
+        if (medicinePlanned.toLowerCase(Locale.ROOT).equals(medicineDetected.toLowerCase(Locale.ROOT))) {
+            result = "yes";
+        }
+
+        data = FirebaseRepository.firebaseInstance.takeMedicine(selectedDate, result);
+
         return data;
     }
 
@@ -110,8 +120,9 @@ public class PlanningViewModel extends ViewModel {
     }
 
 
-    public LiveData<String> processMedPicture(Bitmap img) {
-        MutableLiveData<String> data = (MutableLiveData<String>) FirebaseRepository.firebaseInstance.processMedPicture(img);
+    public LiveData<String> processMedPicture(Bitmap img, int rotation) {
+
+        MutableLiveData<String> data = (MutableLiveData<String>) FirebaseRepository.firebaseInstance.processMedPicture(img, rotation);
 
         return data;
     }

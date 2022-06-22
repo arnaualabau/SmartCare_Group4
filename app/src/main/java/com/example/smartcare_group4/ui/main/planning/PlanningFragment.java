@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +38,6 @@ import com.example.smartcare_group4.data.Event;
 import com.example.smartcare_group4.data.EventDAO;
 import com.example.smartcare_group4.databinding.FragmentPlanningBinding;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -64,6 +62,8 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
 
     private Button nextWeek;
     private Button lastWeek;
+
+    private String medicinePlanned;
 
     String currentPhotoPath;
     private static final int REQUEST_CODE = 14;
@@ -152,65 +152,57 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
 
                     if (events.size() > 0) {
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setMessage(R.string.CAMERA_MSG)
-                                .setTitle(R.string.CAMERA_TITLE)
-                                .setIcon(android.R.drawable.ic_menu_camera)
-                                .setCancelable(true)
-                                .setNegativeButton(android.R.string.no, null)
-                                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        //make sure the user has camera on the device
-                                        PackageManager packageManager = getActivity().getPackageManager();
-                                        if (packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY) == false) {
+                        if (events.get(0).getTaken().equals("yes")) {
 
-                                            Toast.makeText(getActivity(), R.string.CAMERA_NO, Toast.LENGTH_SHORT)
-                                                    .show();
-                                        } else {
-                                            //Ask for permissions
-                                            if (requestPermissions()) {
-                                                //take photo
-                                                dispatchTakePictureIntent();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setMessage(R.string.MED_ALREADY_TAKEN_MSG)
+                                    .setTitle(R.string.ALERT_MSG)
+                                    .setPositiveButton(android.R.string.ok, null);
+                            builder.show();
+
+                        } else {
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setMessage(R.string.CAMERA_MSG)
+                                    .setTitle(R.string.CAMERA_TITLE)
+                                    .setIcon(android.R.drawable.ic_menu_camera)
+                                    .setCancelable(true)
+                                    .setNegativeButton(android.R.string.no, null)
+                                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            //make sure the user has camera on the device
+                                            PackageManager packageManager = getActivity().getPackageManager();
+                                            if (packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY) == false) {
+
+                                                Toast.makeText(getActivity(), R.string.CAMERA_NO, Toast.LENGTH_SHORT)
+                                                        .show();
+                                            } else {
+                                                //Ask for permissions
+                                                if (requestPermissions()) {
+                                                    //take photo && process image
+                                                    medicinePlanned = events.get(0).getName();
+                                                    dispatchTakePictureIntent();
+
+                                                }
 
                                             }
-
                                         }
-                                    }
-                                });
-                        builder.show();
-
-                        /*planningViewModel.takeMedicine(CalendarUtils.selectedDate).observe(getViewLifecycleOwner(), new Observer<String>() {
-                            @Override
-                            public void onChanged(String s) {
-                                if (s.equals(getString(R.string.SUCCESS))) {
-                                    Toast.makeText(getActivity(), R.string.take_med_msg, Toast.LENGTH_SHORT).show();
-                                    CalendarUtils.now = CalendarUtils.now.plusDays(1);
-                                    CalendarUtils.selectedDate = CalendarUtils.now;
-
-                                    setWeekView();
-
-                                } else {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                    builder.setMessage(R.string.VALUE_NOT_SAVED_MSG)
-                                            .setTitle(R.string.ERROR_MSG)
-                                            .setPositiveButton(android.R.string.ok, null);
-                                    builder.show();
-                                }
-                            }
-                        });*/
+                                    });
+                            builder.show();
+                        }
 
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setMessage(R.string.NOT_MEDS_MSG)
-                                .setTitle(R.string.ERROR_MSG)
+                                .setTitle(R.string.ALERT_MSG)
                                 .setPositiveButton(android.R.string.ok, null);
                         builder.show();
                     }
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setMessage(R.string.NOT_TODAY_MSG)
-                            .setTitle(R.string.ERROR_MSG)
+                            .setTitle(R.string.ALERT_MSG)
                             .setPositiveButton(android.R.string.ok, null);
                     builder.show();
                 }
@@ -361,7 +353,6 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
             requestPermissions(permissions, REQUEST_CODE);
 
             return false;
-
         }
 
         return true;
@@ -393,7 +384,6 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
                 return;
         }
     }
-
 
 
     private void dispatchTakePictureIntent() {
@@ -437,24 +427,62 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == getActivity().RESULT_OK) {
 
+            int rotation = 0;
+
             try {
                 ExifInterface exif = new ExifInterface(currentPhotoPath);
-                int rotation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-                Log.d("MLKIT", "onActivityResult: "+rotation);
+                exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
             Bitmap imageBitmap = BitmapFactory.decodeFile(currentPhotoPath);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG,100, baos);
-            byte[] img = baos.toByteArray();
-            planningViewModel.processMedPicture(imageBitmap).observe(getViewLifecycleOwner(), new Observer<String>() {
+
+            planningViewModel.processMedPicture(imageBitmap, rotation).observe(getViewLifecycleOwner(), new Observer<String>() {
                 @Override
                 public void onChanged(String s) {
+
+                    if (!s.equals(getString(R.string.ERROR))) {
+
+                        checkMedication(s);
+
+                    } else {
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setMessage(R.string.MED_NOT_DETECTED_MSG)
+                                .setTitle(R.string.ERROR_MSG)
+                                .setPositiveButton(android.R.string.ok, null);
+                        builder.show();
+                    }
+
 
                 }
             });
         }
+    }
+
+    private void checkMedication(String medicineDetected) {
+
+        planningViewModel.takeMedicine(CalendarUtils.selectedDate, medicineDetected, medicinePlanned).observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                if (s.equals(getString(R.string.SUCCESS))) {
+
+                    Toast.makeText(getActivity(), R.string.take_med_msg, Toast.LENGTH_SHORT).show();
+
+                    //CalendarUtils.now = CalendarUtils.now.plusDays(1);
+                    //CalendarUtils.selectedDate = CalendarUtils.now;
+
+                    setWeekView();
+
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage(R.string.WRONG_MED_MSG)
+                            .setTitle(R.string.ALERT_MSG)
+                            .setPositiveButton(android.R.string.ok, null);
+                    builder.show();
+                }
+            }
+        });
     }
 }
