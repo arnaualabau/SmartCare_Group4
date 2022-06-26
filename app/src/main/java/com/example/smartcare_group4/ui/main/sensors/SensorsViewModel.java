@@ -40,15 +40,22 @@ public class SensorsViewModel extends ViewModel {
     }
 
     public void setPresence(int value) {
-        presenceText.setValue(Integer.toString(value));
+
+        if (value == 1) {
+            presenceText.setValue("MOTION");
+        } else {
+            presenceText.setValue("NO MOTION");
+
+        }
+
     }
 
     public void setTemperature(float value) {
-        temperatureText.setValue(Float.toString(value));
+        temperatureText.setValue(Float.toString(value)+"º");
     }
 
     public void setHumidity(float value) {
-        humidityText.setValue(Float.toString(value));
+        humidityText.setValue(Float.toString(value)+"%");
     }
 
 
@@ -61,10 +68,10 @@ public class SensorsViewModel extends ViewModel {
             case 1: return lightText;
             case 2: return tapText;
             case 3: return presenceText;
+            case 4: return humidityText;
+            case 5: return temperatureText;
             default: return defaultString;
         }
-
-
     }
 
 

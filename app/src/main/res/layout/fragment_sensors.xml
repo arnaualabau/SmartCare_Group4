@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
-    android:layout_marginTop="10dp"
+    android:layout_marginTop="48dp"
     android:layout_marginBottom="10dp"
     tools:context=".ui.main.sensors.SensorsFragment">
 
@@ -16,11 +16,11 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="20sp"
-        android:text="LIGHT:"
+        android:text="@string/light"
         android:padding="6dp"
         android:gravity="center"
         android:textColor="@color/black"
-        android:background="@drawable/textview_backgrounddesign"
+        android:background="@color/teal_200"
         app:layout_constraintBottom_toTopOf="@+id/text_lightValue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +33,7 @@
         android:textAlignment="center"
         android:textSize="20sp"
         android:text="LIGHT VALUE"
-        app:layout_constraintBottom_toTopOf="@+id/text_tap"
+        app:layout_constraintBottom_toTopOf="@+id/lightSlider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_light" />
@@ -48,8 +48,7 @@
         app:layout_constraintTop_toBottomOf="@+id/text_lightValue"
         app:layout_constraintBottom_toTopOf="@id/text_tap"
         android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        ></com.google.android.material.slider.Slider>
+        android:layout_marginRight="12dp" />
 
 
     <TextView
@@ -58,15 +57,15 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="20sp"
-        android:text="TAP:"
+        android:text="@string/tap"
         android:padding="6dp"
         android:gravity="center"
         android:textColor="@color/black"
-        android:background="@drawable/textview_backgrounddesign"
+        android:background="@color/teal_200"
         app:layout_constraintBottom_toTopOf="@+id/tapLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_lightValue"
+        app:layout_constraintTop_toBottomOf="@+id/lightSlider"
         />
 
 
@@ -76,7 +75,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@id/text_presence"
+        app:layout_constraintBottom_toTopOf="@id/tapSeekBar"
         app:layout_constraintTop_toBottomOf="@id/text_tap"
         app:layout_constraintVertical_bias="0.12"
         tools:layout_editor_absoluteX="16dp">
@@ -100,7 +99,6 @@
            android:textColor="@android:color/black"
            android:textSize="20sp" />
 
-
        <Button
            android:id="@+id/addBtn"
            android:layout_width="40dp"
@@ -110,21 +108,36 @@
            android:background="@drawable/add"
            android:backgroundTint="#C5BCBC" />
    </RelativeLayout>
+
+    <SeekBar
+        android:id="@+id/tapSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+
+        android:max="5"
+        android:progress="3"
+
+        app:layout_constraintBottom_toTopOf="@id/text_presence"
+        app:layout_constraintTop_toBottomOf="@id/tapLayout"
+        />
+
     <TextView
         android:id="@+id/text_presence"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="20sp"
-        android:text="PRESENCE:"
+        android:text="@string/presence"
         android:padding="6dp"
         android:gravity="center"
         android:textColor="@color/black"
-        android:background="@drawable/textview_backgrounddesign"
+        android:background="@color/teal_200"
         app:layout_constraintBottom_toTopOf="@+id/text_presenceValue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tapLayout"
+        app:layout_constraintTop_toBottomOf="@+id/tapSeekBar"
         />
     <TextView
         android:id="@+id/text_presenceValue"
@@ -133,9 +146,103 @@
         android:textAlignment="center"
         android:textSize="20sp"
         android:text="PRESENCE VALUE"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/text_humidity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_presence"
         />
+
+    <TextView
+        android:id="@+id/text_humidity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:text="@string/humidity"
+        android:padding="6dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:background="@color/teal_200"
+
+        app:layout_constraintBottom_toTopOf="@id/humidityCircle"
+        app:layout_constraintEnd_toStartOf="@id/text_temperature"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_presenceValue"
+        />
+
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+
+        android:id="@+id/humidityCircle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:indicatorSize="120dp"
+        android:rotation="270"
+        android:max="100"
+        android:progress="25"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/temperatureCircle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_humidity"
+        />
+    <TextView
+        android:id="@+id/text_humidityValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="40%"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/temperatureCircle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_humidity"/>
+
+    <TextView
+        android:id="@+id/text_temperature"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:text="@string/temperature"
+        android:padding="6dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:background="@color/teal_200"
+
+        app:layout_constraintBottom_toTopOf="@id/temperatureCircle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/text_humidity"
+        app:layout_constraintTop_toBottomOf="@+id/text_presenceValue"
+        />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+
+        android:id="@+id/temperatureCircle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:indicatorSize="120dp"
+        android:rotation="270"
+        android:max="100"
+        android:progress="25"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/humidityCircle"
+        app:layout_constraintTop_toBottomOf="@+id/text_temperature"
+        />
+
+    <TextView
+        android:id="@+id/text_temperatureValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="40º"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/humidityCircle"
+        app:layout_constraintTop_toBottomOf="@+id/text_temperature" />
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

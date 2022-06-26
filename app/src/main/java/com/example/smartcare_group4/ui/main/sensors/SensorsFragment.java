@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.data.Device;
 import com.example.smartcare_group4.databinding.FragmentSensorsBinding;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.slider.Slider;
 
 
@@ -28,9 +30,15 @@ public class SensorsFragment extends Fragment {
 
     private SensorsViewModel sensorsViewModel;
 
+    private SeekBar tapSeekbar;
+    private CircularProgressIndicator humidityCircle;
+    private CircularProgressIndicator temperatureCircle;
+
     TextView lightValue;
     TextView tapValue;
     TextView presenceValue;
+    TextView temperatureValue;
+    TextView humidityValue;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -46,6 +54,9 @@ public class SensorsFragment extends Fragment {
                 sensorsViewModel.setTemperature(device.getTemperature());
                 sensorsViewModel.setHumidity(device.getHumidity());
                 lightSlider.setValue((float) device.getLightSensor());
+                tapSeekbar.setProgress(device.getTap());
+                humidityCircle.setProgress((int) device.getHumidity());
+                temperatureCircle.setProgress((int) device.getTemperature());
             }
         });
 
@@ -58,6 +69,11 @@ public class SensorsFragment extends Fragment {
         lightValue = binding.textLightValue;
         presenceValue = binding.textPresenceValue;
         tapValue = binding.textTapValue;
+        temperatureValue = binding.textTemperatureValue;
+        humidityValue = binding.textHumidityValue;
+        tapSeekbar = binding.tapSeekBar;
+        humidityCircle = binding.humidityCircle;
+        temperatureCircle = binding.temperatureCircle;
 
         sensorsViewModel.getDeviceInfo().observe(getViewLifecycleOwner(), new Observer<Device>() {
             @Override
@@ -81,6 +97,8 @@ public class SensorsFragment extends Fragment {
         sensorsViewModel.getText(1).observe(getViewLifecycleOwner(), lightValue::setText);
         sensorsViewModel.getText(2).observe(getViewLifecycleOwner(), tapValue::setText);
         sensorsViewModel.getText(3).observe(getViewLifecycleOwner(), presenceValue::setText);
+        sensorsViewModel.getText(4).observe(getViewLifecycleOwner(), humidityValue::setText);
+        sensorsViewModel.getText(5).observe(getViewLifecycleOwner(), temperatureValue::setText);
 
         return root;
     }

@@ -101,6 +101,11 @@
     <string name="title_notifications">Notifications</string>
     <string name="profile_type_patient">Patient</string>
     <string name="profile_type_relative">Relative</string>
+    <string name="humidity">HUMIDITY</string>
+    <string name="presence">PRESENCE</string>
+    <string name="tap">TAP</string>
+    <string name="light">LIGHT</string>
+    <string name="temperature">TEMPERATURE</string>
     <string-array name="meds_array">
         <item>Metadol</item>
         <item>Metaspirina</item>
