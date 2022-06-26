@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.ui.main.MainActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -233,7 +237,20 @@ public class SignupFragment extends Fragment {
 
                                                             if (s.equals(getString(R.string.SUCCESS))) {
 
-                                                                startActivity(loginToProfile);
+                                                                FirebaseMessaging.getInstance().subscribeToTopic(hardwareId)
+                                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                            @Override
+                                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                                String msg = "Subscribed";
+                                                                                if (!task.isSuccessful()) {
+                                                                                    msg = "Subscribe failed";
+                                                                                } else {
+                                                                                    startActivity(loginToProfile);
+                                                                                }
+                                                                                //Log.d(TAG, msg);
+                                                                                //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                                                            }
+                                                                        });
 
                                                             } else if (s.equals(getString(R.string.ERROR))) {
                                                                 loginToProfile.putExtra("imageBool", false);
@@ -243,7 +260,20 @@ public class SignupFragment extends Fragment {
                                                         }
                                                     });
                                                 } else {
-                                                    startActivity(loginToProfile);
+                                                    FirebaseMessaging.getInstance().subscribeToTopic(hardwareId)
+                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                    String msg = "Subscribed";
+                                                                    if (!task.isSuccessful()) {
+                                                                        msg = "Subscribe failed";
+                                                                    } else {
+                                                                        startActivity(loginToProfile);
+                                                                    }
+                                                                    //Log.d(TAG, msg);
+                                                                    //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            });
                                                 }
 
                                             } else if (s.equals(getString(R.string.ERROR_REGISTER))) {

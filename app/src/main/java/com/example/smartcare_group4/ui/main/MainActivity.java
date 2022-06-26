@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
     private User user = new User();
 
+    //token
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

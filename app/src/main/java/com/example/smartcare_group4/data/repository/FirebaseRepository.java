@@ -256,7 +256,7 @@ public class FirebaseRepository {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
 
-                                    mDatabase.child("emergency").child(hardwareId).setValue(false).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    mDatabase.child("emergency").child(hardwareId).setValue("no").addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
