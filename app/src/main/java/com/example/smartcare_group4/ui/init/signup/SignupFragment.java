@@ -13,7 +13,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -247,8 +246,6 @@ public class SignupFragment extends Fragment {
                                                                                 } else {
                                                                                     startActivity(loginToProfile);
                                                                                 }
-                                                                                //Log.d(TAG, msg);
-                                                                                //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                                                                             }
                                                                         });
 
@@ -270,8 +267,6 @@ public class SignupFragment extends Fragment {
                                                                     } else {
                                                                         startActivity(loginToProfile);
                                                                     }
-                                                                    //Log.d(TAG, msg);
-                                                                    //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                                                                 }
                                                             });
                                                 }

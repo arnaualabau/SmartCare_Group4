@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="60dp">
 
         <Button
             android:id="@+id/lastWeek"
@@ -115,6 +115,15 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
+
+    <Button
+        android:id="@+id/changeDateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/action_changedate"
+        android:background="@null"
+        android:textStyle="bold"
+        android:layout_weight="0.05"/>
 
     <LinearLayout
         android:id="@+id/addMedLayout"

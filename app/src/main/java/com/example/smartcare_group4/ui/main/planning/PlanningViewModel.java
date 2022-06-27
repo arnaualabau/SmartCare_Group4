@@ -21,7 +21,7 @@ public class PlanningViewModel extends ViewModel {
 
     public PlanningViewModel() {
 
-        eventsList = new MutableLiveData<>();// new ArrayList<Event>();
+        eventsList = new MutableLiveData<>();
         eventsList.setValue(new ArrayList<>());
     }
 

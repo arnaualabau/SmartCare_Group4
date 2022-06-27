@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +60,7 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
     private Button takeMedButton;
     private String medSelected;
 
+    private Button changeDateButton;
     private Button nextWeek;
     private Button lastWeek;
 
@@ -143,13 +143,21 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
             }
         });
 
+        changeDateButton = v.findViewById(R.id.changeDateButton);
+        changeDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CalendarUtils.now = CalendarUtils.selectedDate;
+            }
+        });
+
         takeMedButton = v.findViewById(R.id.takeMedButton);
         takeMedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if (CalendarUtils.selectedDate.equals(CalendarUtils.now)) {
-                    ArrayList<Event> events = planningViewModel.eventsForDate(LocalDate.now());
+                    ArrayList<Event> events = planningViewModel.eventsForDate(CalendarUtils.now);
 
                     if (events.size() > 0) {
 
@@ -443,8 +451,6 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
                 @Override
                 public void onChanged(String s) {
 
-                    Log.d("MLKIT", "onChanged: "+ s);
-
                     if (!s.equals(getString(R.string.ERROR))) {
 
                         checkMedication(s);
@@ -472,9 +478,6 @@ public class PlanningFragment extends Fragment implements CalendarAdapter.OnItem
                 if (s.equals(getString(R.string.SUCCESS))) {
 
                     Toast.makeText(getActivity(), R.string.take_med_msg, Toast.LENGTH_SHORT).show();
-
-                    //CalendarUtils.now = CalendarUtils.now.plusDays(1);
-                    //CalendarUtils.selectedDate = CalendarUtils.now;
 
                     setWeekView();
 

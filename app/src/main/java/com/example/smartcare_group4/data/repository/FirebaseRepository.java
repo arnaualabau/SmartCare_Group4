@@ -1,7 +1,6 @@
 package com.example.smartcare_group4.data.repository;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -193,13 +192,7 @@ public class FirebaseRepository {
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-                                            /*
-                                            if (task.isSuccessful()) {
 
-                                                startActivity(new Intent(DeleteUser.this, StartActivity.class));
-                                                Toast.makeText(DeleteUser.this, "Deleted User Successfully,", Toast.LENGTH_LONG).show();
-                                            }
-                                            */
                                         }
                                     });
                         }
@@ -243,8 +236,6 @@ public class FirebaseRepository {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-
-                    Log.d("HWID", "onComplete: "+ hardwareId);
 
                     //before registering the device, make sure it is not already registered
                     if (!isHadwareID(hardwareId)) {
@@ -637,15 +628,11 @@ public class FirebaseRepository {
 
                         boolean wrong = true;
 
-                        Log.d("MLKIT", "textgetBlocks: "+ text.getText());
-
                         for (int i = 0; i<text.getTextBlocks().size();i++) {
 
                             String blockText = text.getTextBlocks().get(i).getText();
                             if (blockText.toLowerCase(Locale.ROOT).equals("metadol")) {
 
-
-                                Log.d("MLKIT", "blockText: "+ blockText.toLowerCase(Locale.ROOT));
 
                                 if (text.getTextBlocks().get(i+1).getText().equals("Ibuprofeno 600mg")
                                         && text.getTextBlocks().get(i+2).getText().equals("LA SALLE S.A.")) {
