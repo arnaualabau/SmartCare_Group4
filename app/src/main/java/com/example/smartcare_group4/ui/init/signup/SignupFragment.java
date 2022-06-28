@@ -251,7 +251,18 @@ public class SignupFragment extends Fragment {
 
                                                             } else if (s.equals(getString(R.string.ERROR))) {
                                                                 loginToProfile.putExtra("imageBool", false);
-                                                                startActivity(loginToProfile);
+                                                                FirebaseMessaging.getInstance().subscribeToTopic(hardwareId)
+                                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                            @Override
+                                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                                String msg = "Subscribed";
+                                                                                if (!task.isSuccessful()) {
+                                                                                    msg = "Subscribe failed";
+                                                                                } else {
+                                                                                    startActivity(loginToProfile);
+                                                                                }
+                                                                            }
+                                                                        });
 
                                                             }
                                                         }

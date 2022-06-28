@@ -20,6 +20,9 @@ import com.example.smartcare_group4.R;
 import com.example.smartcare_group4.data.Device;
 import com.example.smartcare_group4.data.User;
 import com.example.smartcare_group4.ui.main.MainActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class LoginFragment extends Fragment {
 
@@ -131,7 +134,18 @@ public class LoginFragment extends Fragment {
                                                         loginToProfile.putExtra("presence", device.getPresenceSensor());
 
 
-                                                        startActivity(loginToProfile);
+                                                        FirebaseMessaging.getInstance().subscribeToTopic(user.getHardwareId())
+                                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                        String msg = "Subscribed";
+                                                                        if (!task.isSuccessful()) {
+                                                                            msg = "Subscribe failed";
+                                                                        } else {
+                                                                            startActivity(loginToProfile);
+                                                                        }
+                                                                    }
+                                                                });
 
                                                         //Empty text fields
                                                         emailText.setText("");
