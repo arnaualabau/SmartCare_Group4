@@ -633,7 +633,6 @@ public class FirebaseRepository {
                             String blockText = text.getTextBlocks().get(i).getText();
                             if (blockText.toLowerCase(Locale.ROOT).equals("metadol")) {
 
-
                                 if (text.getTextBlocks().get(i+1).getText().equals("Ibuprofeno 600mg")
                                         && text.getTextBlocks().get(i+2).getText().equals("LA SALLE S.A.")) {
 

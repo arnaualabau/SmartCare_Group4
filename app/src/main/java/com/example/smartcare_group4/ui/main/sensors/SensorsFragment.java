@@ -3,6 +3,7 @@ package com.example.smartcare_group4.ui.main.sensors;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -72,6 +73,12 @@ public class SensorsFragment extends Fragment {
         temperatureValue = binding.textTemperatureValue;
         humidityValue = binding.textHumidityValue;
         tapSeekbar = binding.tapSeekBar;
+        tapSeekbar.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
         humidityCircle = binding.humidityCircle;
         temperatureCircle = binding.temperatureCircle;
 
